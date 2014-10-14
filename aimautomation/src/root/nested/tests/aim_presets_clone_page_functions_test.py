@@ -1,0 +1,152 @@
+'''
+Created on 25 Jun 2013
+
+@author: Mark.rowlands
+'''
+from root.nested.tests.base_aim_regression_test import BaseAimRegressionTest
+
+class AimPresetsClonePageFunctionsTest(BaseAimRegressionTest):
+    
+    def test_can_clone_existing_preset(self):
+        self._page.open_AIM_homepage_on_base_url()
+        self._page.login_as("admin", "password", False)
+        self._page.open_presets_tab()
+        presets = self._page.get_list_of_presets()
+        self._page.click_preset_clone(presets[-1])
+        self._page.click_save()
+        self._page.check_for_error_message("configure_connection_preset_ajax_message")
+        self._page.confirm_no_longer_on_preset_clone_page()
+        presets = self._page.get_list_of_presets()
+        self.assertEqual(self._page.get_preset_name(presets[-1])[-6:], "(Copy)")
+        self._page.click_preset_delete(presets[-1])
+        self._page.click_lightbox_delete_button()
+    
+    def test_can_cancel_clone_existing_preset(self):
+        self._page.open_AIM_homepage_on_base_url()
+        self._page.login_as("admin", "password", False)
+        self._page.open_presets_tab()
+        presets = self._page.get_list_of_presets()
+        self._page.click_preset_clone(presets[-1])
+        self._page.click_cancel()
+        self._page.check_for_error_message("configure_connection_preset_ajax_message")
+        self._page.confirm_no_longer_on_preset_config_page()
+        new_presets = self._page.get_list_of_presets()
+        self.assertEqual(len(presets), len(new_presets))
+  
+    def test_can_change_name_of_cloned_preset(self):
+        self._page.open_AIM_homepage_on_base_url()
+        self._page.login_as("admin", "password", False)
+        self._page.open_presets_tab()
+        presets = self._page.get_list_of_presets()
+        self._page.click_preset_clone(presets[-1])
+        self._page.set_preset_name_via_config_page("preset clone")
+        description = self._page.get_preset_description_from_config_page()
+        self._page.click_save()
+        self._page.check_for_error_message("configure_connection_preset_ajax_message")
+        self._page.confirm_no_longer_on_preset_clone_page()
+        presets = self._page.get_list_of_presets()
+        self.assertEqual(self._page.get_preset_name(presets[-1]), "preset clone")
+        self.assertEqual(self._page.get_preset_description(presets[-1]), description)
+        self._page.click_preset_delete(presets[-1])
+        self._page.click_lightbox_delete_button()
+    
+    def test_can_change_description_of_cloned_preset(self):
+        self._page.open_AIM_homepage_on_base_url()
+        self._page.login_as("admin", "password", False)
+        self._page.open_presets_tab()
+        presets = self._page.get_list_of_presets()
+        self._page.click_preset_clone(presets[-1])
+        self._page.set_preset_description_via_config_page("preset clone")
+        self._page.click_save()
+        self._page.check_for_error_message("configure_connection_preset_ajax_message")
+        self._page.confirm_no_longer_on_preset_clone_page()
+        presets = self._page.get_list_of_presets()
+        self.assertEqual(self._page.get_preset_name(presets[-1])[-6:], "(Copy)")
+        self.assertEqual(self._page.get_preset_description(presets[-1]), "preset clone")
+        self._page.click_preset_delete(presets[-1])
+        self._page.click_lightbox_delete_button()
+        
+    def test_can_change_allowed_connections_of_cloned_preset_to_view_only(self):
+        self._page.open_AIM_homepage_on_base_url()
+        self._page.login_as("admin", "password", False)
+        self._page.open_presets_tab()
+        presets = self._page.get_list_of_presets()
+        self._page.click_preset_clone(presets[-1])
+        self._page.select_preset_connection_view_only()
+        self._page.click_save()
+        self._page.check_for_error_message("configure_connection_preset_ajax_message")
+        self._page.confirm_no_longer_on_preset_clone_page()
+        presets = self._page.get_list_of_presets()
+        self.assertTrue(self._baseurl + "/admin/images/silk_icons/eye.png" in self._page.get_preset_connection_image_srcs(presets[-1]))
+        self.assertFalse(self._page.get_preset_connection_shared_button_visibility(presets[-1]))
+        self.assertFalse(self._page.get_preset_connection_exclusive_button_visibility(presets[-1]))
+        self._page.click_preset_delete(presets[-1])
+        self._page.click_lightbox_delete_button()
+
+    def test_can_change_allowed_connections_to_shared(self):
+        self._page.open_AIM_homepage_on_base_url()
+        self._page.login_as("admin", "password", False)
+        self._page.open_presets_tab()
+        presets = self._page.get_list_of_presets()
+        self._page.click_preset_clone(presets[-1])
+        self._page.select_preset_connection_shared()
+        self._page.click_save()
+        self._page.check_for_error_message("configure_connection_preset_ajax_message")
+        self._page.confirm_no_longer_on_preset_clone_page()
+        presets = self._page.get_list_of_presets()
+        self.assertTrue(self._baseurl + "/admin/images/silk_icons/eye.png" in self._page.get_preset_connection_image_srcs(presets[-1]))
+        self.assertTrue(self._baseurl + "/admin/images/silk_icons/multicast.png" in self._page.get_preset_connection_image_srcs(presets[-1]))
+        self.assertTrue(self._page.get_preset_connection_view_only_button_visibility(presets[-1]))
+        self.assertTrue(self._page.get_preset_connection_shared_button_visibility(presets[-1]))
+        self.assertFalse(self._page.get_preset_connection_exclusive_button_visibility(presets[-1]))
+        self._page.click_preset_delete(presets[-1])
+        self._page.click_lightbox_delete_button()
+
+    def test_can_change_allowed_connections_to_exclusive(self):
+        self._page.open_AIM_homepage_on_base_url()
+        self._page.login_as("admin", "password", False)
+        self._page.open_presets_tab()
+        presets = self._page.get_list_of_presets()
+        self._page.click_preset_clone(presets[-1])
+        self._page.select_preset_connection_exclusive()
+        self._page.click_save()
+        self._page.check_for_error_message("configure_connection_preset_ajax_message")
+        self._page.confirm_no_longer_on_preset_clone_page()
+        presets = self._page.get_list_of_presets()
+        self.assertTrue(self._baseurl + "/admin/images/silk_icons/lock.png" in self._page.get_preset_connection_image_srcs(presets[-1]))
+        self.assertFalse(self._page.get_preset_connection_view_only_button_visibility(presets[-1]))
+        self.assertFalse(self._page.get_preset_connection_shared_button_visibility(presets[-1]))
+        self.assertTrue(self._page.get_preset_connection_exclusive_button_visibility(presets[-1]))
+        self._page.click_preset_delete(presets[-1])
+        self._page.click_lightbox_delete_button()
+
+    def test_can_change_allowed_connections_to_all(self):
+        self._page.open_AIM_homepage_on_base_url()
+        self._page.login_as("admin", "password", False)
+        self._page.open_presets_tab()
+        presets = self._page.get_list_of_presets()
+        self._page.click_preset_clone(presets[-1])
+        self._page.select_preset_connection_all()
+        self._page.click_save()
+        self._page.check_for_error_message("configure_connection_preset_ajax_message")
+        self._page.confirm_no_longer_on_preset_clone_page()
+        presets = self._page.get_list_of_presets()
+        self.assertTrue(self._baseurl + "/admin/images/silk_icons/eye.png" in self._page.get_preset_connection_image_srcs(presets[-1]))
+        self.assertTrue(self._baseurl + "/admin/images/silk_icons/multicast.png" in self._page.get_preset_connection_image_srcs(presets[-1]))
+        self.assertTrue(self._baseurl + "/admin/images/silk_icons/lock.png" in self._page.get_preset_connection_image_srcs(presets[-1]))
+        self.assertTrue(self._page.get_preset_connection_view_only_button_visibility(presets[-1]))
+        self.assertTrue(self._page.get_preset_connection_shared_button_visibility(presets[-1]))
+        self.assertTrue(self._page.get_preset_connection_exclusive_button_visibility(presets[-1]))
+        self._page.click_preset_delete(presets[-1])
+        self._page.click_lightbox_delete_button()
+    
+    def change_channels_to_working_set(self):
+        self._page.open_channels_tab()
+        channels = self._page.get_list_of_channels()
+        if len(channels) > 2:
+            self._page.click_batch_delete_mode()
+            counter = 2
+            for counter in range(counter, len(channels)):
+                self._page.click_batch_delete_selector_for_channel_element(channels[counter])
+            self._page.click_batch_delete_channels()
+            self._page.click_lightbox_delete_button()
