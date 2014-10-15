@@ -15,7 +15,7 @@ class BaseAimRegressionTest(unittest.TestCase):
     def setUp(self):
         parameter_singleton["version"] = "v3.3.30400"
         parameter_singleton["suite"] = "short"
-        parameter_singleton["url"] = "http://10.10.10.10/"
+        parameter_singleton["url"] = "http://10.10.10.10"
         
         self._page = BasePage()
         self._driver = self._page.get_driver()

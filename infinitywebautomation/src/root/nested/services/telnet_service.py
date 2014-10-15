@@ -4,7 +4,6 @@ Created on 30 Apr 2013
 @author: Mark.rowlands
 '''
 import telnetlib
-import time
 
 class TelnetService():
 
@@ -21,9 +20,6 @@ class TelnetService():
 
     def get_response_from_command(self, command):
         self.login_to_unit()
-        time.sleep(2)
+        self.telnet.read_until(b"$")
         self.telnet.write(command)
-        time.sleep(0.2)
-        self.telnet.write(b"exit\n")
-        telnet_response = str(self.telnet.read_all())
-        return telnet_response
+        return str(self.telnet.read_all())
