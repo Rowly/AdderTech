@@ -15,7 +15,7 @@ class AimAddChannelGroupPageFunctionsTest(BaseAimRegressionTest):
         self._page.click_add_channel_group_subtab_link()
         self.assertEqual(self._page.get_text_of_page_header(), "Channel Groups > Add Channel Group")
         self.assertFalse(self._page.is_ajax_error_message_displayed_for_channel_group())
-        self._page.click_save()
+        self._page.click_save_ignore_warnings()
         self.assertTrue(self._page.is_ajax_error_message_displayed_for_channel_group())
     
     def test_can_create_channel_group_with_one_channel(self):

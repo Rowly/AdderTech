@@ -13,9 +13,9 @@ from root.nested.pages.base_page import BasePage
 class BaseAimRegressionTest(unittest.TestCase):
 
     def setUp(self):
-        parameter_singleton["version"] = "v3.3.30400"
-        parameter_singleton["suite"] = "short"
-        parameter_singleton["url"] = "http://10.10.10.10"
+#         parameter_singleton["version"] = "v3.3.30563"
+#         parameter_singleton["suite"] = "short"
+#         parameter_singleton["url"] = "http://10.10.10.10"
         
         self._page = BasePage()
         self._driver = self._page.get_driver()
@@ -40,7 +40,7 @@ class BaseAimRegressionTest(unittest.TestCase):
         elif parameter_singleton["suite"] == "short":
             self._test_all = False
         
-        self._channel_names = ["Channel TX2s", "Channel TX2b", "Channel TX2v"]
+        self._channel_names = ["Channel TX", "Channel TX2b", "Channel TX2v"]
 
         self._invalid_device_ips = []
 

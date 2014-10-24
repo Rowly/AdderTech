@@ -18,5 +18,5 @@ class AimLoginPageFunctionsTest(BaseAimRegressionTest):
         self._page.ensure_logged_out()
         self._page.login_as("admin", "invalid", False)
         self.assertTrue(self._page.get_located_login_error_message())
-        self.assertEqual(self._page.get_information_to_user_text(), "The username and password you supplied are not valid")
+        self.assertEqual(self._page.get_login_error_text(), "The username and password you supplied are not valid")
     

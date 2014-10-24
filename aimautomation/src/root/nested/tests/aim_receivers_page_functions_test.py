@@ -24,7 +24,7 @@ class AimReceiversPageFunctionsTest(BaseAimRegressionTest):
         self.assertEquals(self._page.get_text_of_page_header(), "Receiver Groups > Add Receiver Group")    
         self._page.open_update_receiver_firmware_page()
         self.assertTrue(self._page.get_text_of_page_header(), "Upgrade AIM Software")
-        
+         
     def test_name_filter_operates_as_expected(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -36,7 +36,7 @@ class AimReceiversPageFunctionsTest(BaseAimRegressionTest):
         receivers = self._page.get_list_of_receivers()
         for receiver in receivers:
             self.assertNotEqual(self._page.get_receiver_name(receiver).lower().find(search_term), -1)
-            
+             
     def test_name_filter_can_be_disabled(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -51,7 +51,7 @@ class AimReceiversPageFunctionsTest(BaseAimRegressionTest):
         self._page.click_on_remove_receivers_name_filter()
         non_filtered_receivers = self._page.get_list_of_receivers()
         self.assertTrue(len(filtered_receivers) <= len(non_filtered_receivers))
-        
+         
     def test_name_filter_can_be_cleared(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -67,7 +67,7 @@ class AimReceiversPageFunctionsTest(BaseAimRegressionTest):
         self._page.click_on_filter_receivers_by_name()
         non_filtered_receivers = self._page.get_list_of_receivers()
         self.assertTrue(len(filtered_receivers) <= len(non_filtered_receivers))
-    
+     
     def test_description_filter_operates_as_expected(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -79,7 +79,7 @@ class AimReceiversPageFunctionsTest(BaseAimRegressionTest):
         receivers = self._page.get_list_of_receivers()
         for receiver in receivers:
             self.assertNotEqual(self._page.get_receiver_description(receiver).lower().find(search_term), -1)
-            
+             
     def test_description_filter_can_be_disabled(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -94,7 +94,7 @@ class AimReceiversPageFunctionsTest(BaseAimRegressionTest):
         self._page.click_on_remove_receivers_description_filter()
         non_filtered_receivers = self._page.get_list_of_receivers()
         self.assertTrue(len(filtered_receivers) <= len(non_filtered_receivers))
-    
+     
     def test_description_filter_can_be_cleared(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -110,7 +110,7 @@ class AimReceiversPageFunctionsTest(BaseAimRegressionTest):
         self._page.click_on_filter_receivers_by_description()
         non_filtered_receivers = self._page.get_list_of_receivers()
         self.assertTrue(len(filtered_receivers) <= len(non_filtered_receivers))
-        
+         
     def test_location_filter_operates_as_expected(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -122,7 +122,7 @@ class AimReceiversPageFunctionsTest(BaseAimRegressionTest):
         filtered_receivers = self._page.get_list_of_receivers()
         for receiver in filtered_receivers:
             self.assertNotEqual(self._page.get_receiver_location(receiver).lower().find(search_term), -1)
-            
+             
     def test_location_filter_can_be_disabled(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -137,7 +137,7 @@ class AimReceiversPageFunctionsTest(BaseAimRegressionTest):
         self._page.click_on_remove_receivers_location_filter()
         non_filtered_receivers = self._page.get_list_of_receivers()
         self.assertTrue(len(filtered_receivers) <= len(non_filtered_receivers))
-    
+     
     def test_location_filter_can_be_cleared(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -153,7 +153,7 @@ class AimReceiversPageFunctionsTest(BaseAimRegressionTest):
         self._page.click_on_filter_receivers_by_location()
         non_filtered_receivers = self._page.get_list_of_receivers()
         self.assertTrue(len(filtered_receivers) <= len(non_filtered_receivers))
-        
+         
     def test_remove_filters_button_operates_as_expected(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -180,7 +180,7 @@ class AimReceiversPageFunctionsTest(BaseAimRegressionTest):
         self._page.click_on_remove_filters()
         remove_filter_receivers = self._page.get_list_of_receivers()
         self.assertTrue(len(filtered_by_location_receivers) <= len(remove_filter_receivers))
-    
+     
     def test_can_sort_names_ascending(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -194,7 +194,7 @@ class AimReceiversPageFunctionsTest(BaseAimRegressionTest):
             counter = 0
             for counter in range((len(receiver_names) - 1)):
                 self.assertTrue(receiver_names[counter].lower() <= receiver_names[counter + 1].lower())
-                
+                 
     def test_can_sort_names_decending(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -208,7 +208,7 @@ class AimReceiversPageFunctionsTest(BaseAimRegressionTest):
             counter = 0
             for counter in range((len(receiver_names) - 1)):
                 self.assertTrue(receiver_names[counter].lower() >= receiver_names[counter + 1].lower())
-    
+     
     def test_can_sort_descriptions_ascending(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -222,7 +222,7 @@ class AimReceiversPageFunctionsTest(BaseAimRegressionTest):
             counter = 0
             for counter in range((len(receiver_descriptions) - 1)):
                 self.assertTrue(receiver_descriptions[counter].lower() <= receiver_descriptions[counter + 1].lower())        
-    
+     
     def test_can_sort_descriptions_decending(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -236,7 +236,7 @@ class AimReceiversPageFunctionsTest(BaseAimRegressionTest):
             counter = 0
             for counter in range((len(receiver_descriptions) - 1)):
                 self.assertTrue(receiver_descriptions[counter].lower() >= receiver_descriptions[counter + 1].lower())        
-
+ 
     def test_can_sort_locations_ascending(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -250,7 +250,7 @@ class AimReceiversPageFunctionsTest(BaseAimRegressionTest):
             counter = 0
             for counter in range((len(receiver_locations) - 1)):
                 self.assertTrue(receiver_locations[counter].lower() <= receiver_locations[counter + 1].lower())        
-
+ 
     def test_can_sort_locations_decending(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -264,7 +264,7 @@ class AimReceiversPageFunctionsTest(BaseAimRegressionTest):
             counter = 0
             for counter in range((len(receiver_locations) - 1)):
                 self.assertTrue(receiver_locations[counter].lower() >= receiver_locations[counter + 1].lower())
-    
+     
     def test_can_open_config_for_each_receiver(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -278,7 +278,7 @@ class AimReceiversPageFunctionsTest(BaseAimRegressionTest):
             page.driver.get(link_text)
             self.assertEqual(page.get_text_of_page_header(), "Receivers > Configure Receiver")
         page.driver.quit()
-    
+     
     def test_can_cancel_reboot_for_each_receiver(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -288,7 +288,7 @@ class AimReceiversPageFunctionsTest(BaseAimRegressionTest):
             self._page.click_receiver_reboot(receiver)
             self._page.wait_for_and_click_reboot_cancel()
             self.assertTrue(self._page.get_receiver_status_image_src(receiver) in self._device_status_imgs)
-            
+             
     def test_can_identify_each_receiver(self):
         version = parameter_singleton["version"]
         split_version = version.replace("v", "").split(".")
@@ -314,7 +314,7 @@ class AimReceiversPageFunctionsTest(BaseAimRegressionTest):
             if match:
                 flash_counter_after = match.group('value')
             self.assertNotEqual(flash_counter_before, flash_counter_after)
-    
+     
     def test_can_connect_and_disconnect_receiver_to_a_channel_view_only(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -328,8 +328,9 @@ class AimReceiversPageFunctionsTest(BaseAimRegressionTest):
         receivers = self._page.get_list_of_receivers()
         self.assertTrue(self._page.get_visibility_of_receiver_disconnect(receivers[1]))
         self._page.click_receiver_disconnect_from_channel(receivers[1])
+        receivers = self._page.get_list_of_receivers()
         self.assertFalse(self._page.get_visibility_of_receiver_disconnect(receivers[1]))
-
+ 
     def test_can_connect_and_disconnect_receiver_to_a_channel_shared_access(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -343,8 +344,9 @@ class AimReceiversPageFunctionsTest(BaseAimRegressionTest):
         receivers = self._page.get_list_of_receivers()
         self.assertTrue(self._page.get_visibility_of_receiver_disconnect(receivers[1]))
         self._page.click_receiver_disconnect_from_channel(receivers[1])
+        receivers = self._page.get_list_of_receivers()
         self.assertFalse(self._page.get_visibility_of_receiver_disconnect(receivers[1]))
-    
+     
     def test_can_connect_and_disconnect_receiver_to_a_channel_exclusive_only(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -358,8 +360,9 @@ class AimReceiversPageFunctionsTest(BaseAimRegressionTest):
         receivers = self._page.get_list_of_receivers()
         self.assertTrue(self._page.get_visibility_of_receiver_disconnect(receivers[1]))
         self._page.click_receiver_disconnect_from_channel(receivers[1])
+        receivers = self._page.get_list_of_receivers()
         self.assertFalse(self._page.get_visibility_of_receiver_disconnect(receivers[1]))
-    
+     
     def test_can_disconnect_all_channels(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -384,4 +387,4 @@ class AimReceiversPageFunctionsTest(BaseAimRegressionTest):
         receivers = self._page.get_list_of_receivers()
         for receiver in receivers:
             self.assertFalse(self._page.get_visibility_of_receiver_disconnect(receiver))
-                
+                 

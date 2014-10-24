@@ -314,7 +314,6 @@ class AimChannelPageFunctionsTest(BaseAimRegressionTest):
         self._page.login_as("admin", "password", False)
         self._page.open_channels_tab()
         self.reset_number_of_channels()
-        self._driver.refresh()
         channels = self._page.get_list_of_channels()
         self._page.click_channel_delete(channels[-1])
         self.assertTrue("Delete channel" in self._page.get_delete_channel_text_from_lightbox())
@@ -354,21 +353,20 @@ class AimChannelPageFunctionsTest(BaseAimRegressionTest):
         new_channels = self._page.get_list_of_channels()
         self.assertTrue(len(channels) == len(new_channels))
     
-#     def test_can_batch_delete_channels(self):
-#         self._page.open_AIM_homepage_on_base_url()
-#         self._page.login_as("admin", "password", False)
-#         self._page.open_channels_tab()
-#         self.reset_number_of_channels()
-#         self._driver.refresh()
-#         self._page.click_batch_delete_mode()
-#         channels = self._page.get_list_of_channels()
-#         self._page.click_batch_delete_selector_for_channel_element(channels[-1])
-#         self._page.click_batch_delete_selector_for_channel_element(channels[-2])
-#         self._page.click_batch_delete_channels()
-#         self._page.click_lightbox_delete_button()
-#         new_channels = self._page.get_list_of_channels()
-#         self.assertTrue(len(channels) >= len(new_channels))
-#         self.reset_number_of_channels()
+    def test_can_batch_delete_channels(self):
+        self._page.open_AIM_homepage_on_base_url()
+        self._page.login_as("admin", "password", False)
+        self._page.open_channels_tab()
+        self.reset_number_of_channels()
+        self._page.click_batch_delete_mode()
+        channels = self._page.get_list_of_channels()
+        self._page.click_batch_delete_selector_for_channel_element(channels[-1])
+        self._page.click_batch_delete_selector_for_channel_element(channels[-2])
+        self._page.click_batch_delete_channels()
+        self._page.click_lightbox_delete_button()
+        new_channels = self._page.get_list_of_channels()
+        self.assertTrue(len(channels) >= len(new_channels))
+        self.reset_number_of_channels()
         
     def reset_number_of_channels(self):
         current_names = []
@@ -393,3 +391,4 @@ class AimChannelPageFunctionsTest(BaseAimRegressionTest):
                 self._page.add_user_to_channel_permission("admin")
                 self._page.click_save()
                 self._page.check_for_error_message("configure_channel_ajax_message")
+        self._driver.refresh()

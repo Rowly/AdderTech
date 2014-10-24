@@ -109,8 +109,11 @@ class BasePage():
         except Exception:
             return False
     
-    def get_information_to_user_text(self):
+    def get_login_error_text(self):
         return self.wait.until(EC.presence_of_element_located((By.XPATH, "//span[contains(@class, 'error_message')]"))).text
+    
+    def get_information_to_user_text(self):
+        return self.get_login_error_text()
         
     def get_css_property_of_element_via_id(self, css_property, element_id):
         self.wait.until(EC.presence_of_element_located((By.ID, element_id)))
@@ -166,6 +169,19 @@ class BasePage():
         select = Select(self.driver.find_element(By.ID, id_))
         return select.options
     
+    def get_visible_text_options_from_select_element(self, id_):
+        options = []
+        self.wait.until(EC.presence_of_element_located((By.ID, id_)))
+        select = Select(self.driver.find_element(By.ID, id_))
+        for option in select.options:
+            options.append(option.text)
+        return options        
+    
+    def get_selected_visible_text_and_value_of_element(self, id_):
+        self.wait.until(EC.presence_of_element_located((By.ID, id_)))
+        select = Select(self.driver.find_element(By.ID, id_))
+        return select.first_selected_option.text, select.first_selected_option.get_attribute("value")
+    
     def select_dropdown_item_by_value(self, id_, value):
         try:
             self.wait.until(EC.presence_of_element_located((By.ID, id_)))
@@ -190,6 +206,7 @@ class BasePage():
                         or message == "" 
                         or message == "Because this Preset contains multicasting, it will only be available if the global setting includes view/shared mode. Do you still want to save this preset? Yes"
                         or message == "A Receiver can only be used in one connection pair"):
+                        self.wait.until(EC.invisibility_of_element_located((By.CSS_SELECTOR, "span[id*='ajax_message']")))
                         break
                     else:
                         raise RuntimeError("Error: %s"%message)
@@ -199,20 +216,53 @@ class BasePage():
     def click_save_ignore_warnings(self):
         if self.get_element_located_by_link_text("Save"):
             self.driver.find_element_by_link_text("Save").click()
+            time.sleep(1.5)
     
     def click_save_settings(self):
         if self.get_element_located_by_link_text("Save Settings"):
             self.driver.find_element_by_link_text("Save Settings").click()
-            time.sleep(2)
+            while True:
+                try:
+                    message = self.driver.find_element_by_css_selector("span[id*='ajax_message']").text
+                    if (message == "Saving changes..." 
+                        or message == "" 
+                        or message == "Because this Preset contains multicasting, it will only be available if the global setting includes view/shared mode. Do you still want to save this preset? Yes"
+                        or message == "A Receiver can only be used in one connection pair"):
+                        self.wait.until(EC.invisibility_of_element_located((By.CSS_SELECTOR, "span[id*='ajax_message']")))
+                        break
+                    else:
+                        raise RuntimeError("Error: %s"%message)
+                except NoSuchElementException:
+                    break
 
     def click_save_usb_settings(self):
         if self.get_element_located_by_link_text("Save USB Settings"):
             self.driver.find_element_by_link_text("Save USB Settings").click()
+            while True:
+                try:
+                    message = self.driver.find_element_by_css_selector("span[id*='ajax_message']").text
+                    if (message == "Saving changes..."):
+                        self.wait.until(EC.invisibility_of_element_located((By.CSS_SELECTOR, "span[id*='ajax_message']")))
+                        break
+                    else:
+                        raise RuntimeError("Error: %s"%message)
+                except NoSuchElementException:
+                    break
     
     def click_save_features(self):
         if self.get_element_located_by_link_text("Save Features"):
             self.driver.find_element_by_link_text("Save Features").click()
-            time.sleep(2)
+            while True:
+                try:
+                    message = self.driver.find_element_by_css_selector("span[id*='ajax_message']").text
+                    if (message == "Saving changes..."
+                        or message == ""):
+                        self.wait.until(EC.invisibility_of_element_located((By.CSS_SELECTOR, "span[id*='ajax_message']")))
+                        break
+                    else:
+                        raise RuntimeError("Error: %s"%message)
+                except NoSuchElementException:
+                    break
     
     def click_cancel(self):
         if self.get_element_located_by_link_text("Cancel"):
@@ -324,54 +374,81 @@ class BasePage():
             self.driver.find_element_by_id(id_).send_keys(text)
     
     def get_list(self, _type):
-        time.sleep(3)
-        try:
-            self.wait.until(EC.presence_of_element_located((By.XPATH, "//tbody/tr")))
-            return self.driver.find_elements_by_xpath("//tbody/tr")
-        except:
-            self.driver.refresh()
-            if "session" in self.driver.current_url or "/login.php?r=%2Fadmin%2Findex.php" in self.driver.current_url:
-                self.login_as("admin", "password", False)
-            if _type is "transmitters":
+        time.sleep(2)
+        if "session" in self.driver.current_url or "/login.php?r=%2Fadmin%2Findex.php" in self.driver.current_url:
+            self.login_as("admin", "password", False)
+        if _type is "transmitters":
+            if(any (wanted_text in self.get_pagination_text() for wanted_text in ["transmitter", "transmitters"])):
+                return self.driver.find_elements_by_xpath("//tbody/tr")
+            else: 
                 self.open_transmitters_tab()
                 return self.get_list_of_transmitters()
-            elif _type is "receivers":
+        elif _type is "receivers":
+            if(any (wanted_text in self.get_pagination_text() for wanted_text in ["receiver", "receivers"])):
+                return self.driver.find_elements_by_xpath("//tbody/tr")
+            else:
                 self.open_receivers_tab()
                 return self.get_list_of_receivers()
-            elif _type is "receiver_groups":
+        elif _type is "receiver_groups":
+            if(any (wanted_text in self.get_pagination_text() for wanted_text in ["receiver group", "receiver groups"])):
+                return self.driver.find_elements_by_xpath("//tbody/tr")
+            else:
                 self.open_receivers_tab()
                 self.open_view_receiver_groups_page()
                 return self.get_list_of_receiver_groups()()
-            elif _type is "channels":
+        elif _type is "channels":
+            if(any (wanted_text in self.get_pagination_text() for wanted_text in ["channel", "channels"])):
+                return self.driver.find_elements_by_xpath("//tbody/tr")
+            else:
                 self.open_channels_tab()
                 return self.get_list_of_channels()
-            elif _type is "channel_groups":
+        elif _type is "channel_groups":
+            if(any (wanted_text in self.get_pagination_text() for wanted_text in ["channel group", "channel groups"])):
+                return self.driver.find_elements_by_xpath("//tbody/tr")
+            else:
                 self.open_channels_tab()
                 self.click_view_channel_group_button()
                 return self.get_list_of_channels()
-            elif _type is "servers":
+        elif _type is "servers":
+            if(any (wanted_text in self.get_pagination_text() for wanted_text in ["server", "servers"])):
+                return self.driver.find_elements_by_xpath("//tbody/tr")
+            else:
                 self.open_servers_tab()
                 return self.get_list_of_servers()
-            elif _type is "users":
+        elif _type is "users":
+            if(any (wanted_text in self.get_pagination_text() for wanted_text in ["user", "users"])):
+                return self.driver.find_elements_by_xpath("//tbody/tr")
+            else:
                 self.open_users_tab()
                 return self.get_list_of_users()
-            elif _type is "user_groups":
+        elif _type is "user_groups":
+            if(any (wanted_text in self.get_pagination_text() for wanted_text in ["user group", "user groups"])):
+                return self.driver.find_elements_by_xpath("//tbody/tr")
+            else:
                 self.open_users_tab()
-                return self.open_view_user_groups_page()
-                self.get_list_of_user_groups()
-            elif _type is "presets":
+                self.open_view_user_groups_page()
+                return self.get_list_of_user_groups()
+        elif _type is "presets":
+            if(any (wanted_text in self.get_pagination_text() for wanted_text in ["preset", "presets"])):
+                return self.driver.find_elements_by_xpath("//tbody/tr")
+            else:
                 self.open_presets_tab()
                 return self.get_list_of_presets()
-            elif _type is "devices":
+        elif _type is "devices":
+            if(any (wanted_text in self.get_pagination_text() for wanted_text in ["device", "devices"])):
+                return self.driver.find_elements_by_xpath("//tbody/tr")
+            else:
                 self.open_device_list_directly()
                 return self.get_list_of_devices()
                  
+    def get_pagination_text(self):
+        return self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.pagination_row div"))).text.lower()
+
                    
     """
     Login Page BasePage
     """
     def login_as(self, username, password, remember):
-        self.driver.refresh()
         self.wait.until(EC.presence_of_element_located((By.ID, "username")))
         self.driver.find_element_by_id("username").send_keys(username)
         self.driver.find_element_by_id("password").send_keys(password)
@@ -1046,7 +1123,8 @@ class BasePage():
         return self.get_dropdown_options_text_by_id("usb_fixed_ports")
 
     def get_current_reserved_usb_port_selection_text(self):
-        #self.wait_for_saving_settings_message_to_be_removed()
+#         if self.driver.name == "chrome":
+#             time.sleep(2)
         return self.get_current_selected_text_by_id("usb_fixed_ports")
 
     def select_reserved_usb_port_by_label(self, label):
@@ -1425,6 +1503,8 @@ class BasePage():
         select.select_by_visible_text(location)
         
     def get_all_time_zone_locations_texts(self, zone):
+        if self.driver.name == "chrome":
+            time.sleep(4)
         self.wait.until(EC.presence_of_element_located((By.ID, "timezone_location_" + zone)))
         locations = []
         container = self.driver.find_element_by_id("timezone_location_" + zone)
@@ -1769,19 +1849,15 @@ class BasePage():
         return self.get_specific_attribute_of_cell_component_via_xpath(element, "./img", "src")
     
     def check_configure_transmitter_image_src(self, element):
-#         return self.get_specific_attribute_of_cell_component_via_xpath(element, "./a[1]/img", "src")
         return self.get_specific_attribute_of_cell_component_via_xpath(element, "./span[1]/a/img", "src")
     
     def check_refresh_arrow_image_src(self, element):
-#         return self.get_specific_attribute_of_cell_component_via_xpath(element, "./a[3]/img", "src")
         return self.get_specific_attribute_of_cell_component_via_xpath(element, "./span[2]/a/img", "src")
     
     def check_identify_image_src(self, element):
-#         return self.get_specific_attribute_of_cell_component_via_xpath(element, "./a[4]/img", "src")
         return self.get_specific_attribute_of_cell_component_via_xpath(element, "./span[3]/a/img", "src")
     
     def check_delete_image_src(self, element):
-#         return self.get_specific_attribute_of_cell_component_via_xpath(element, "./a[5]/img", "src")
         return self.get_specific_attribute_of_cell_component_via_xpath(element, "./a/img", "src")
     
     def get_device_version_via_api(self):
@@ -2028,6 +2104,15 @@ class BasePage():
             if self.driver.find_element_by_id(id_).is_selected():
                 clicked = True
     
+    def set_radio_button_state(self, selector, state):
+        self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, selector)))
+        if self.get_state_of_element_via_css_selector(selector) == state:
+            pass
+        else: self.driver.find_element_by_css_selector(selector).click()
+    
+    def get_state_of_element_via_css_selector(self, selector):
+        return self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, selector))).is_selected()
+    
     def click_radio_option_by_div_text_and_id(self, div_text, id_):
         clicked = False
         while(clicked == False):
@@ -2059,13 +2144,13 @@ class BasePage():
             return self.get_option_label("Enable Dummy Boot Keyboard", "3")
         
     def select_dummy_boot_keyboard_global(self):
-        self.click_radio_option_by_div_text_and_id("Enable Dummy Boot Keyboard", "tp_fk_enable_-1")
+        self.set_radio_button_state("#tp_fk_enable_-1", True)
         
     def select_dummy_boot_keyboard_no(self):
-        self.click_radio_option_by_div_text_and_id("Enable Dummy Boot Keyboard", "tp_fk_enable_0")
+        self.set_radio_button_state("#tp_fk_enable_0", True)
         
     def select_dummy_boot_keyboard_yes(self):
-        self.click_radio_option_by_div_text_and_id("Enable Dummy Boot Keyboard", "tp_fk_enable_1")
+        self.set_radio_button_state("#tp_fk_enable_1", True)
 
     def get_dummy_keyboard_help_text_from_config_page(self):
         if self.get_element_located_by_id("configure_device"):
@@ -2088,13 +2173,13 @@ class BasePage():
             return self.get_option_label("USB Speed", "3")
 
     def select_usb_speed_global(self):
-        self.click_radio_option_by_div_text_and_id("USB Speed", "tp_usb_speed_-1")
+        self.set_radio_button_state("#tp_usb_speed_-1", True)
         
     def select_usb_speed_high_speed(self):
-        self.click_radio_option_by_div_text_and_id("USB Speed", "tp_usb_speed_0")
+        self.set_radio_button_state("#tp_usb_speed_0", True)
         
     def select_usb_speed_full_speed(self):
-        self.click_radio_option_by_div_text_and_id("USB Speed", "tp_usb_speed_1")
+        self.set_radio_button_state("#tp_usb_speed_1", True)
 
     def get_usb_speed_help_text_from_config_page(self):
         if self.get_element_located_by_id("configure_device"):
@@ -2493,8 +2578,8 @@ class BasePage():
     
     def click_lightbox_cancel_button(self):
         if self.get_element_located_by_id("ibox"):
-            self.driver.find_element_by_link_text("Cancel").click()
-    
+            self.wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "Cancel"))).click()
+                
     def click_lightbox_delete_button(self):
         if self.get_element_located_by_id("ibox"):
             self.driver.find_element_by_link_text("Delete").click()
@@ -3032,13 +3117,13 @@ class BasePage():
         
     def get_visibility_of_receiver_disconnect(self, element):
         try:
-            time.sleep(0.5)
-            return element.find_element_by_xpath("./td[11]/span[5]/a/img").is_displayed()
+            time.sleep(1)
+            return element.find_element_by_css_selector("td.admin_icons span[id^='disconnect_link'] a").is_displayed()
         except Exception:
             return False
     
     def click_receiver_disconnect_from_channel(self, element):
-        element.find_element_by_xpath("./td[11]/span[4]/a").click()
+        element.find_element_by_css_selector("td.admin_icons span[id^='disconnect_link'] a").click()
     
     def click_disconnect_all_receivers(self):
         if self.get_element_located_by_xpath("//table/thead/tr/th[11]/a"):
@@ -3351,58 +3436,58 @@ class BasePage():
             self.enter_text_into_input_field("rg_description", text)
 
     def select_receiver_group_login_required_global(self):
-        self.click_radio_option_by_div_text_and_id("Login Required", "rg_login_required_-1")
+        self.set_radio_button_state("#rg_login_required_-1", True)
     
     def select_receiver_group_login_required_no(self):
-        self.click_radio_option_by_div_text_and_id("Login Required", "rg_login_required_0")
+        self.set_radio_button_state("#rg_login_required_0", True)
         
     def select_receiver_group_login_required_yes(self):
-        self.click_radio_option_by_div_text_and_id("Login Required", "rg_login_required_1")
+        self.set_radio_button_state("#rg_login_required_1", True)
 
     def select_receiver_group_osd_alerts_global(self):
-        self.click_radio_option_by_div_text_and_id("Enable receiver OSD Alerts", "rg_osd_alerts_-1")
+        self.set_radio_button_state("#rg_osd_alerts_-1", True)
         
     def select_receiver_group_osd_alerts_no(self):
-        self.click_radio_option_by_div_text_and_id("Enable receiver OSD Alerts", "rg_osd_alerts_0")
+        self.set_radio_button_state("#rg_osd_alerts_0", True)
         
     def select_receiver_group_osd_alerts_yes(self):
-        self.click_radio_option_by_div_text_and_id("Enable receiver OSD Alerts", "rg_osd_alerts_1")
+        self.set_radio_button_state("#rg_osd_alerts_1", True)
 
     def select_receiver_group_HID_connection_global(self):
-        self.click_radio_option_by_div_text_and_id("HID Only", "hid_only_-1")
+        self.set_radio_button_state("#hid_only_-1", True)
         
     def select_receiver_group_HID_connection_no(self):
-        self.click_radio_option_by_div_text_and_id("HID Only", "hid_only_0")
+        self.set_radio_button_state("#hid_only_0", True)
         
     def select_receiver_group_HID_connection_yes(self):
-        self.click_radio_option_by_div_text_and_id("HID Only", "hid_only_1")
+        self.set_radio_button_state("#hid_only_1", True)
 
     def select_receiver_group_disable_isochronous_endpoint_osd_alerts_global(self):
-        self.click_radio_option_by_div_text_and_id("Disable Isochronous Endpoint OSD Alerts", "isochronous_user_warning_-1")
+        self.set_radio_button_state("#isochronous_user_warning_-1", True)
         
     def select_receiver_group_disable_isochronous_endpoint_osd_alerts_no(self):
-        self.click_radio_option_by_div_text_and_id("Disable Isochronous Endpoint OSD Alerts", "isochronous_user_warning_0")
+        self.set_radio_button_state("#isochronous_user_warning_0", True)
         
     def select_receiver_group_disable_isochronous_endpoint_osd_alerts_yes(self):
-        self.click_radio_option_by_div_text_and_id("Disable Isochronous Endpoint OSD Alerts", "isochronous_user_warning_1")
+        self.set_radio_button_state("#isochronous_user_warning_1", True)
 
     def select_receiver_group_enable_isochronous_endpoint_attach_global(self):
-        self.click_radio_option_by_div_text_and_id("Enable Isochronous Endpoint Attach", "isochronous_enabled_-1")
+        self.set_radio_button_state("#isochronous_enabled_-1", True)
         
     def select_receiver_group_enable_isochronous_endpoint_attach_no(self):
-        self.click_radio_option_by_div_text_and_id("Enable Isochronous Endpoint Attach", "isochronous_enabled_0")
+        self.set_radio_button_state("#isochronous_enabled_0", True)
         
     def select_receiver_group_enable_isochronous_endpoint_attach_yes(self):
-        self.click_radio_option_by_div_text_and_id("Enable Isochronous Endpoint Attach", "isochronous_enabled_1")
+        self.set_radio_button_state("#isochronous_enabled_1", True)
 
     def select_receiver_group_video_compatibility_global(self):
-        self.click_radio_option_by_div_text_and_id("Enable Video Compatibility Check", "rg_video_compatibility_check_-1")
+        self.set_radio_button_state("#rg_video_compatibility_check_-1", True)
         
     def select_receiver_group_video_compatibility_no(self):
-        self.click_radio_option_by_div_text_and_id("Enable Video Compatibility Check", "rg_video_compatibility_check_0")
+        self.set_radio_button_state("#rg_video_compatibility_check_0", True)
         
     def select_receiver_group_video_compatibility_yes(self):
-        self.click_radio_option_by_div_text_and_id("Enable Video Compatibility Check", "rg_video_compatibility_check_1")
+        self.set_radio_button_state("#rg_video_compatibility_check_1", True)
         
     def get_first_receiver_name_from_add_select(self):
         select = Select(self.driver.find_element_by_id("all_rxs"))
@@ -3808,10 +3893,8 @@ class BasePage():
         select_receiver.select_by_visible_text(receiver_name)
         select_channel = Select(self.driver.find_element_by_id("channel_id_2"))
         select_channel.select_by_visible_text(current_channel_name)
-        self.click_save()
-        self.wait.until(EC.presence_of_element_located((By.ID, "configure_connection_preset_ajax_message")))
-        actions = ActionChains(self.driver)
-        actions.move_to_element(self.driver.find_element_by_xpath("//span[@id='configure_connection_preset_ajax_message']/a").click())
+        self.click_save_ignore_warnings()
+        self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#configure_connection_preset_ajax_message > a"))).click()
 
     def add_same_receiver_pair(self):
         self.wait.until(EC.presence_of_element_located((By.XPATH, "//div[@class='form_row']/a")))
@@ -3826,7 +3909,9 @@ class BasePage():
         select_receiver.select_by_visible_text(current_receiver_name)
         select_channel = Select(self.driver.find_element_by_id("channel_id_2"))
         select_channel.select_by_visible_text(current_channel_name)
-        self.click_save()
+        self.click_save_ignore_warnings()
+        if self.driver.name == "chrome":
+            time.sleep(2)
     
     def check_for_receiver_single_connnection_error_message(self):
         self.wait.until(EC.presence_of_element_located((By.ID, "configure_connection_preset_ajax_message")))
@@ -4361,9 +4446,18 @@ class BasePage():
     def get_list_usb_devices(self):
         return self.driver.find_elements_by_css_selector("div#quirks_table_container form#usb_quirks table.zebra tbody tr")
     
+    def get_name(self, element):
+        return element.find_element_by_css_selector("td:nth-child(1)").text
+    
     def toggle_hide_usb_device(self, element):
-        self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "input[id^='show_quirk']")))
-        element.find_element_by_css_selector("input[id^='show_quirk']").click()
+        self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "input[id^='show_quirk_']")))
+        try:
+            element.find_element_by_css_selector("input[id^='show_quirk_']").click()
+        except NoSuchElementException:
+            if "tick.png" in element.find_element_by_css_selector("td:nth-child(6) > img").get_attribute("src"):
+                pass
+            else:
+                raise RuntimeError("Couldn't find show_quirk checkbox nor green tick icon.")
     
     def set_status_hide_usb_device_global(self, status):
         self.driver.find_element_by_css_selector("#toggle_show_checkbox").click()
@@ -4373,8 +4467,8 @@ class BasePage():
             self.driver.find_element_by_css_selector("#toggle_show_checkbox").click()
     
     def check_show_status_of_usb_device(self, element):
-        self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "input[id^='show_quirk']")))
-        return element.find_element_by_css_selector("input[id^='show_quirk']").is_selected()
+        self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "input[id^='show_quirk_']")))
+        return element.find_element_by_css_selector("input[id^='show_quirk_']").is_selected()
     
     def add_test_usb_device(self, name, desc, kernel, user):
         self.driver.find_element_by_css_selector("#new_quirk_name").clear()
@@ -4388,7 +4482,7 @@ class BasePage():
         
     def delete_test_usb_device(self):
         table = self.driver.find_element_by_css_selector("div#quirks_table_container form#usb_quirks table.zebra tbody")
-        table.find_element_by_css_selector("input[id^='delete_quirk']").click()
+        table.find_element_by_css_selector("input[id^='delete_quirk_']").click()
     
     def get_port_merge_selector_state(self, element):
         return element.is_selected()
@@ -4500,23 +4594,26 @@ class BasePage():
     def click_show_receivers(self):
         if self.get_element_located_by_css_selector("#filterRxs"):
             self.driver.find_element_by_css_selector("#filterRxs").click()
-    
+            time.sleep(1)
+            
     def click_show_transmitters(self):
         if self.get_element_located_by_css_selector("#filterTxs"):
             self.driver.find_element_by_css_selector("#filterTxs").click()
+            time.sleep(1)
     
     def get_device_type_img(self, device):
-        return device.find_element_by_css_selector("td:nth-child(1)>span>img").get_attribute("src")
+        return device.find_element_by_css_selector("td > span.tooltip > img.icon").get_attribute("src")
 
     def click_activate_statistics(self, device):
-        device_id = device.get_attribute("id").replace("row_id_", "")
-        device.find_element_by_css_selector("td:nth-child(5)>a>img#statsImg_%s" %device_id).click()
+        device.find_element_by_css_selector("td.admin_icons > a").click()
     
     def click_device_name(self, device):
-        device.find_element_by_css_selector("td:nth-child(2)>a").click()
+        time.sleep(1)
+        device.find_element_by_css_selector("td.left.device_name > a").click()
     
     def get_number_device_name_links(self, device):
-        return len(device.find_elements_by_css_selector("td:nth-child(2)>a"))
+        time.sleep(1)
+        return len(device.find_elements_by_css_selector("td.left.device_name > a"))
     
     def get_graph_title(self):
         return self.driver.find_element_by_css_selector("div#right>h1").text

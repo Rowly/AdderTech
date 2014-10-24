@@ -3,8 +3,10 @@ Created on 14 May 2013
 
 @author: Mark.rowlands
 '''
-from root.nested.tests.base_aim_regression_test import BaseAimRegressionTest
 import re
+from root.nested.tests.base_aim_regression_test import BaseAimRegressionTest
+from root.nested.tests.base_aim_regression_test import unittest
+from root.nested.services.parameters import parameter_singleton
 
 class AimTransmitterConfigPageDefaultsTest(BaseAimRegressionTest):
 
@@ -299,6 +301,10 @@ class AimTransmitterConfigPageDefaultsTest(BaseAimRegressionTest):
         self.assertEqual(self._page.get_background_refresh_option_label("0"), "Disabled")
     
     def test_colour_depth_default_correct(self):
+        version = parameter_singleton["version"]
+        split_version = version.replace("v", "").split(".")
+        if int(split_version[0]) >= 3 and int(split_version[1]) >= 3:
+            raise unittest.SkipTest("Colour Depth removed in v3.3")
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_transmitters_tab()
@@ -307,6 +313,10 @@ class AimTransmitterConfigPageDefaultsTest(BaseAimRegressionTest):
         self.assertTrue(self._page.ensure_selected_colour_depth_setting_from_config_page_correct())
     
     def test_colour_depth_values_correct(self):
+        version = parameter_singleton["version"]
+        split_version = version.replace("v", "").split(".")
+        if int(split_version[0]) >= 3 and int(split_version[1]) >= 3:
+            raise unittest.SkipTest("Colour Depth removed in v3.3")
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_transmitters_tab()

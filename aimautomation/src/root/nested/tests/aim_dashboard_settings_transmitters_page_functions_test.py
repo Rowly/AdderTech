@@ -4,6 +4,8 @@ Created on 10 Jul 2013
 @author: Mark.rowlands
 '''
 from root.nested.tests.base_aim_regression_test import BaseAimRegressionTest
+from root.nested.tests.base_aim_regression_test import unittest
+from root.nested.services.parameters import parameter_singleton
 
 class AimDashboardSettingsTransmittersPageFunctionsTest(BaseAimRegressionTest):
     
@@ -87,7 +89,11 @@ class AimDashboardSettingsTransmittersPageFunctionsTest(BaseAimRegressionTest):
         self._page.select_background_refresh_by_label("Every 32 frames")
         self._page.click_save()
 
-    def test_can_change_colour_depth(self):    
+    def test_can_change_colour_depth(self):
+        version = parameter_singleton["version"]
+        split_version = version.replace("v", "").split(".")
+        if int(split_version[0]) >= 3 and int(split_version[1]) >= 3:
+            raise unittest.SkipTest("Colour Depth removed in v3.3")    
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.click_dashboard_settings_link()

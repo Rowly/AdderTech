@@ -4,7 +4,6 @@ Created on 11 Jul 2013
 @author: Mark.rowlands
 '''
 from root.nested.tests.base_aim_regression_test import BaseAimRegressionTest
-from root.nested.pages.base_page import BasePage
 
 class AimDashboardSettingsReceiversPageFunctionsTest(BaseAimRegressionTest):
    
@@ -23,7 +22,7 @@ class AimDashboardSettingsReceiversPageFunctionsTest(BaseAimRegressionTest):
         self.assertNotEqual(current_setting, new_setting)
         self._page.toggle_login_required()
         self._page.click_save()
-     
+       
     def test_can_toggle_enable_required_osd_alerts(self):    
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -39,8 +38,8 @@ class AimDashboardSettingsReceiversPageFunctionsTest(BaseAimRegressionTest):
         self.assertNotEqual(current_setting, new_setting)
         self._page.toggle_login_required()
         self._page.click_save()
-     
-         
+       
+           
     def test_can_toggle_audio_input_type(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -56,7 +55,7 @@ class AimDashboardSettingsReceiversPageFunctionsTest(BaseAimRegressionTest):
             self._page.click_dashboard_settings_link()
             self._page.click_receivers_settings_button()
             self.assertTrue(self._page.get_selected_audio_input_type(counter))
-         
+           
     def test_can_change_video_compatibility_check(self):    
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -72,7 +71,7 @@ class AimDashboardSettingsReceiversPageFunctionsTest(BaseAimRegressionTest):
             self.assertEqual(self._page.get_current_video_compatibility_check_selection_text(), label)
         self._page.select_video_compatibility_check_by_label("Off")
         self._page.click_save()
-     
+       
     def test_can_change_receiver_keyboard_country_code(self):    
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -88,7 +87,7 @@ class AimDashboardSettingsReceiversPageFunctionsTest(BaseAimRegressionTest):
             self.assertEqual(self._page.get_current_receiver_keyboard_country_code_selection_text(), label)
         self._page.select_receiver_keyboard_country_code_by_label("gb - UK")
         self._page.click_save()
-         
+           
     def test_error_given_if_same_key_used_for_osd_hotkeys(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -100,7 +99,7 @@ class AimDashboardSettingsReceiversPageFunctionsTest(BaseAimRegressionTest):
         self.assertTrue(self._baseurl + "/admin/images/silk_icons/accept.png" in self._page.get_osd_hotkey_validation_icon_appearance())
         self._page.select_second_osd_hotkey(first_key)
         self.assertTrue(self._baseurl + "/admin/images/silk_icons/exclamation.png" in self._page.get_osd_hotkey_validation_icon_appearance())
-     
+       
     def test_error_given_if_same_key_used_for_shortcut_hotkeys(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -112,7 +111,7 @@ class AimDashboardSettingsReceiversPageFunctionsTest(BaseAimRegressionTest):
         self.assertTrue(self._baseurl + "/admin/images/silk_icons/accept.png" in self._page.get_shortcut_hotkey_validation_icon_appearance())
         self._page.select_second_shortcut_hotkey(first_key)
         self.assertTrue(self._baseurl + "/admin/images/silk_icons/exclamation.png" in self._page.get_shortcut_hotkey_validation_icon_appearance())
-     
+       
     def test_error_given_if_same_key_used_for_last_channel_hotkey(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -124,7 +123,7 @@ class AimDashboardSettingsReceiversPageFunctionsTest(BaseAimRegressionTest):
         self.assertTrue(self._baseurl + "/admin/images/silk_icons/accept.png" in self._page.get_last_channel_hotkey_validation_icon_appearance())
         self._page.select_second_last_channel_hotkey(first_key)
         self.assertTrue(self._baseurl + "/admin/images/silk_icons/exclamation.png" in self._page.get_last_channel_hotkey_validation_icon_appearance())
-     
+       
     def test_error_given_if_same_key_used_for_view_only_mode_hotkeys(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -136,7 +135,7 @@ class AimDashboardSettingsReceiversPageFunctionsTest(BaseAimRegressionTest):
         self.assertTrue(self._baseurl + "/admin/images/silk_icons/accept.png" in self._page.get_view_only_mode_hotkey_validation_icon_appearance())
         self._page.select_second_view_only_mode_hotkey(first_key)
         self.assertTrue(self._baseurl + "/admin/images/silk_icons/exclamation.png" in self._page.get_view_only_mode_hotkey_validation_icon_appearance())
-     
+       
     def test_error_given_if_same_key_used_for_shared_mode_hotkeys(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -148,7 +147,7 @@ class AimDashboardSettingsReceiversPageFunctionsTest(BaseAimRegressionTest):
         self.assertTrue(self._baseurl + "/admin/images/silk_icons/accept.png" in self._page.get_shared_mode_hotkey_validation_icon_appearance())
         self._page.select_second_shared_mode_hotkey(first_key)
         self.assertTrue(self._baseurl + "/admin/images/silk_icons/exclamation.png" in self._page.get_shared_mode_hotkey_validation_icon_appearance())
-     
+       
     def test_error_given_if_same_key_used_for_exclusive_mode_hotkeys(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -160,7 +159,7 @@ class AimDashboardSettingsReceiversPageFunctionsTest(BaseAimRegressionTest):
         self.assertTrue(self._baseurl + "/admin/images/silk_icons/accept.png" in self._page.get_exclusive_mode_hotkey_validation_icon_appearance())
         self._page.select_second_exclusive_mode_hotkey(first_key)
         self.assertTrue(self._baseurl + "/admin/images/silk_icons/exclamation.png" in self._page.get_exclusive_mode_hotkey_validation_icon_appearance())
-     
+       
     def test_error_given_if_same_key_used_for_disconnect_hotkeys(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -172,7 +171,7 @@ class AimDashboardSettingsReceiversPageFunctionsTest(BaseAimRegressionTest):
         self.assertTrue(self._baseurl + "/admin/images/silk_icons/accept.png" in self._page.get_disconnect_hotkey_validation_icon_appearance())
         self._page.select_second_disconnect_hotkey(first_key)
         self.assertTrue(self._baseurl + "/admin/images/silk_icons/exclamation.png" in self._page.get_disconnect_hotkey_validation_icon_appearance())
-        
+          
     """
     USB Settings Tests
     """
@@ -193,7 +192,7 @@ class AimDashboardSettingsReceiversPageFunctionsTest(BaseAimRegressionTest):
         self.assertNotEqual(current_setting, new_setting)
         self._page.toggle_hid_only()
         self._page.click_save_usb_settings()
-    
+      
     def test_can_toggle_disable_isochronous_endpoint_osd_alerts(self):    
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -211,7 +210,7 @@ class AimDashboardSettingsReceiversPageFunctionsTest(BaseAimRegressionTest):
         self.assertNotEqual(current_setting, new_setting)
         self._page.toggle_disable_isochronous_endpoint_osd_alerts()
         self._page.click_save_usb_settings()
-        
+          
     def test_can_toggle_enable_isochronous_endpoint_attach(self):    
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -229,7 +228,7 @@ class AimDashboardSettingsReceiversPageFunctionsTest(BaseAimRegressionTest):
         self.assertNotEqual(current_setting, new_setting)
         self._page.toggle_enable_isochronous_endpoint_attach()
         self._page.click_save_usb_settings()
-        
+          
     def test_can_change_port_reservation_values(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -242,30 +241,25 @@ class AimDashboardSettingsReceiversPageFunctionsTest(BaseAimRegressionTest):
             self._page.select_reserved_usb_port_by_label(label)
             self._page.click_save()
             self.assertEqual(self._page.get_current_reserved_usb_port_selection_text(), label)
-            try:
-                converted_label = str(int(label)+3)
-                page = BasePage()
-                page.open_AIM_homepage_on_base_url()
-                page.login_as("admin", "password", False)
-                page.click_dashboard_settings_link()
-                page.click_receivers_settings_button()
-                page.open_receiver_usb_settings()
-                menus = page.get_list_of_port_reservation_dropdowns()
-                for menu in menus:
-                    page.select_port_reservation_label_by_element(menu, converted_label)
-                page.click_save_usb_settings()
-                page.check_for_error_message("usb_settings_ajax_message")
-                page.open_receiver_usb_settings()
-                menus = page.get_list_of_port_reservation_dropdowns()
-                for menu in menus:
-                    self.assertEqual(page.get_current_global_receiver_reserved_usb_port_selection_text(menu), converted_label)
-                    page.select_port_reservation_label_by_element(menu, "None")
-                page.click_save_usb_settings()
-            finally:
-                page.driver.quit()
+            converted_label = str(int(label)+3)
+            self._page.click_receivers_settings_button()
+            self._page.open_receiver_usb_settings()
+            menus = self._page.get_list_of_port_reservation_dropdowns()
+            for menu in menus:
+                self._page.select_port_reservation_label_by_element(menu, converted_label)
+            self._page.click_save_usb_settings()
+            self._page.click_transmitters_settings_button()
+        self._page.click_receivers_settings_button()
+        self._page.open_receiver_usb_settings()
+        menus = self._page.get_list_of_port_reservation_dropdowns()
+        for menu in menus:
+            self.assertEqual(self._page.get_current_global_receiver_reserved_usb_port_selection_text(menu), converted_label)
+            self._page.select_port_reservation_label_by_element(menu, "None")
+        self._page.click_save_usb_settings()
+        self._page.click_transmitters_settings_button()
         self._page.select_reserved_usb_port_by_label(current_setting)
         self._page.click_save()
-       
+         
     def test_can_change_port_reservation_device(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -287,7 +281,7 @@ class AimDashboardSettingsReceiversPageFunctionsTest(BaseAimRegressionTest):
         for menu in menus:
             self._page.select_port_reservation_device_label_by_element(menu, "Not Set")
         self._page.click_save_usb_settings()
-        
+          
     def test_can_change_displayed_port_reservation_devices(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -315,7 +309,7 @@ class AimDashboardSettingsReceiversPageFunctionsTest(BaseAimRegressionTest):
         for device in devices:
             self._page.toggle_hide_usb_device(device)
         self._page.click_save_features()
-        
+          
     def test_can_change_displayed_port_reservation_devices_via_global_toggle(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -340,7 +334,7 @@ class AimDashboardSettingsReceiversPageFunctionsTest(BaseAimRegressionTest):
         self._page.show_advanced_usb_features()
         self._page.set_status_hide_usb_device_global(True)
         self._page.click_save_features()
-           
+             
     def test_can_change_displayed_port_reservation_devices_by_adding_test_device(self):
         test_name = "XX TEST name"
         test_desc = "XX TEST desc"
@@ -365,7 +359,7 @@ class AimDashboardSettingsReceiversPageFunctionsTest(BaseAimRegressionTest):
         self._page.show_advanced_usb_features()
         self._page.delete_test_usb_device()
         self._page.click_save_features()
-    
+      
     def test_cannot_change_displayed_port_reservation_devices_with_incomplete_form(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -400,7 +394,7 @@ class AimDashboardSettingsReceiversPageFunctionsTest(BaseAimRegressionTest):
         self._page.add_test_usb_device("XX TEST", "XX TEST", "XX TEST", "XX TEST")
         self._page.click_save_features()
         self.assertEqual("Please ensure the form is completed correctly", self._page.get_quirk_ajax_message_text())
-  
+    
     def test_can_change_displayed_port_reservation_devices_by_deleting_test_device(self):
         test_name = "XX TEST name"
         test_desc = "XX TEST desc"
@@ -425,7 +419,7 @@ class AimDashboardSettingsReceiversPageFunctionsTest(BaseAimRegressionTest):
         menus = self._page.get_list_of_port_reservation_device_dropdowns()
         new_labels = self._page.get_list_of_reserved_devices(menus[0])
         self.assertFalse(test_name in new_labels)
-        
+          
     def test_can_change_port_reservation_merge(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -439,7 +433,7 @@ class AimDashboardSettingsReceiversPageFunctionsTest(BaseAimRegressionTest):
             new_state = self._page.get_port_merge_selector_state(merger)
             self.assertNotEqual(state, new_state)
             self._page.toggle_port_merge_state(merger)
-     
+       
     def test_ensure_usb_devices_that_reject_merging_force_merge_to_disabled(self):
         disabled_device_names = ["Eizo CG276 screen", 
                                  "Eizo CX240 screen + Colormunki", 

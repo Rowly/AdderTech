@@ -12,15 +12,13 @@ from root.nested.pages.dashboard_page import DashboardPage
 class LoginPage(BasePage):
     
     def login(self):
-        self.wait.until(EC.presence_of_element_located((By.ID, "username")))
-        self.driver.find_element_by_id("username").send_keys("admin")
+        self.wait.until(EC.presence_of_element_located((By.ID, "username"))).send_keys("admin")
         self.driver.find_element_by_id("password").send_keys("password")
         self.driver.find_element_by_id("login").click()
         return DashboardPage(self.driver, self.wait)
     
     def login_as_user(self, user, password, remember):
-        self.wait.until(EC.presence_of_element_located((By.ID, "username")))
-        self.driver.find_element_by_id("username").send_keys(user)
+        self.wait.until(EC.presence_of_element_located((By.ID, "username"))).send_keys(user)
         self.driver.find_element_by_id("password").send_keys(password)
         if remember:
             self.driver.find_element_by_id("remember_me").click()

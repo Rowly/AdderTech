@@ -7,604 +7,272 @@ from root.nested.tests.base_aim_regression_test import BaseAimRegressionTest
 from root.nested.pages.base_page import BasePage
 
 class AimReceiverConfigPageFunctionsTest(BaseAimRegressionTest):
-               
+                
     def test_can_enter_valid_name(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_receivers_tab()
         receivers = self._page.get_list_of_receivers()
-        if self._test_all:
-            try:
-                page = BasePage()
-                page.open_AIM_homepage_on_base_url()
-                page.login_as("admin", "password", False)
-                for receiver in receivers:
-                    link_text = self._page.get_receiver_linktext(receiver)
-                    page.driver.get(link_text)
-                    self.assertEqual(page.get_text_of_page_header(), "Receivers > Configure Receiver")
-                    original_name = page.get_receiver_name_from_config_page()
-                    new_name = original_name.upper()
-                    page.set_receiver_name_via_config_page(new_name)
-                    self.assertEqual(page.get_receiver_name_from_config_page(), original_name.upper())
-                    new_name = original_name+"test"
-                    page.set_receiver_name_via_config_page(new_name)
-                    self.assertEqual(page.get_receiver_name_from_config_page(), original_name+"test")
-                    new_name = original_name+"%%%%%"
-                    page.set_receiver_name_via_config_page(new_name)
-                    self.assertEqual(page.get_receiver_name_from_config_page(), original_name+"%%%%%")
-                    new_name = original_name.lower()
-                    page.set_receiver_name_via_config_page(new_name)
-                    self.assertEqual(page.get_receiver_name_from_config_page(), original_name.lower())
-                    page.set_receiver_name_via_config_page(original_name)
-            finally:
-                page.driver.quit()
-        elif not self._test_all:
-            link_text = self._page.get_receiver_linktext(receivers[0])
-            self._page.driver.get(link_text)
-            self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver")
-            original_name = self._page.get_receiver_name_from_config_page()
-            new_name = original_name.upper()
-            self._page.set_receiver_name_via_config_page(new_name)
-            self.assertEqual(self._page.get_receiver_name_from_config_page(), original_name.upper())
-            new_name = original_name+"test"
-            self._page.set_receiver_name_via_config_page(new_name)
-            self.assertEqual(self._page.get_receiver_name_from_config_page(), original_name+"test")
-            new_name = original_name+"%%%%%"
-            self._page.set_receiver_name_via_config_page(new_name)
-            self.assertEqual(self._page.get_receiver_name_from_config_page(), original_name+"%%%%%")
-            new_name = original_name.lower()
-            self._page.set_receiver_name_via_config_page(new_name)
-            self.assertEqual(self._page.get_receiver_name_from_config_page(), original_name.lower())
-            self._page.set_receiver_name_via_config_page(original_name)
-                
+        self._page.click_receiver_configure(receivers[0])
+        self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver")
+        original_name = self._page.get_receiver_name_from_config_page()
+        new_name = original_name.upper()
+        self._page.set_receiver_name_via_config_page(new_name)
+        self.assertEqual(self._page.get_receiver_name_from_config_page(), original_name.upper())
+        new_name = original_name+"test"
+        self._page.set_receiver_name_via_config_page(new_name)
+        self.assertEqual(self._page.get_receiver_name_from_config_page(), original_name+"test")
+        new_name = original_name+"%%%%%"
+        self._page.set_receiver_name_via_config_page(new_name)
+        self.assertEqual(self._page.get_receiver_name_from_config_page(), original_name+"%%%%%")
+        new_name = original_name.lower()
+        self._page.set_receiver_name_via_config_page(new_name)
+        self.assertEqual(self._page.get_receiver_name_from_config_page(), original_name.lower())
+        self._page.set_receiver_name_via_config_page(original_name)
+                  
     def test_can_enter_valid_description(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_receivers_tab()
         receivers = self._page.get_list_of_receivers()
-        if self._test_all:
-            try:
-                page = BasePage()
-                page.open_AIM_homepage_on_base_url()
-                page.login_as("admin", "password", False)
-                for receiver in receivers:
-                    link_text = self._page.get_receiver_linktext(receiver)
-                    page.driver.get(link_text)
-                    self.assertEqual(page.get_text_of_page_header(), "Receivers > Configure Receiver")
-                    original_name = page.get_receiver_description_from_config_page()
-                    new_name = original_name.upper()
-                    page.set_receiver_description_via_config_page(new_name)
-                    self.assertEqual(page.get_receiver_description_from_config_page(), original_name.upper())
-                    new_name = original_name+"test"
-                    page.set_receiver_description_via_config_page(new_name)
-                    self.assertEqual(page.get_receiver_description_from_config_page(), original_name+"test")
-                    new_name = original_name+"%%%%%"
-                    page.set_receiver_description_via_config_page(new_name)
-                    self.assertEqual(page.get_receiver_description_from_config_page(), original_name+"%%%%%")
-                    new_name = original_name.lower()
-                    page.set_receiver_description_via_config_page(new_name)
-                    self.assertEqual(page.get_receiver_description_from_config_page(), original_name.lower())
-                    page.set_receiver_description_via_config_page(original_name)
-            finally:
-                page.driver.quit()
-        if not self._test_all:
-            link_text = self._page.get_receiver_linktext(receivers[0])
-            self._page.driver.get(link_text)
-            self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver")
-            original_name = self._page.get_receiver_description_from_config_page()
-            new_name = original_name.upper()
-            self._page.set_receiver_description_via_config_page(new_name)
-            self.assertEqual(self._page.get_receiver_description_from_config_page(), original_name.upper())
-            new_name = original_name+"test"
-            self._page.set_receiver_description_via_config_page(new_name)
-            self.assertEqual(self._page.get_receiver_description_from_config_page(), original_name+"test")
-            new_name = original_name+"%%%%%"
-            self._page.set_receiver_description_via_config_page(new_name)
-            self.assertEqual(self._page.get_receiver_description_from_config_page(), original_name+"%%%%%")
-            new_name = original_name.lower()
-            self._page.set_receiver_description_via_config_page(new_name)
-            self.assertEqual(self._page.get_receiver_description_from_config_page(), original_name.lower())
-            self._page.set_receiver_description_via_config_page(original_name)
-    
+        self._page.click_receiver_configure(receivers[0])
+        self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver")
+        original_name = self._page.get_receiver_description_from_config_page()
+        new_name = original_name.upper()
+        self._page.set_receiver_description_via_config_page(new_name)
+        self.assertEqual(self._page.get_receiver_description_from_config_page(), original_name.upper())
+        new_name = original_name+"test"
+        self._page.set_receiver_description_via_config_page(new_name)
+        self.assertEqual(self._page.get_receiver_description_from_config_page(), original_name+"test")
+        new_name = original_name+"%%%%%"
+        self._page.set_receiver_description_via_config_page(new_name)
+        self.assertEqual(self._page.get_receiver_description_from_config_page(), original_name+"%%%%%")
+        new_name = original_name.lower()
+        self._page.set_receiver_description_via_config_page(new_name)
+        self.assertEqual(self._page.get_receiver_description_from_config_page(), original_name.lower())
+        self._page.set_receiver_description_via_config_page(original_name)
+      
     def test_can_enter_valid_location(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_receivers_tab()
         receivers = self._page.get_list_of_receivers()
-        if self._test_all:
-            try:
-                page = BasePage()
-                page.open_AIM_homepage_on_base_url()
-                page.login_as("admin", "password", False)
-                for receiver in receivers:
-                    link_text = self._page.get_receiver_linktext(receiver)
-                    page.driver.get(link_text)
-                    self.assertEqual(page.get_text_of_page_header(), "Receivers > Configure Receiver")
-                    original_name = page.get_receiver_location_from_config_page()
-                    new_name = original_name.upper()
-                    page.set_receiver_location_via_config_page(new_name)
-                    self.assertEqual(page.get_receiver_location_from_config_page(), original_name.upper())
-                    new_name = original_name+"test"
-                    page.set_receiver_location_via_config_page(new_name)
-                    self.assertEqual(page.get_receiver_location_from_config_page(), original_name+"test")
-                    new_name = original_name+"%%%%%"
-                    page.set_receiver_location_via_config_page(new_name)
-                    self.assertEqual(page.get_receiver_location_from_config_page(), original_name+"%%%%%")
-                    new_name = original_name.lower()
-                    page.set_receiver_location_via_config_page(new_name)
-                    self.assertEqual(page.get_receiver_location_from_config_page(), original_name.lower())
-                    page.set_receiver_location_via_config_page(original_name)
-            finally:
-                page.driver.quit()
-        elif not self._test_all:
-            link_text = self._page.get_receiver_linktext(receivers[0])
-            self._page.driver.get(link_text)
-            self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver")
-            original_name = self._page.get_receiver_location_from_config_page()
-            new_name = original_name.upper()
-            self._page.set_receiver_location_via_config_page(new_name)
-            self.assertEqual(self._page.get_receiver_location_from_config_page(), original_name.upper())
-            new_name = original_name+"test"
-            self._page.set_receiver_location_via_config_page(new_name)
-            self.assertEqual(self._page.get_receiver_location_from_config_page(), original_name+"test")
-            new_name = original_name+"%%%%%"
-            self._page.set_receiver_location_via_config_page(new_name)
-            self.assertEqual(self._page.get_receiver_location_from_config_page(), original_name+"%%%%%")
-            new_name = original_name.lower()
-            self._page.set_receiver_location_via_config_page(new_name)
-            self.assertEqual(self._page.get_receiver_location_from_config_page(), original_name.lower())
-            self._page.set_receiver_location_via_config_page(original_name)
-        
+        self._page.click_receiver_configure(receivers[0])
+        self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver")
+        original_name = self._page.get_receiver_location_from_config_page()
+        new_name = original_name.upper()
+        self._page.set_receiver_location_via_config_page(new_name)
+        self.assertEqual(self._page.get_receiver_location_from_config_page(), original_name.upper())
+        new_name = original_name+"test"
+        self._page.set_receiver_location_via_config_page(new_name)
+        self.assertEqual(self._page.get_receiver_location_from_config_page(), original_name+"test")
+        new_name = original_name+"%%%%%"
+        self._page.set_receiver_location_via_config_page(new_name)
+        self.assertEqual(self._page.get_receiver_location_from_config_page(), original_name+"%%%%%")
+        new_name = original_name.lower()
+        self._page.set_receiver_location_via_config_page(new_name)
+        self.assertEqual(self._page.get_receiver_location_from_config_page(), original_name.lower())
+        self._page.set_receiver_location_via_config_page(original_name)
+          
     def test_can_change_login_required(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_receivers_tab()
         receivers = self._page.get_list_of_receivers()
-        if self._test_all:
-            try:
-                page = BasePage()
-                page.open_AIM_homepage_on_base_url()
-                page.login_as("admin", "password", False)
-                for receiver in receivers:
-                    link_text = self._page.get_receiver_linktext(receiver)
-                    page.driver.get(link_text)
-                    self.assertEqual(page.get_text_of_page_header(), "Receivers > Configure Receiver")
-                    ip = page.get_ip_address_from_config_page() # @UnusedVariable
-                    page.select_login_required_no()
-                    page.click_save()
-                    page.confirm_no_longer_on_configure_receiver_page()
-                    page.driver.get(link_text)
-                    self.assertTrue(page.is_option_selected_by_div_text_and_id("Login Required", "rp_login_required_0"))
-                    page.select_login_required_yes()
-                    page.click_save()
-                    page.confirm_no_longer_on_configure_receiver_page()
-                    page.driver.get(link_text)
-                    self.assertTrue(page.is_option_selected_by_div_text_and_id("Login Required", "rp_login_required_1"))
-                    page.select_login_required_global()
-                    page.click_save()
-                    page.confirm_no_longer_on_configure_receiver_page()
-                    page.driver.get(link_text)
-                    self.assertTrue(page.is_option_selected_by_div_text_and_id("Login Required", "rp_login_required_-1"))
-            finally:
-                page.driver.quit()
-        elif not self._test_all:
-            link_text = self._page.get_receiver_linktext(receivers[0])
-            self._page.driver.get(link_text)
-            self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver")
-            ip = self._page.get_ip_address_from_config_page() # @UnusedVariable
-            self._page.select_login_required_no()
-            self._page.click_save()
-            self._page.confirm_no_longer_on_configure_receiver_page()
-            self._page.driver.get(link_text)
-            self.assertTrue(self._page.is_option_selected_by_div_text_and_id("Login Required", "rp_login_required_0"))
-            self._page.select_login_required_yes()
-            self._page.click_save()
-            self._page.confirm_no_longer_on_configure_receiver_page()
-            self._page.driver.get(link_text)
-            self.assertTrue(self._page.is_option_selected_by_div_text_and_id("Login Required", "rp_login_required_1"))
-            self._page.select_login_required_global()
-            self._page.click_save()
-            self._page.confirm_no_longer_on_configure_receiver_page()
-            self._page.driver.get(link_text)
-            self.assertTrue(self._page.is_option_selected_by_div_text_and_id("Login Required", "rp_login_required_-1"))
-    
+        self._page.click_receiver_configure(receivers[0])
+        self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver")
+        ip = self._page.get_ip_address_from_config_page() # @UnusedVariable
+        self._page.select_login_required_no()
+        self._page.click_save()
+        receivers = self._page.get_list_of_receivers()
+        self._page.click_receiver_configure(receivers[0])
+        self.assertTrue(self._page.is_option_selected_by_div_text_and_id("Login Required", "rp_login_required_0"))
+        self._page.select_login_required_yes()
+        self._page.click_save()
+        receivers = self._page.get_list_of_receivers()
+        self._page.click_receiver_configure(receivers[0])
+        self.assertTrue(self._page.is_option_selected_by_div_text_and_id("Login Required", "rp_login_required_1"))
+        self._page.select_login_required_global()
+        self._page.click_save()
+        receivers = self._page.get_list_of_receivers()
+        self._page.click_receiver_configure(receivers[0])
+        self.assertTrue(self._page.is_option_selected_by_div_text_and_id("Login Required", "rp_login_required_-1"))
+      
     def test_can_change_OSD_alerts(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_receivers_tab()
         receivers = self._page.get_list_of_receivers()
-        if self._test_all:
-            try:
-                page = BasePage()
-                page.open_AIM_homepage_on_base_url()
-                page.login_as("admin", "password", False)
-                for receiver in receivers:
-                    link_text = self._page.get_receiver_linktext(receiver)
-                    page.driver.get(link_text)
-                    self.assertEqual(page.get_text_of_page_header(), "Receivers > Configure Receiver")
-                    ip = page.get_ip_address_from_config_page() # @UnusedVariable
-                    page.select_osd_alerts_no()
-                    page.click_save()
-                    page.confirm_no_longer_on_configure_receiver_page()
-                    page.driver.get(link_text)
-                    self.assertTrue(page.is_option_selected_by_div_text_and_id("Receiver OSD Alerts", "rp_osd_alerts_0"))
-                    page.select_osd_alerts_yes()
-                    page.click_save()
-                    page.confirm_no_longer_on_configure_receiver_page()
-                    page.driver.get(link_text)
-                    self.assertTrue(page.is_option_selected_by_div_text_and_id("Receiver OSD Alerts", "rp_osd_alerts_1"))
-                    page.select_osd_alerts_global()
-                    page.click_save()
-                    page.confirm_no_longer_on_configure_receiver_page()
-                    page.driver.get(link_text)
-                    self.assertTrue(page.is_option_selected_by_div_text_and_id("Receiver OSD Alerts", "rp_osd_alerts_-1"))
-            finally:
-                page.driver.quit()
-        elif not self._test_all:
-            link_text = self._page.get_receiver_linktext(receivers[0])
-            self._page.driver.get(link_text)
-            self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver")
-            ip = self._page.get_ip_address_from_config_page() # @UnusedVariable
-            self._page.select_osd_alerts_no()
-            self._page.click_save()
-            self._page.confirm_no_longer_on_configure_receiver_page()
-            self._page.driver.get(link_text)
-            self.assertTrue(self._page.is_option_selected_by_div_text_and_id("Receiver OSD Alerts", "rp_osd_alerts_0"))
-            self._page.select_osd_alerts_yes()
-            self._page.click_save()
-            self._page.confirm_no_longer_on_configure_receiver_page()
-            self._page.driver.get(link_text)
-            self.assertTrue(self._page.is_option_selected_by_div_text_and_id("Receiver OSD Alerts", "rp_osd_alerts_1"))
-            self._page.select_osd_alerts_global()
-            self._page.click_save()
-            self._page.confirm_no_longer_on_configure_receiver_page()
-            self._page.driver.get(link_text)
-            self.assertTrue(self._page.is_option_selected_by_div_text_and_id("Receiver OSD Alerts", "rp_osd_alerts_-1"))
-                
+        self._page.click_receiver_configure(receivers[0])
+        self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver")
+        ip = self._page.get_ip_address_from_config_page() # @UnusedVariable
+        self._page.select_osd_alerts_no()
+        self._page.click_save()
+        receivers = self._page.get_list_of_receivers()
+        self._page.click_receiver_configure(receivers[0])
+        self.assertTrue(self._page.is_option_selected_by_div_text_and_id("Receiver OSD Alerts", "rp_osd_alerts_0"))
+        self._page.select_osd_alerts_yes()
+        self._page.click_save()
+        receivers = self._page.get_list_of_receivers()
+        self._page.click_receiver_configure(receivers[0])
+        self.assertTrue(self._page.is_option_selected_by_div_text_and_id("Receiver OSD Alerts", "rp_osd_alerts_1"))
+        self._page.select_osd_alerts_global()
+        self._page.click_save()
+        receivers = self._page.get_list_of_receivers()
+        self._page.click_receiver_configure(receivers[0])
+        self.assertTrue(self._page.is_option_selected_by_div_text_and_id("Receiver OSD Alerts", "rp_osd_alerts_-1"))
+                  
     def test_can_change_keyboard_country(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_receivers_tab()
         receivers = self._page.get_list_of_receivers()
-        if self._test_all:
-            try:
-                page = BasePage()
-                page.open_AIM_homepage_on_base_url()
-                page.login_as("admin", "password", False)
-                for receiver in receivers:
-                    link_text = self._page.get_receiver_linktext(receiver)
-                    page.driver.get(link_text)
-                    self.assertEqual(page.get_text_of_page_header(), "Receivers > Configure Receiver")
-                    ip = page.get_ip_address_from_config_page() # @UnusedVariable
-                    all_options = page.get_dropdown_options_text_by_id("rp_keyboard_country")
-                    for option in all_options:
-                        page.driver.get(link_text)
-                        page.select_dropdown_item_by_visible_text("rp_keyboard_country", option)
-                        page.click_save()
-                        page.confirm_no_longer_on_configure_receiver_page()
-                        page.driver.get(link_text)
-                        self.assertTrue(page.is_option_selected_by_div_text_and_text("Keyboard Country", option))
-                    page.driver.get(link_text)
-                    page.select_dropdown_item_by_visible_text("rp_keyboard_country", "USE GLOBAL SETTING (currently gb - UK)")
-                    page.click_save()
-                    page.confirm_no_longer_on_configure_receiver_page()
-            finally:
-                page.driver.quit()
-        elif not self._test_all:
-            link_text = self._page.get_receiver_linktext(receivers[0])
-            self._page.driver.get(link_text)
-            self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver")
-            ip = self._page.get_ip_address_from_config_page() # @UnusedVariable
-            all_options = self._page.get_dropdown_options_text_by_id("rp_keyboard_country")
-            for option in all_options:
-                self._page.driver.get(link_text)
-                self._page.select_dropdown_item_by_visible_text("rp_keyboard_country", option)
-                self._page.click_save()
-                self._page.confirm_no_longer_on_configure_receiver_page()
-                self._page.driver.get(link_text)
-                self.assertTrue(self._page.is_option_selected_by_div_text_and_text("Keyboard Country", option))
-            self._page.driver.get(link_text)
-            self._page.select_dropdown_item_by_visible_text("rp_keyboard_country", "USE GLOBAL SETTING (currently gb - UK)")
+        self._page.click_receiver_configure(receivers[0])
+        self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver")
+        ip = self._page.get_ip_address_from_config_page() # @UnusedVariable
+        all_options = self._page.get_dropdown_options_text_by_id("rp_keyboard_country")
+        for option in all_options:
+            self._page.select_dropdown_item_by_visible_text("rp_keyboard_country", option)
             self._page.click_save()
-            self._page.confirm_no_longer_on_configure_receiver_page()
-                
+            receivers = self._page.get_list_of_receivers()
+            self._page.click_receiver_configure(receivers[0])
+            self.assertTrue(self._page.is_option_selected_by_div_text_and_text("Keyboard Country", option))
+        self._page.open_receivers_tab()
+        receivers = self._page.get_list_of_receivers()
+        self._page.click_receiver_configure(receivers[0])
+        self._page.select_dropdown_item_by_visible_text("rp_keyboard_country", "USE GLOBAL SETTING (currently gb - UK)")
+        self._page.click_save()
+        if self._driver.name == "chrome":
+            receivers = self._page.get_list_of_receivers()
+                  
     def test_can_change_audio_input_type(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_receivers_tab()
         receivers = self._page.get_list_of_receivers()
-        if self._test_all:
-            try:
-                page = BasePage()
-                page.open_AIM_homepage_on_base_url()
-                page.login_as("admin", "password", False)
-                for receiver in receivers:
-                    cells = self._page.get_cell_elements(receiver)
-                    link_text = self._page.get_receiver_linktext(receiver)
-                    page.driver.get(link_text)
-                    self.assertEqual(page.get_text_of_page_header(), "Receivers > Configure Receiver")
-                    ip = page.get_ip_address_from_config_page() # @UnusedVariable
-                    if self._page.check_device_version(cells[0]) == "1":
-                        page.select_audio_input_line()
-                        page.click_save()
-                        page.confirm_no_longer_on_add_channel_page()
-                        page.driver.get(link_text)
-                        self.assertTrue(page.is_option_selected_by_div_text_and_id("Audio Input Type", "rp_audio_is_0"))
-                    page.select_audio_input_mic()
-                    page.click_save()
-                    page.confirm_no_longer_on_configure_receiver_page()
-                    page.driver.get(link_text)
-                    self.assertTrue(page.is_option_selected_by_div_text_and_id("Audio Input Type", "rp_audio_is_1"))
-                    page.select_audio_input_mic_boost()
-                    page.click_save()
-                    page.confirm_no_longer_on_configure_receiver_page()
-                    page.driver.get(link_text)
-                    self.assertTrue(page.is_option_selected_by_div_text_and_id("Audio Input Type", "rp_audio_is_2"))
-                    page.select_audio_input_global()
-                    page.click_save()
-                    page.confirm_no_longer_on_configure_receiver_page()
-                    page.driver.get(link_text)
-                    self.assertTrue(page.is_option_selected_by_div_text_and_id("Audio Input Type", "rp_audio_is_-1"))
-            finally:
-                page.driver.quit()
-        elif not self._test_all:
-            cells = self._page.get_cell_elements(receivers[0])
-            device_type = self._page.check_device_version(cells[0])
-            link_text = self._page.get_receiver_linktext(receivers[0])
-            self._page.driver.get(link_text)
-            self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver")
-            ip = self._page.get_ip_address_from_config_page() # @UnusedVariable
-            if device_type == "1":
-                self._page.select_audio_input_line()
-                self._page.click_save()
-                self._page.confirm_no_longer_on_add_channel_page()
-                self._page.driver.get(link_text)
-                self.assertTrue(self._page.is_option_selected_by_div_text_and_id("Audio Input Type", "rp_audio_is_0"))
-            self._page.select_audio_input_mic()
+        cells = self._page.get_cell_elements(receivers[0])
+        device_type = self._page.check_device_version(cells[0])
+        self._page.click_receiver_configure(receivers[0])
+        self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver")
+        ip = self._page.get_ip_address_from_config_page() # @UnusedVariable
+        if device_type == "1":
+            self._page.select_audio_input_line()
             self._page.click_save()
-            self._page.confirm_no_longer_on_configure_receiver_page()
-            self._page.driver.get(link_text)
-            self.assertTrue(self._page.is_option_selected_by_div_text_and_id("Audio Input Type", "rp_audio_is_1"))
-            self._page.select_audio_input_mic_boost()
-            self._page.click_save()
-            self._page.confirm_no_longer_on_configure_receiver_page()
-            self._page.driver.get(link_text)
-            self.assertTrue(self._page.is_option_selected_by_div_text_and_id("Audio Input Type", "rp_audio_is_2"))
-            self._page.select_audio_input_global()
-            self._page.click_save()
-            self._page.confirm_no_longer_on_configure_receiver_page()
-            self._page.driver.get(link_text)
-            self.assertTrue(self._page.is_option_selected_by_div_text_and_id("Audio Input Type", "rp_audio_is_-1"))
-        
+            receivers = self._page.get_list_of_receivers()
+            self._page.click_receiver_configure(receivers[0])
+            self.assertTrue(self._page.is_option_selected_by_div_text_and_id("Audio Input Type", "rp_audio_is_0"))
+        self._page.select_audio_input_mic()
+        self._page.click_save()
+        receivers = self._page.get_list_of_receivers()
+        self._page.click_receiver_configure(receivers[0])
+        self.assertTrue(self._page.is_option_selected_by_div_text_and_id("Audio Input Type", "rp_audio_is_1"))
+        self._page.select_audio_input_mic_boost()
+        self._page.click_save()
+        receivers = self._page.get_list_of_receivers()
+        self._page.click_receiver_configure(receivers[0])
+        self.assertTrue(self._page.is_option_selected_by_div_text_and_id("Audio Input Type", "rp_audio_is_2"))
+        self._page.select_audio_input_global()
+        self._page.click_save()
+        receivers = self._page.get_list_of_receivers()
+        self._page.click_receiver_configure(receivers[0])
+        self.assertTrue(self._page.is_option_selected_by_div_text_and_id("Audio Input Type", "rp_audio_is_-1"))
+          
     def test_can_change_video_compatibility_check(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_receivers_tab()
         receivers = self._page.get_list_of_receivers()
-        if self._test_all:
-            try:
-                page = BasePage()
-                page.open_AIM_homepage_on_base_url()
-                page.login_as("admin", "password", False)
-                for receiver in receivers:
-                    cells = self._page.get_cell_elements(receiver)
-                    link_text = self._page.get_receiver_linktext(receiver)
-                    page.driver.get(link_text)
-                    self.assertEqual(page.get_text_of_page_header(), "Receivers > Configure Receiver")
-                    ip = page.get_ip_address_from_config_page() # @UnusedVariable
-                    if not self._page.check_device_version(cells[0]) == "1":
-                        page.select_video_one_compatibility_no()
-                        page.click_save()
-                        page.confirm_no_longer_on_configure_receiver_page()
-                        page.driver.get(link_text)
-                        self.assertTrue(page.is_option_selected_by_div_text_and_id("Video Compatibility Check (Monitor 1)", "rp_video_compatibility_check_0"))
-                        page.select_video_one_compatibility_yes()
-                        page.click_save()
-                        page.confirm_no_longer_on_configure_receiver_page()
-                        page.driver.get(link_text)
-                        self.assertTrue(page.is_option_selected_by_div_text_and_id("Video Compatibility Check (Monitor 1)", "rp_video_compatibility_check_1"))
-                        page.select_video_one_compatibility_global()
-                        page.click_save()
-                        page.confirm_no_longer_on_configure_receiver_page()
-                        page.driver.get(link_text)
-                        self.assertTrue(page.is_option_selected_by_div_text_and_id("Video Compatibility Check (Monitor 1)", "rp_video_compatibility_check_-1"))
-                        page.select_video_two_compatibility_no()
-                        page.click_save()
-                        page.confirm_no_longer_on_configure_receiver_page()
-                        page.driver.get(link_text)
-                        self.assertTrue(page.is_option_selected_by_div_text_and_id("Video Compatibility Check (Monitor 2)", "rp_video_compatibility_check1_0"))
-                        page.select_video_two_compatibility_yes()
-                        page.click_save()
-                        page.confirm_no_longer_on_configure_receiver_page()
-                        page.driver.get(link_text)
-                        self.assertTrue(page.is_option_selected_by_div_text_and_id("Video Compatibility Check (Monitor 2)", "rp_video_compatibility_check1_1"))
-                        page.select_video_two_compatibility_global()
-                        page.click_save()
-                        page.confirm_no_longer_on_configure_receiver_page()
-                        page.driver.get(link_text)
-                        self.assertTrue(page.is_option_selected_by_div_text_and_id("Video Compatibility Check (Monitor 2)", "rp_video_compatibility_check1_-1"))
-                    elif self._page.check_device_version(cells[0]) == "1":
-                        page.select_video_compatibility_no()
-                        page.click_save()
-                        page.confirm_no_longer_on_configure_receiver_page()
-                        page.driver.get(link_text)
-                        self.assertTrue(page.is_option_selected_by_div_text_and_id("Video Compatibility Check", "rp_video_compatibility_check_0"))
-                        page.select_video_compatibility_yes()
-                        page.click_save()
-                        page.confirm_no_longer_on_configure_receiver_page()
-                        page.driver.get(link_text)
-                        self.assertTrue(page.is_option_selected_by_div_text_and_id("Video Compatibility Check", "rp_video_compatibility_check_1"))
-                        page.select_video_compatibility_global()
-                        page.click_save()
-                        page.confirm_no_longer_on_configure_receiver_page()
-                        page.driver.get(link_text)
-                        self.assertTrue(page.is_option_selected_by_div_text_and_id("Video Compatibility Check", "rp_video_compatibility_check_-1"))
-            finally:
-                page.driver.quit()
-        elif not self._test_all:
-            cells = self._page.get_cell_elements(receivers[0])
-            device_type = self._page.check_device_version(cells[0])
-            link_text = self._page.get_receiver_linktext(receivers[0])
-            self._page.driver.get(link_text)
-            self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver")
-            ip = self._page.get_ip_address_from_config_page() # @UnusedVariable
-            if not device_type == "1":
-                for id_ in ["rp_video_compatibility_check_0",
-                             "rp_video_compatibility_check_1",
-                             "rp_video_compatibility_check_-1",
-                             "rp_video_compatibility_check1_0",
-                             "rp_video_compatibility_check1_1",
-                             "rp_video_compatibility_check1_-1"]:
-                    receivers = self._page.get_list_of_receivers()
-                    self._page.click_receiver_configure(receivers[0])
-                    self._page.click_radio_button_by_id(id_)
-                    self.assertTrue(self._page.is_radio_selected_by_id(id_))
-                    self._page.click_save()
-                    self._page.confirm_no_longer_on_configure_receiver_page()
-                    receivers = self._page.get_list_of_receivers()
-                    self._page.click_receiver_configure(receivers[0])
-                    self.assertTrue(self._page.is_radio_selected_by_id(id_))
-                    self._page.click_save()
-                    self._page.confirm_no_longer_on_configure_receiver_page()
+        cells = self._page.get_cell_elements(receivers[0])
+        device_type = self._page.check_device_version(cells[0])
+        self._page.click_receiver_configure(receivers[0])
+        self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver")
+        ip = self._page.get_ip_address_from_config_page() # @UnusedVariable
+        if not device_type == "1":
+            for id_ in ["rp_video_compatibility_check_0",
+                         "rp_video_compatibility_check_1",
+                         "rp_video_compatibility_check_-1",
+                         "rp_video_compatibility_check1_0",
+                         "rp_video_compatibility_check1_1",
+                         "rp_video_compatibility_check1_-1"]:
                 receivers = self._page.get_list_of_receivers()
                 self._page.click_receiver_configure(receivers[0])
-                self._page.click_radio_button_by_id("rp_video_compatibility_check_0")
-                self._page.click_radio_button_by_id("rp_video_compatibility_check1_0")
+                self._page.click_radio_button_by_id(id_)
+                self.assertTrue(self._page.is_radio_selected_by_id(id_))
                 self._page.click_save()
-            elif device_type == "1":
-                self._page.select_video_compatibility_no()
-                self._page.click_save()
-                self._page.confirm_no_longer_on_configure_receiver_page()
                 receivers = self._page.get_list_of_receivers()
-                link_text = self._page.get_receiver_linktext(receivers[0])
-                self.assertTrue(self._page.is_radio_selected_by_id("rp_video_compatibility_check_0"))
-                self._page.select_video_compatibility_yes()
+                self._page.click_receiver_configure(receivers[0])
+                self.assertTrue(self._page.is_radio_selected_by_id(id_))
                 self._page.click_save()
-                self._page.confirm_no_longer_on_configure_receiver_page()
-                receivers = self._page.get_list_of_receivers()
-                link_text = self._page.get_receiver_linktext(receivers[0])
-                self.assertTrue(self._page.is_radio_selected_by_id("rp_video_compatibility_check_1"))
-                self._page.select_video_compatibility_global()
-                self._page.click_save()
-                self._page.confirm_no_longer_on_configure_receiver_page()
-                receivers = self._page.get_list_of_receivers()
-                link_text = self._page.get_receiver_linktext(receivers[0])
-                self.assertTrue(self._page.is_radio_selected_by_id("rp_video_compatibility_check_-1"))
-        
+            receivers = self._page.get_list_of_receivers()
+            self._page.click_receiver_configure(receivers[0])
+            self._page.click_radio_button_by_id("rp_video_compatibility_check_0")
+            self._page.click_radio_button_by_id("rp_video_compatibility_check1_0")
+            self._page.click_save()
+        elif device_type == "1":
+            self._page.select_video_compatibility_no()
+            self._page.click_save()
+            receivers = self._page.get_list_of_receivers()
+            self._page.click_receiver_configure(receivers[0])
+            self.assertTrue(self._page.is_radio_selected_by_id("rp_video_compatibility_check_0"))
+            self._page.select_video_compatibility_yes()
+            self._page.click_save()
+            receivers = self._page.get_list_of_receivers()
+            self._page.click_receiver_configure(receivers[0])
+            self.assertTrue(self._page.is_radio_selected_by_id("rp_video_compatibility_check_1"))
+            self._page.select_video_compatibility_global()
+            self._page.click_save()
+            receivers = self._page.get_list_of_receivers()
+            self._page.click_receiver_configure(receivers[0])
+            self.assertTrue(self._page.is_radio_selected_by_id("rp_video_compatibility_check_-1"))
+          
     def test_can_change_receiver_group_membership(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_receivers_tab()
         receivers = self._page.get_list_of_receivers()
-        if self._test_all:
-            try:
-                page = BasePage()
-                page.open_AIM_homepage_on_base_url()
-                page.login_as("admin", "password", False)
-                for receiver in receivers:
-                    link_text = self._page.get_receiver_linktext(receiver)
-                    page.driver.get(link_text)
-                    self.assertEqual(page.get_text_of_page_header(), "Receivers > Configure Receiver")
-                    page.add_receiver_to_receiver_group("group 0")
-                    page.click_save()
-                    page.driver.get(link_text)
-                    self.assertTrue(page.check_receiver_is_group_member("group 0"))
-                    page.remove_all_receivers_from_receiver_group()
-                    page.click_save()
-                    page.confirm_no_longer_on_configure_receiver_page()
-            finally:
-                page.driver.quit()
-        elif not self._test_all:
-            link_text = self._page.get_receiver_linktext(receivers[0])
-            self._page.driver.get(link_text)
-            self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver")
-            self._page.add_receiver_to_receiver_group("group 0")
-            self._page.click_save()
-            receivers = self._page.get_list_of_receivers()
-            link_text = self._page.get_receiver_linktext(receivers[0])
-            self.assertTrue(self._page.check_receiver_is_group_member("group 0"))
-            self._page.remove_all_receivers_from_receiver_group()
-            self._page.click_save()
-            self._page.confirm_no_longer_on_configure_receiver_page()
-                
+        self._page.click_receiver_configure(receivers[0])
+        self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver")
+        self._page.add_receiver_to_receiver_group("group 0")
+        self._page.click_save()
+        receivers = self._page.get_list_of_receivers()
+        self._page.click_receiver_configure(receivers[0])
+        self.assertTrue(self._page.check_receiver_is_group_member("group 0"))
+        self._page.remove_all_receivers_from_receiver_group()
+        self._page.click_save()
+                  
     def test_can_change_receiver_users(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_receivers_tab()
         receivers = self._page.get_list_of_receivers()
-        if self._test_all:
-            try:
-                page = BasePage()
-                page.open_AIM_homepage_on_base_url()
-                page.login_as("admin", "password", False)
-                for receiver in receivers:
-                    link_text = self._page.get_receiver_linktext(receiver)
-                    page.driver.get(link_text)
-                    self.assertEqual(page.get_text_of_page_header(), "Receivers > Configure Receiver")
-                    page.show_user_permissions()
-                    page.remove_all_users_from_receiver()
-                    page.add_user_to_receiver("admin")
-                    page.click_save()
-                    page.confirm_no_longer_on_configure_receiver_page()
-                    page.driver.get(link_text)
-                    page.show_user_permissions()
-                    self.assertTrue(page.check_user_has_receiver_permission("admin"))
-            finally:
-                page.driver.quit()
-        elif not self._test_all:
-            self._page.click_receiver_configure(receivers[0])
-            self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver")
-            self._page.show_user_permissions()
-            self._page.remove_all_users_from_receiver()
-            self._page.add_user_to_receiver("admin")
-            self._page.click_save()
-            self._page.confirm_no_longer_on_configure_receiver_page()
-            receivers = self._page.get_list_of_receivers()
-            self._page.click_receiver_configure(receivers[0])
-            self._page.show_user_permissions()
-            self.assertTrue(self._page.check_user_has_receiver_permission("admin"))
-    
+        self._page.click_receiver_configure(receivers[0])
+        self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver")
+        self._page.show_user_permissions()
+        self._page.remove_all_users_from_receiver()
+        self._page.add_user_to_receiver("admin")
+        self._page.click_save()
+        receivers = self._page.get_list_of_receivers()
+        self._page.click_receiver_configure(receivers[0])
+        self._page.show_user_permissions()
+        self.assertTrue(self._page.check_user_has_receiver_permission("admin"))
+      
     def test_can_change_receiver_user_group(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_receivers_tab()
         receivers = self._page.get_list_of_receivers()
-        if self._test_all:
-            try:
-                page = BasePage()
-                page.open_AIM_homepage_on_base_url()
-                page.login_as("admin", "password", False)
-                for receiver in receivers:
-                    link_text = self._page.get_receiver_linktext(receiver)
-                    page.driver.get(link_text)
-                    self.assertEqual(page.get_text_of_page_header(), "Receivers > Configure Receiver")
-                    page.show_user_permissions()
-                    page.add_receiver_to_user_group()
-                    page.click_save()
-                    page.confirm_no_longer_on_configure_receiver_page()
-                    page.driver.get(link_text)
-                    page.show_user_permissions()
-                    self.assertTrue(page.check_receiver_in_user_group())
-                    page.remove_receiver_from_user_group()
-                    page.click_save()
-                    page.confirm_no_longer_on_configure_receiver_page()
-            finally:
-                page.driver.quit()
-        elif not self._test_all:
-            self._page.click_receiver_configure(receivers[0])
-            self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver")
-            self._page.show_user_permissions()
-            self._page.add_receiver_to_user_group()
-            self._page.click_save()
-            self._page.confirm_no_longer_on_configure_receiver_page()
-            receivers = self._page.get_list_of_receivers()
-            self._page.click_receiver_configure(receivers[0])
-            self._page.show_user_permissions()
-            self.assertTrue(self._page.check_receiver_in_user_group())
-            self._page.remove_receiver_from_user_group()
-            self._page.click_save()
-            self._page.confirm_no_longer_on_configure_receiver_page()
-       
+        self._page.click_receiver_configure(receivers[0])
+        self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver")
+        self._page.show_user_permissions()
+        self._page.add_receiver_to_user_group()
+        self._page.click_save()
+        receivers = self._page.get_list_of_receivers()
+        self._page.click_receiver_configure(receivers[0])
+        self._page.show_user_permissions()
+        self.assertTrue(self._page.check_receiver_in_user_group())
+        self._page.remove_receiver_from_user_group()
+        self._page.click_save()
+         
     """
     USB Settings
     """
@@ -613,166 +281,79 @@ class AimReceiverConfigPageFunctionsTest(BaseAimRegressionTest):
         self._page.login_as("admin", "password", False)
         self._page.open_receivers_tab()
         receivers = self._page.get_list_of_receivers()
-        if self._test_all:
-            try:
-                page = BasePage()
-                page.open_AIM_homepage_on_base_url()
-                page.login_as("admin", "password", False)
-                for receiver in receivers:
-                    link_text = self._page.get_receiver_linktext(receiver)
-                    page.driver.get(link_text)
-                    self.assertEqual(page.get_text_of_page_header(), "Receivers > Configure Receiver")
-                    ip = page.get_ip_address_from_config_page() # @UnusedVariable
-                    page.open_receiver_usb_settings()
-                    self.assertEqual(page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
-                    page.select_HID_connection_no()
-                    page.click_save_usb_settings()
-                    page.open_receiver_usb_settings()
-                    self.assertTrue(page.is_option_selected_by_div_text_and_id("HID Only", "hid_only_0"))
-                    page.select_HID_connection_yes()
-                    page.click_save_usb_settings()
-                    page.open_receiver_usb_settings()
-                    self.assertTrue(page.is_option_selected_by_div_text_and_id("HID Only", "hid_only_1"))
-                    page.select_HID_connection_global()
-                    page.click_save_usb_settings()
-                    page.open_receiver_usb_settings()
-                    self.assertTrue(page.is_option_selected_by_div_text_and_id("HID Only", "hid_only_-1"))
-            finally:
-                page.driver.quit()
-        elif not self._test_all:
-            self._page.click_receiver_configure(receivers[0])
-            self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver")
-            ip = self._page.get_ip_address_from_config_page() # @UnusedVariable
-            self._page.open_receiver_usb_settings()
-            self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
-            self._page.select_HID_connection_no()
-            self._page.click_save_usb_settings()
-            self._page.open_receiver_usb_settings()
-            self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
-            self.assertTrue(self._page.is_option_selected_by_div_text_and_id("HID Only", "hid_only_0"))
-            self._page.select_HID_connection_yes()
-            self._page.click_save_usb_settings()
-            self._page.open_receiver_usb_settings()
-            self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
-            self.assertTrue(self._page.is_option_selected_by_div_text_and_id("HID Only", "hid_only_1"))
-            self._page.select_HID_connection_global()
-            self._page.click_save_usb_settings()
-            self._page.open_receiver_usb_settings()
-            self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
-            self.assertTrue(self._page.is_option_selected_by_div_text_and_id("HID Only", "hid_only_-1"))
-   
+        self._page.click_receiver_configure(receivers[0])
+        self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver")
+        ip = self._page.get_ip_address_from_config_page() # @UnusedVariable
+        self._page.open_receiver_usb_settings()
+        self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
+        self._page.select_HID_connection_no()
+        self._page.click_save_usb_settings()
+        self._page.open_receiver_usb_settings()
+        self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
+        self.assertTrue(self._page.is_option_selected_by_div_text_and_id("HID Only", "hid_only_0"))
+        self._page.select_HID_connection_yes()
+        self._page.click_save_usb_settings()
+        self._page.open_receiver_usb_settings()
+        self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
+        self.assertTrue(self._page.is_option_selected_by_div_text_and_id("HID Only", "hid_only_1"))
+        self._page.select_HID_connection_global()
+        self._page.click_save_usb_settings()
+        self._page.open_receiver_usb_settings()
+        self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
+        self.assertTrue(self._page.is_option_selected_by_div_text_and_id("HID Only", "hid_only_-1"))
+     
     def test_can_change_disable_isochronous_endpoint_osd_alerts(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_receivers_tab()
         receivers = self._page.get_list_of_receivers()
-        if self._test_all:
-            try:
-                page = BasePage()
-                page.open_AIM_homepage_on_base_url()
-                page.login_as("admin", "password", False)
-                for receiver in receivers:
-                    link_text = self._page.get_receiver_linktext(receiver)
-                    page.driver.get(link_text)
-                    self.assertEqual(page.get_text_of_page_header(), "Receivers > Configure Receiver")
-                    page.open_receiver_usb_settings()
-                    self.assertEqual(page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
-                    ip = page.get_ip_address_from_config_page() # @UnusedVariable
-                    page.select_disable_isochronous_endpoint_osd_alerts_no()
-                    page.click_save_usb_settings()
-                    page.open_receiver_usb_settings()
-                    self.assertEqual(page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
-                    self.assertTrue(page.is_option_selected_by_div_text_and_id("Disable Isochronous Endpoint OSD Alerts", "isochronous_user_warning_0"))
-                    page.select_disable_isochronous_endpoint_osd_alerts_yes()
-                    page.click_save_usb_settings()
-                    page.open_receiver_usb_settings()
-                    self.assertEqual(page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
-                    self.assertTrue(page.is_option_selected_by_div_text_and_id("Disable Isochronous Endpoint OSD Alerts", "isochronous_user_warning_1"))
-                    page.select_disable_isochronous_endpoint_osd_alerts_global()
-                    page.click_save_usb_settings()
-                    page.open_receiver_usb_settings()
-                    self.assertEqual(page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
-                    self.assertTrue(page.is_option_selected_by_div_text_and_id("Disable Isochronous Endpoint OSD Alerts", "isochronous_user_warning_-1"))
-            finally:
-                page.driver.quit()
-        elif not self._test_all:
-            self._page.click_receiver_configure(receivers[0])
-            self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver")
-            ip = self._page.get_ip_address_from_config_page() # @UnusedVariable
-            self._page.open_receiver_usb_settings()
-            self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
-            self._page.select_disable_isochronous_endpoint_osd_alerts_no()
-            self._page.click_save_usb_settings()
-            self._page.open_receiver_usb_settings()
-            self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
-            self.assertTrue(self._page.is_option_selected_by_div_text_and_id("Disable Isochronous Endpoint OSD Alerts", "isochronous_user_warning_0"))
-            self._page.select_disable_isochronous_endpoint_osd_alerts_yes()
-            self._page.click_save_usb_settings()
-            self._page.open_receiver_usb_settings()
-            self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
-            self.assertTrue(self._page.is_option_selected_by_div_text_and_id("Disable Isochronous Endpoint OSD Alerts", "isochronous_user_warning_1"))
-            self._page.select_disable_isochronous_endpoint_osd_alerts_global()
-            self._page.click_save_usb_settings()
-            self._page.open_receiver_usb_settings()
-            self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
-            self.assertTrue(self._page.is_option_selected_by_div_text_and_id("Disable Isochronous Endpoint OSD Alerts", "isochronous_user_warning_-1"))
-   
+        self._page.click_receiver_configure(receivers[0])
+        self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver")
+        ip = self._page.get_ip_address_from_config_page() # @UnusedVariable
+        self._page.open_receiver_usb_settings()
+        self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
+        self._page.select_disable_isochronous_endpoint_osd_alerts_no()
+        self._page.click_save_usb_settings()
+        self._page.open_receiver_usb_settings()
+        self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
+        self.assertTrue(self._page.is_option_selected_by_div_text_and_id("Disable Isochronous Endpoint OSD Alerts", "isochronous_user_warning_0"))
+        self._page.select_disable_isochronous_endpoint_osd_alerts_yes()
+        self._page.click_save_usb_settings()
+        self._page.open_receiver_usb_settings()
+        self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
+        self.assertTrue(self._page.is_option_selected_by_div_text_and_id("Disable Isochronous Endpoint OSD Alerts", "isochronous_user_warning_1"))
+        self._page.select_disable_isochronous_endpoint_osd_alerts_global()
+        self._page.click_save_usb_settings()
+        self._page.open_receiver_usb_settings()
+        self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
+        self.assertTrue(self._page.is_option_selected_by_div_text_and_id("Disable Isochronous Endpoint OSD Alerts", "isochronous_user_warning_-1"))
+     
     def test_can_change_enable_isochronous_endpoint_attach(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_receivers_tab()
         receivers = self._page.get_list_of_receivers()
-        if self._test_all:
-            try:
-                page = BasePage()
-                page.open_AIM_homepage_on_base_url()
-                page.login_as("admin", "password", False)
-                for receiver in receivers:
-                    link_text = self._page.get_receiver_linktext(receiver)
-                    page.driver.get(link_text)
-                    self.assertEqual(page.get_text_of_page_header(), "Receivers > Configure Receiver")
-                    ip = page.get_ip_address_from_config_page() # @UnusedVariable
-                    page.open_receiver_usb_settings() 
-                    self.assertEqual(page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
-                    page.select_enable_isochronous_endpoint_attach_no()
-                    page.click_save_usb_settings()
-                    page.open_receiver_usb_settings()
-                    self.assertEqual(page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
-                    self.assertTrue(page.is_option_selected_by_div_text_and_id("Enable Isochronous Endpoint Attach", "isochronous_enabled_0"))
-                    page.select_enable_isochronous_endpoint_attach_yes()
-                    page.click_save_usb_settings()
-                    page.open_receiver_usb_settings()
-                    self.assertEqual(page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
-                    self.assertTrue(page.is_option_selected_by_div_text_and_id("Enable Isochronous Endpoint Attach", "isochronous_enabled_1"))
-                    page.select_enable_isochronous_endpoint_attach_global()
-                    page.click_save_usb_settings()
-                    page.open_receiver_usb_settings()
-                    self.assertEqual(page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
-                    self.assertTrue(page.is_option_selected_by_div_text_and_id("Enable Isochronous Endpoint Attach", "isochronous_enabled_-1"))
-            finally:
-                page.driver.quit()
-        elif not self._test_all:
-            self._page.click_receiver_configure(receivers[0])
-            self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver")
-            ip = self._page.get_ip_address_from_config_page()  # @UnusedVariable
-            self._page.open_receiver_usb_settings()
-            self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
-            self._page.select_enable_isochronous_endpoint_attach_no()
-            self._page.click_save_usb_settings()
-            self._page.open_receiver_usb_settings()
-            self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
-            self.assertTrue(self._page.is_option_selected_by_div_text_and_id("Enable Isochronous Endpoint Attach", "isochronous_enabled_0"))
-            self._page.select_enable_isochronous_endpoint_attach_yes()
-            self._page.click_save_usb_settings()
-            self._page.open_receiver_usb_settings()
-            self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
-            self.assertTrue(self._page.is_option_selected_by_div_text_and_id("Enable Isochronous Endpoint Attach", "isochronous_enabled_1"))
-            self._page.select_enable_isochronous_endpoint_attach_global()
-            self._page.click_save_usb_settings()
-            self._page.open_receiver_usb_settings()
-            self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
-            self.assertTrue(self._page.is_option_selected_by_div_text_and_id("Enable Isochronous Endpoint Attach", "isochronous_enabled_-1"))
-           
+        self._page.click_receiver_configure(receivers[0])
+        self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver")
+        ip = self._page.get_ip_address_from_config_page()  # @UnusedVariable
+        self._page.open_receiver_usb_settings()
+        self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
+        self._page.select_enable_isochronous_endpoint_attach_no()
+        self._page.click_save_usb_settings()
+        self._page.open_receiver_usb_settings()
+        self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
+        self.assertTrue(self._page.is_option_selected_by_div_text_and_id("Enable Isochronous Endpoint Attach", "isochronous_enabled_0"))
+        self._page.select_enable_isochronous_endpoint_attach_yes()
+        self._page.click_save_usb_settings()
+        self._page.open_receiver_usb_settings()
+        self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
+        self.assertTrue(self._page.is_option_selected_by_div_text_and_id("Enable Isochronous Endpoint Attach", "isochronous_enabled_1"))
+        self._page.select_enable_isochronous_endpoint_attach_global()
+        self._page.click_save_usb_settings()
+        self._page.open_receiver_usb_settings()
+        self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
+        self.assertTrue(self._page.is_option_selected_by_div_text_and_id("Enable Isochronous Endpoint Attach", "isochronous_enabled_-1"))
+             
     def test_can_change_port_reservation_values(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -808,7 +389,7 @@ class AimReceiverConfigPageFunctionsTest(BaseAimRegressionTest):
             page.driver.quit()
         self._page.select_reserved_usb_port_by_label(current_setting)
         self._page.click_save()
-          
+            
     def test_can_change_port_reservation_device(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -833,7 +414,7 @@ class AimReceiverConfigPageFunctionsTest(BaseAimRegressionTest):
         for menu in menus:
             self._page.select_port_reservation_device_label_by_element(menu, "Inherited")
         self._page.click_save_usb_settings()
-            
+              
     def test_can_change_displayed_port_reservation_devices(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -849,21 +430,23 @@ class AimReceiverConfigPageFunctionsTest(BaseAimRegressionTest):
             devices.pop()
             menus = self._page.get_list_of_port_reservation_device_dropdowns()
             original_labels = self._page.get_list_of_reserved_devices(menus[0])
-            self._page.toggle_hide_usb_device(devices[counter])
-            self._page.click_save_features()
-            self._page.open_receiver_usb_settings()
-            self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
-            self._page.show_advanced_usb_features()
-            menus = self._page.get_list_of_port_reservation_device_dropdowns()
-            new_labels = self._page.get_list_of_reserved_devices(menus[0])
-            self.assertNotEqual(original_labels, new_labels)
-            self._page.show_advanced_usb_features()
+            if(self._page.get_name(devices[counter]) != "Thrustmaster HOTAS joystick" and
+               self._page.get_name(devices[counter]) != "USB SCR3310 card reader"):
+                self._page.toggle_hide_usb_device(devices[counter])
+                self._page.click_save_features()
+                self._page.open_receiver_usb_settings()
+                self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
+                self._page.show_advanced_usb_features()
+                menus = self._page.get_list_of_port_reservation_device_dropdowns()
+                new_labels = self._page.get_list_of_reserved_devices(menus[0])
+                self.assertNotEqual(original_labels, new_labels)
+                self._page.show_advanced_usb_features()
         devices = self._page.get_list_usb_devices()
         devices.pop()
         for device in devices:
             self._page.toggle_hide_usb_device(device)
         self._page.click_save_features()
-           
+             
     def test_can_change_displayed_port_reservation_devices_via_global_toggle(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -879,7 +462,9 @@ class AimReceiverConfigPageFunctionsTest(BaseAimRegressionTest):
         self._page.set_status_hide_usb_device_global(False)
         self._page.set_status_hide_usb_device_global(False)
         for device in devices:
-            self.assertFalse(self._page.check_show_status_of_usb_device(device))
+            if(self._page.get_name(device) != "Thrustmaster HOTAS joystick" and
+               self._page.get_name(device) != "USB SCR3310 card reader"):
+                self.assertFalse(self._page.check_show_status_of_usb_device(device))
         self._page.click_save_features()
         self._page.open_receiver_usb_settings()
         self.assertEqual(self._page.get_text_of_page_header(), "Receivers > Configure Receiver USB settings")
@@ -889,7 +474,7 @@ class AimReceiverConfigPageFunctionsTest(BaseAimRegressionTest):
         self._page.show_advanced_usb_features()
         self._page.set_status_hide_usb_device_global(True)
         self._page.click_save_features()
-              
+                
     def test_can_change_displayed_port_reservation_devices_by_adding_test_device(self):
         test_name = "XX TEST name"
         test_desc = "XX TEST desc"
@@ -916,7 +501,7 @@ class AimReceiverConfigPageFunctionsTest(BaseAimRegressionTest):
         self._page.show_advanced_usb_features()
         self._page.delete_test_usb_device()
         self._page.click_save_features()
-       
+         
     def test_cannot_change_displayed_port_reservation_devices_with_incomplete_form(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -952,7 +537,7 @@ class AimReceiverConfigPageFunctionsTest(BaseAimRegressionTest):
         self._page.add_test_usb_device("XX TEST", "XX TEST", "XX TEST", "XX TEST")
         self._page.click_save_features()
         self.assertEqual("Please ensure the form is completed correctly", self._page.get_quirk_ajax_message_text())
-     
+       
     def test_can_change_displayed_port_reservation_devices_by_deleting_test_device(self):
         test_name = "XX TEST name"
         test_desc = "XX TEST desc"

@@ -12,7 +12,7 @@ class AimStatisticsV32PageFunctionsTest(BaseAimRegressionTest):
         self._page.login_as("admin", "password", False)
         self._page.open_statistics_tab()
         self._page.click_show_receivers()
-        devices = self._page.get_list_of_devices()
+        devices = self._page.get_list_of_receivers()
         for device in devices:
             self.assertTrue("monitor_green.png" in self._page.get_device_type_img(device))
 
@@ -21,7 +21,7 @@ class AimStatisticsV32PageFunctionsTest(BaseAimRegressionTest):
         self._page.login_as("admin", "password", False)
         self._page.open_statistics_tab()
         self._page.click_show_transmitters()
-        devices = self._page.get_list_of_devices()
+        devices = self._page.get_list_of_transmitters()
         for device in devices:
             self.assertTrue("computer_purple.png" in self._page.get_device_type_img(device))
     

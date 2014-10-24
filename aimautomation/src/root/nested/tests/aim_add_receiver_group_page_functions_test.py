@@ -14,7 +14,7 @@ class AimAddReceiverGroupPageFunctionsTest(BaseAimRegressionTest):
         self._page.open_add_receiver_groups_page()
         self.assertEqual(self._page.get_text_of_page_header(), "Receiver Groups > Add Receiver Group")
         self.assertFalse(self._page.is_ajax_error_message_displayed_for_receiver_group())
-        self._page.click_save()
+        self._page.click_save_ignore_warnings()
         self.assertTrue(self._page.is_ajax_error_message_displayed_for_receiver_group())
     
     def test_can_create_receiver_group_with_login_required(self):

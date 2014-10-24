@@ -99,218 +99,31 @@ class AimDashboardSettingsTimePageFunctionsTest(BaseAimRegressionTest):
              "Australia":australias, "Europe":europes, "Indian":indians, 
              "Pacific":pacifics}
     
-    invalid_feb = ["29", "30", "31"]
-    
-    def test_when_time_zone_changed_to_africa_regions_updates_correctly(self):
-        region = "Africa"
-        region_list = self.get_region_list(region)
+    def test_time_zone_changes_updates_cities_correctly(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.click_dashboard_settings_link()
         self._page.click_time_settings_button()
-        self._page.select_time_zone(region)
-        locations = self._page.get_all_time_zone_locations_texts(region)
-        for location in locations:
-            self.assertTrue(location in region_list)
-        check_list = list(set(region_list) - set(locations))
-        self.assertTrue(len(check_list) == 0)
-        self._page.click_save()
-        locations = self._page.get_all_time_zone_locations_texts(region)
-        for location in locations:
-            self.assertTrue(location in region_list)
-        check_list = list(set(region_list) - set(locations))
-        self.assertTrue(len(check_list) == 0)
-        self.reset_time_zone()
+        try:
+            for region in self.zones:
+                self._page.select_time_zone(region)
+                cities = self.zones[region]
+                locations = self._page.get_all_time_zone_locations_texts(region)
+                for location in locations:
+                    self.assertTrue(location in cities)
+                check_list = list(set(cities) - set(locations))
+                self.assertTrue(len(check_list) == 0)
+                self._page.click_save()
+                locations = self._page.get_all_time_zone_locations_texts(region)
+                for location in locations:
+                    self.assertTrue(location in cities)
+                check_list = list(set(cities) - set(locations))
+                self.assertTrue(len(check_list) == 0)
+        finally:
+            self._page.select_time_zone("Europe")
+            self._page.select_time_zone_location("Europe", "London")
+            self._page.click_save()
 
-    def test_when_time_zone_changed_to_america_regions_updates_correctly(self):
-        region = "America"
-        region_list = self.get_region_list(region)
-        self._page.open_AIM_homepage_on_base_url()
-        self._page.login_as("admin", "password", False)
-        self._page.click_dashboard_settings_link()
-        self._page.click_time_settings_button()
-        self._page.select_time_zone(region)
-        locations = self._page.get_all_time_zone_locations_texts(region)
-        for location in locations:
-            self.assertTrue(location in region_list)
-        check_list = list(set(region_list) - set(locations))
-        self.assertTrue(len(check_list) == 0)
-        self._page.click_save()
-        locations = self._page.get_all_time_zone_locations_texts(region)
-        for location in locations:
-            self.assertTrue(location in region_list)
-        check_list = list(set(region_list) - set(locations))
-        self.assertTrue(len(check_list) == 0)
-        self.reset_time_zone()
-
-    def test_when_time_zone_changed_to_antarctica_regions_updates_correctly(self):
-        region = "Antarctica"
-        region_list = self.get_region_list(region)
-        self._page.open_AIM_homepage_on_base_url()
-        self._page.login_as("admin", "password", False)
-        self._page.click_dashboard_settings_link()
-        self._page.click_time_settings_button()
-        self._page.select_time_zone(region)
-        locations = self._page.get_all_time_zone_locations_texts(region)
-        for location in locations:
-            self.assertTrue(location in region_list)
-        check_list = list(set(region_list) - set(locations))
-        self.assertTrue(len(check_list) == 0)
-        self._page.click_save()
-        locations = self._page.get_all_time_zone_locations_texts(region)
-        for location in locations:
-            self.assertTrue(location in region_list)
-        check_list = list(set(region_list) - set(locations))
-        self.assertTrue(len(check_list) == 0)
-        self.reset_time_zone()
-
-    def test_when_time_zone_changed_to_artic_regions_updates_correctly(self):
-        region = "Arctic"
-        region_list = self.get_region_list(region)
-        self._page.open_AIM_homepage_on_base_url()
-        self._page.login_as("admin", "password", False)
-        self._page.click_dashboard_settings_link()
-        self._page.click_time_settings_button()
-        self._page.select_time_zone(region)
-        locations = self._page.get_all_time_zone_locations_texts(region)
-        for location in locations:
-            self.assertTrue(location in region_list)
-        check_list = list(set(region_list) - set(locations))
-        self.assertTrue(len(check_list) == 0)
-        self._page.click_save()
-        locations = self._page.get_all_time_zone_locations_texts(region)
-        for location in locations:
-            self.assertTrue(location in region_list)
-        check_list = list(set(region_list) - set(locations))
-        self.assertTrue(len(check_list) == 0)
-        self.reset_time_zone()
-
-    def test_when_time_zone_changed_to_asia_regions_updates_correctly(self):
-        region = "Asia"
-        region_list = self.get_region_list(region)
-        self._page.open_AIM_homepage_on_base_url()
-        self._page.login_as("admin", "password", False)
-        self._page.click_dashboard_settings_link()
-        self._page.click_time_settings_button()
-        self._page.select_time_zone(region)
-        locations = self._page.get_all_time_zone_locations_texts(region)
-        for location in locations:
-            self.assertTrue(location in region_list)
-        check_list = list(set(region_list) - set(locations))
-        self.assertTrue(len(check_list) == 0)
-        self._page.click_save()
-        locations = self._page.get_all_time_zone_locations_texts(region)
-        for location in locations:
-            self.assertTrue(location in region_list)
-        check_list = list(set(region_list) - set(locations))
-        self.assertTrue(len(check_list) == 0)
-        self.reset_time_zone()
-
-    def test_when_time_zone_changed_to_atlantic_regions_updates_correctly(self):
-        region = "Atlantic"
-        region_list = self.get_region_list(region)
-        self._page.open_AIM_homepage_on_base_url()
-        self._page.login_as("admin", "password", False)
-        self._page.click_dashboard_settings_link()
-        self._page.click_time_settings_button()
-        self._page.select_time_zone(region)
-        locations = self._page.get_all_time_zone_locations_texts(region)
-        for location in locations:
-            self.assertTrue(location in region_list)
-        check_list = list(set(region_list) - set(locations))
-        self.assertTrue(len(check_list) == 0)
-        self._page.click_save()
-        locations = self._page.get_all_time_zone_locations_texts(region)
-        for location in locations:
-            self.assertTrue(location in region_list)
-        check_list = list(set(region_list) - set(locations))
-        self.assertTrue(len(check_list) == 0)
-        self.reset_time_zone()
-
-    def test_when_time_zone_changed_to_australia_regions_updates_correctly(self):
-        region = "Australia"
-        region_list = self.get_region_list(region)
-        self._page.open_AIM_homepage_on_base_url()
-        self._page.login_as("admin", "password", False)
-        self._page.click_dashboard_settings_link()
-        self._page.click_time_settings_button()
-        self._page.select_time_zone(region)
-        locations = self._page.get_all_time_zone_locations_texts(region)
-        for location in locations:
-            self.assertTrue(location in region_list)
-        check_list = list(set(region_list) - set(locations))
-        self.assertTrue(len(check_list) == 0)
-        self._page.click_save()
-        locations = self._page.get_all_time_zone_locations_texts(region)
-        for location in locations:
-            self.assertTrue(location in region_list)
-        check_list = list(set(region_list) - set(locations))
-        self.assertTrue(len(check_list) == 0)
-        self.reset_time_zone()
-
-    def test_when_time_zone_changed_to_europe_regions_updates_correctly(self):
-        region = "Europe"
-        region_list = self.get_region_list(region)
-        self._page.open_AIM_homepage_on_base_url()
-        self._page.login_as("admin", "password", False)
-        self._page.click_dashboard_settings_link()
-        self._page.click_time_settings_button()
-        self._page.select_time_zone(region)
-        locations = self._page.get_all_time_zone_locations_texts(region)
-        for location in locations:
-            self.assertTrue(location in region_list)
-        check_list = list(set(region_list) - set(locations))
-        self.assertTrue(len(check_list) == 0)
-        self._page.click_save()
-        locations = self._page.get_all_time_zone_locations_texts(region)
-        for location in locations:
-            self.assertTrue(location in region_list)
-        check_list = list(set(region_list) - set(locations))
-        self.assertTrue(len(check_list) == 0)
-        self.reset_time_zone()
-
-    def test_when_time_zone_changed_to_india_regions_updates_correctly(self):
-        region = "Indian"
-        region_list = self.get_region_list(region)
-        self._page.open_AIM_homepage_on_base_url()
-        self._page.login_as("admin", "password", False)
-        self._page.click_dashboard_settings_link()
-        self._page.click_time_settings_button()
-        self._page.select_time_zone(region)
-        locations = self._page.get_all_time_zone_locations_texts(region)
-        for location in locations:
-            self.assertTrue(location in region_list)
-        check_list = list(set(region_list) - set(locations))
-        self.assertTrue(len(check_list) == 0)
-        self._page.click_save()
-        locations = self._page.get_all_time_zone_locations_texts(region)
-        for location in locations:
-            self.assertTrue(location in region_list)
-        check_list = list(set(region_list) - set(locations))
-        self.assertTrue(len(check_list) == 0)
-        self.reset_time_zone()
-
-    def test_when_time_zone_changed_to_pacific_regions_updates_correctly(self):
-        region = "Pacific"
-        region_list = self.get_region_list(region)
-        self._page.open_AIM_homepage_on_base_url()
-        self._page.login_as("admin", "password", False)
-        self._page.click_dashboard_settings_link()
-        self._page.click_time_settings_button()
-        self._page.select_time_zone(region)
-        locations = self._page.get_all_time_zone_locations_texts(region)
-        for location in locations:
-            self.assertTrue(location in region_list)
-        check_list = list(set(region_list) - set(locations))
-        self.assertTrue(len(check_list) == 0)
-        self._page.click_save()
-        locations = self._page.get_all_time_zone_locations_texts(region)
-        for location in locations:
-            self.assertTrue(location in region_list)
-        check_list = list(set(region_list) - set(locations))
-        self.assertTrue(len(check_list) == 0)
-        self.reset_time_zone()
-    
     def test_ntp_options_are_displayed_when_enabled(self):
         version = parameter_singleton["version"]
         split_version = version.replace("v", "").split(".")
@@ -324,18 +137,3 @@ class AimDashboardSettingsTimePageFunctionsTest(BaseAimRegressionTest):
         self._page.set_ntp_enabled("yes")
         self.assertTrue(self._page.get_display_state_ntp_servername())
         self._page.set_ntp_enabled("no")
-    
-    def get_region_list(self, region):
-        return self.zones[region]
-    
-    def reset_date(self, day, month, year):
-        self._page.select_time_day(day)
-        self._page.select_time_month(month)
-        self._page.select_time_year(year)
-        self._page.click_save()
-    
-    def reset_time_zone(self):
-        self._page.select_time_zone("Europe")
-        self._page.select_time_zone_location("Europe", "London")
-        self._page.click_save()
-        
