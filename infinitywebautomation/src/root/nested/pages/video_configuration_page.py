@@ -152,21 +152,6 @@ class VideoConfigurationPage(BasePage):
         text = self.click_update_button("#configForm_submit")
         time.sleep(1)
         return text
-
-    
-    
-
-    
-    
-
-    
-    
-
-    
-    
-
-    
-    
     
     
 #     def get_peak_bandwidth_percentage(self):
@@ -191,7 +176,3 @@ class VideoConfigurationPage(BasePage):
 #         target = self.get_click_point_for_percentage(percent)
 #         slide = ActionChains(self.driver)
 #         slide.move_to_element_with_offset(self.driver.find_element_by_css_selector("#bw_tr_slider"), target, 0).click().perform()
-
-    
-    
-    

@@ -11,7 +11,9 @@ class SeleniumStartService():
     
     firefox = DesiredCapabilities.FIREFOX.copy()
     
-    chrome = DesiredCapabilities.CHROME.copy()
+    options = webdriver.ChromeOptions()
+    options.add_experimental_option("excludeSwitches", ["ignore-certificate-errors"])
+    chrome = options.to_capabilities()
     
     phantomjs = DesiredCapabilities.PHANTOMJS.copy()
     phantomjs['phantomjs.binary.path'] = "C:\phantomjs-1.9.7-windows\phantomjs.exe"

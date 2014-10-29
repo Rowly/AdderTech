@@ -78,14 +78,3 @@ class SystemMessagesPage(BasePage):
             alert.accept()
         except Exception:
             pass
-
-    
-    
-    
-    
-
-    
-    
-    
-    
-    

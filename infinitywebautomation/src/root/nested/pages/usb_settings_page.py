@@ -193,28 +193,5 @@ class UsbSettingsPage(BasePage):
     def set_reserved_port_range_option(self, text):
         self.select_visible_text_value_of_select_element_by_css_selector("#reserved_port_range_tx", text)
     
-    
-    
-    
     def update_config_form(self):
         return self.click_update_button("#configForm_submit")
-
-    
-    
-    
-
-    
-    
-    
-
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
