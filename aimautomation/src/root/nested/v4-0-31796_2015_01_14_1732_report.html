@@ -1,0 +1,3638 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Aim UI Regression Suite v4.0.31796</title>
+    <meta name="generator" content="HTMLTestRunner 0.8.2"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    
+<style type="text/css" media="screen">
+body        { font-family: verdana, arial, helvetica, sans-serif; font-size: 80%; }
+table       { font-size: 100%; }
+pre         { }
+
+/* -- heading ---------------------------------------------------------------------- */
+h1 {
+	font-size: 16pt;
+	color: gray;
+}
+.heading {
+    margin-top: 0ex;
+    margin-bottom: 1ex;
+}
+
+.heading .attribute {
+    margin-top: 1ex;
+    margin-bottom: 0;
+}
+
+.heading .description {
+    margin-top: 4ex;
+    margin-bottom: 6ex;
+}
+
+/* -- css div popup ------------------------------------------------------------------------ */
+a.popup_link {
+}
+
+a.popup_link:hover {
+    color: red;
+}
+
+.popup_window {
+    display: none;
+    position: relative;
+    left: 0px;
+    top: 0px;
+    /*border: solid #627173 1px; */
+    padding: 10px;
+    background-color: #E6E6D6;
+    font-family: "Lucida Console", "Courier New", Courier, monospace;
+    text-align: left;
+    font-size: 8pt;
+    width: 500px;
+}
+
+}
+/* -- report ------------------------------------------------------------------------ */
+#show_detail_line {
+    margin-top: 3ex;
+    margin-bottom: 1ex;
+}
+#result_table {
+    width: 80%;
+    border-collapse: collapse;
+    border: 1px solid #777;
+}
+#header_row {
+    font-weight: bold;
+    color: white;
+    background-color: #777;
+}
+#result_table td {
+    border: 1px solid #777;
+    padding: 2px;
+}
+#total_row  { font-weight: bold; }
+.passClass  { background-color: #6c6; }
+.failClass  { background-color: #c60; }
+.errorClass { background-color: #c00; }
+.passCase   { color: #6c6; }
+.failCase   { color: #c60; font-weight: bold; }
+.errorCase  { color: #c00; font-weight: bold; }
+.hiddenRow  { display: none; }
+.testcase   { margin-left: 2em; }
+
+
+/* -- ending ---------------------------------------------------------------------- */
+#ending {
+}
+
+</style>
+
+</head>
+<body>
+<script language="javascript" type="text/javascript"><!--
+output_list = Array();
+
+/* level - 0:Summary; 1:Failed; 2:All */
+function showCase(level) {
+    trs = document.getElementsByTagName("tr");
+    for (var i = 0; i < trs.length; i++) {
+        tr = trs[i];
+        id = tr.id;
+        if (id.substr(0,2) == 'ft') {
+            if (level < 1) {
+                tr.className = 'hiddenRow';
+            }
+            else {
+                tr.className = '';
+            }
+        }
+        if (id.substr(0,2) == 'pt') {
+            if (level > 1) {
+                tr.className = '';
+            }
+            else {
+                tr.className = 'hiddenRow';
+            }
+        }
+    }
+}
+
+
+function showClassDetail(cid, count) {
+    var id_list = Array(count);
+    var toHide = 1;
+    for (var i = 0; i < count; i++) {
+        tid0 = 't' + cid.substr(1) + '.' + (i+1);
+        tid = 'f' + tid0;
+        tr = document.getElementById(tid);
+        if (!tr) {
+            tid = 'p' + tid0;
+            tr = document.getElementById(tid);
+        }
+        id_list[i] = tid;
+        if (tr.className) {
+            toHide = 0;
+        }
+    }
+    for (var i = 0; i < count; i++) {
+        tid = id_list[i];
+        if (toHide) {
+            document.getElementById('div_'+tid).style.display = 'none'
+            document.getElementById(tid).className = 'hiddenRow';
+        }
+        else {
+            document.getElementById(tid).className = '';
+        }
+    }
+}
+
+
+function showTestDetail(div_id){
+    var details_div = document.getElementById(div_id)
+    var displayState = details_div.style.display
+    // alert(displayState)
+    if (displayState != 'block' ) {
+        displayState = 'block'
+        details_div.style.display = 'block'
+    }
+    else {
+        details_div.style.display = 'none'
+    }
+}
+
+
+function html_escape(s) {
+    s = s.replace(/&/g,'&amp;');
+    s = s.replace(/</g,'&lt;');
+    s = s.replace(/>/g,'&gt;');
+    return s;
+}
+
+/* obsoleted by detail in <div>
+function showOutput(id, name) {
+    var w = window.open("", //url
+                    name,
+                    "resizable,scrollbars,status,width=800,height=450");
+    d = w.document;
+    d.write("<pre>");
+    d.write(html_escape(output_list[id]));
+    d.write("\n");
+    d.write("<a href='javascript:window.close()'>close</a>\n");
+    d.write("</pre>\n");
+    d.close();
+}
+*/
+--></script>
+
+<div class='heading'>
+<h1>Aim UI Regression Suite v4.0.31796</h1>
+<p class='attribute'><strong>Start Time:</strong> 2015-01-14 17:32:13</p>
+<p class='attribute'><strong>Duration:</strong> 2:58:44.150238</p>
+<p class='attribute'><strong>Status:</strong> Pass 541 Failure 7 Error 4</p>
+
+<p class='description'></p>
+</div>
+
+
+
+<p id='show_detail_line'>Show
+<a href='javascript:showCase(0)'>Summary</a>
+<a href='javascript:showCase(1)'>Failed</a>
+<a href='javascript:showCase(2)'>All</a>
+</p>
+<table id='result_table'>
+<colgroup>
+<col align='left' />
+<col align='right' />
+<col align='right' />
+<col align='right' />
+<col align='right' />
+<col align='right' />
+</colgroup>
+<tr id='header_row'>
+    <td>Test Group/Test case</td>
+    <td>Count</td>
+    <td>Pass</td>
+    <td>Fail</td>
+    <td>Error</td>
+    <td>View</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_login_page_defaults_test.AimLoginPageDefaultsTest</td>
+    <td>10</td>
+    <td>10</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c1',10)">Detail</a></td>
+</tr>
+
+<tr id='pt1.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_adder_branding_is_shown</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt1.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_adder_favicon_is_present</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt1.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_adder_infinty_management_suite_is_shown</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt1.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_background_colour_is_black</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt1.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_background_image_is_present_and_set_to_repeat</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt1.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_open_login_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt1.7' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_initial_username_validation_is_correct</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt1.8' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_password_field_is_shown</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt1.9' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_username_field_is_shown</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt1.10' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_username_validation_updates_once_text_is_entered_into_the_field</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_login_page_functions_test.AimLoginPageFunctionsTest</td>
+    <td>2</td>
+    <td>2</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c2',2)">Detail</a></td>
+</tr>
+
+<tr id='pt2.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_login_with_valid_credentials</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt2.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_cannot_login_with_invalid_credentials</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_transmitters_page_defaults_test.AimTransmittersPageDefaultTest</td>
+    <td>4</td>
+    <td>4</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c3',4)">Detail</a></td>
+</tr>
+
+<tr id='pt3.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_each_transmitter_row_comprises_correct_elements</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt3.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_search_fields_are_shown</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt3.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_transmitter_page_opened_correctly</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt3.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_transmitters_are_shown_in_paginated_table</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_transmitters_page_functions_test.AimTransmittersPageFunctionsTest</td>
+    <td>19</td>
+    <td>19</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c4',19)">Detail</a></td>
+</tr>
+
+<tr id='pt4.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_both_links_operate_as_expected</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt4.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_cancel_reboot_for_each_transmitter</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt4.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_open_config_for_each_transmitter</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt4.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_descriptions_ascending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt4.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_descriptions_decending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt4.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_locations_ascending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt4.7' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_locations_decending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt4.8' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_names_ascending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt4.9' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_names_decending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt4.10' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_description_filter_can_be_cleared</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt4.11' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_description_filter_can_be_disabled</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt4.12' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_description_filter_operates_as_expected</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt4.13' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_location_filter_can_be_cleared</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt4.14' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_location_filter_can_be_disabled</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt4.15' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_location_filter_operates_as_expected</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt4.16' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_name_filter_can_be_cleared</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt4.17' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_name_filter_can_be_disabled</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt4.18' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_name_filter_operates_as_expected</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt4.19' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_remove_filters_button_operates_as_expected</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_transmitter_config_page_default_test.AimTransmitterConfigPageDefaultsTest</td>
+    <td>23</td>
+    <td>23</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c5',23)">Detail</a></td>
+</tr>
+
+<tr id='pt5.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_background_refresh_has_correct_values</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt5.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_backup_firmware_is_shown_and_correct</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt5.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_date_added_is_valid</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt5.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_device_id_is_correct</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt5.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_dummy_keyboard_help_text_is_correct</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt5.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_frame_skipping_slider_ranger_is_correct</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt5.7' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_hot_plug_detect_has_correct_values</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt5.8' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_hot_plug_signal_has_correct_values</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt5.9' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_hot_plug_signal_help_text_is_correct</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt5.10' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_ip_address_help_text_is_correct</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt5.11' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_ip_address_is_shown_and_valid</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt5.12' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_mac_address_is_valid</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt5.13' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_main_firmware_is_shown_and_correct</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt5.14' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_online_status_is_shown</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt5.15' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_peak_bandwidth_limiter_default_correct</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt5.16' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_serial_data_setting_values_are_correct</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt5.17' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_serial_parity_setting_values_are_correct</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt5.18' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_serial_speed_setting_values_are_correct</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt5.19' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_serial_stop_setting_values_are_correct</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt5.20' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_usb_hub_help_text_is_correct</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt5.21' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_usb_speed_help_text_is_correct</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt5.22' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_video_setting_DDC_help_text_is_correct</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt5.23' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_video_setting_DDC_menu_has_all_values</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_transmitter_config_page_functions_test.AimTransmitterConfigPageFunctions</td>
+    <td>16</td>
+    <td>16</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c6',16)">Detail</a></td>
+</tr>
+
+<tr id='pt6.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_edid_optimisation</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt6.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_enter_valid_description</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt6.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_enter_valid_location</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt6.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_enter_valid_name</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt6.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_select_DDC_options</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt6.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_select_USB_hub_options</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt6.7' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_select_USB_speed_options</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt6.8' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_select_background_refresh_options</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt6.9' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_select_dummy_boot_keyboard_options</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt6.10' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_select_hot_plug_options</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt6.11' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_select_hot_plug_signal_options</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt6.12' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_select_serial_data_options</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt6.13' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_select_serial_parity_options</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt6.14' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_select_serial_speed_options</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt6.15' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_select_serial_stop_options</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt6.16' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_transmitter_ip_address_cannot_be_changed_to_invalid_address</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_presets_page_functions_test.AimPresetsPageFunctionsTest</td>
+    <td>15</td>
+    <td>15</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c7',15)">Detail</a></td>
+</tr>
+
+<tr id='pt7.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_add_preset_button_operates_correctly</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt7.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_cancel_preset_delete</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt7.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_connect_preset_as_exclusive</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt7.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_connect_preset_as_shared</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt7.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_connect_preset_as_view_only</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt7.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_cycle_all_preset_connection_types</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt7.7' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_delete_preset</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt7.8' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_open_preset_clone</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt7.9' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_open_preset_config</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt7.10' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_toggle_batch_delete_mode</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt7.11' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_each_preset_row_comprises_correct_elements</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt7.12' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_preset_page_opened_correctly</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt7.13' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_presets_are_shown_in_paginated_table</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt7.14' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_search_fields_are_shown</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt7.15' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_subtab_links_operate_correctly</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_presets_config_page_functions_test.AimPresetsConfigPageFunctionsTest</td>
+    <td>10</td>
+    <td>10</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c8',10)">Detail</a></td>
+</tr>
+
+<tr id='pt8.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_allowed_connections_to_all</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt8.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_allowed_connections_to_exclusive</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt8.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_allowed_connections_to_shared</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt8.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_allowed_connections_to_view_only</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt8.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_number_of_pairs_in_preset</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt8.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_number_pairs_to_all_unicast_available</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt8.7' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_number_pairs_to_include_multicast</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt8.8' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_preset_description</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt8.9' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_preset_name</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt8.10' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_cannot_change_number_pairs_to_include_same_receiver</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_presets_clone_page_functions_test.AimPresetsClonePageFunctionsTest</td>
+    <td>8</td>
+    <td>8</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c9',8)">Detail</a></td>
+</tr>
+
+<tr id='pt9.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_cancel_clone_existing_preset</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt9.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_allowed_connections_of_cloned_preset_to_view_only</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt9.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_allowed_connections_to_all</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt9.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_allowed_connections_to_exclusive</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt9.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_allowed_connections_to_shared</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt9.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_description_of_cloned_preset</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt9.7' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_name_of_cloned_preset</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt9.8' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_clone_existing_preset</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_channel_page_functions_test.AimChannelPageFunctionsTest</td>
+    <td>30</td>
+    <td>30</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c10',30)">Detail</a></td>
+</tr>
+
+<tr id='pt10.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_add_channel_button_opens_correct_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt10.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_batch_delete_channels</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt10.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_cancel_batch_delete</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt10.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_delete_channel</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt10.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_open_and_cancel_delete_channel_dialogue</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt10.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_open_clone_channel_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt10.7' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_open_config_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt10.8' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_descriptions_ascending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt10.9' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_descriptions_decending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt10.10' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_locations_ascending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt10.11' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_locations_decending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt10.12' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_names_ascending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt10.13' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_names_decending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt10.14' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_toggle_batch_delete_mode</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt10.15' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_channel_page_opened_correctly</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt10.16' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_channels_are_shown_in_paginated_table</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt10.17' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_description_filter_can_be_cleared</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt10.18' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_description_filter_can_be_disabled</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt10.19' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_description_filter_operates_as_expected</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt10.20' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_each_channel_row_comprises_correct_elements</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt10.21' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_location_filter_can_be_cleared</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt10.22' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_location_filter_can_be_disabled</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt10.23' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_location_filter_operates_as_expected</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt10.24' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_name_filter_can_be_cleared</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt10.25' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_name_filter_can_be_disabled</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt10.26' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_name_filter_operates_as_expected</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt10.27' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_remove_filters_button_operates_as_expected</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt10.28' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_search_fields_are_shown</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt10.29' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_subtab_links_open_correct_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt10.30' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_view_channel_groups_button_opens_correct_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_channel_config_page_functions_test.AimChannelConfigPageFunctionsTest</td>
+    <td>14</td>
+    <td>14</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c11',14)">Detail</a></td>
+</tr>
+
+<tr id='pt11.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_allowed_connections_of_channel_to_exclusive_only</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt11.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_allowed_connections_of_channel_to_shared_only</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt11.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_allowed_connections_of_channel_to_view_only</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt11.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_allowed_connections_of_channel_to_view_shared_and_exclusive_only</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt11.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_allowed_connections_of_channel_to_view_shared_only</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt11.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_channel_description</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt11.7' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_channel_group_of_channel</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt11.8' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_channel_location</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt11.9' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_channel_name</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt11.10' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_channel_serial_source</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt11.11' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_channel_usb_source</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt11.12' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_channel_video_source</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt11.13' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_user_group_of_channel</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt11.14' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_user_permissions_of_channel</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_channel_clone_page_functions_test.AimChannelClonePageFunctionsTest</td>
+    <td>16</td>
+    <td>16</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c12',16)">Detail</a></td>
+</tr>
+
+<tr id='pt12.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_cancel_clone_existing_channel</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt12.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_allowed_connections_of_cloned_channel_to_exclusive_only</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt12.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_allowed_connections_of_cloned_channel_to_view_only</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt12.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_allowed_connections_of_cloned_channel_to_view_shared_and_exclusive</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt12.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_allowed_connections_of_cloned_channel_to_view_shared_only</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt12.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_audio_source_of_cloned_channel</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt12.7' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_channel_group_of_cloned_channel</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt12.8' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_description_of_cloned_channel</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt12.9' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_location_of_cloned_channel</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt12.10' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_name_of_cloned_channel</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt12.11' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_serial_source_of_cloned_channel</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt12.12' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_usb_source_of_cloned_channel</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt12.13' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_user_group_of_cloned_channel</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt12.14' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_user_permissions_of_cloned_channel</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt12.15' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_video_source_of_cloned_channel</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt12.16' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_clone_existing_channel</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_add_channel_page_functions_test.AimAddChannelPageFunctionsTest</td>
+    <td>9</td>
+    <td>9</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c13',9)">Detail</a></td>
+</tr>
+
+<tr id='pt13.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_create_channel</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt13.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_create_channel_with_channel_group</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt13.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_create_channel_with_exclusive_only_connection</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt13.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_create_channel_with_shared_only_connection</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt13.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_create_channel_with_user_group</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt13.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_create_channel_with_view_only_connection</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt13.7' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_create_channel_with_view_shared_and_exclusive_connection</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt13.8' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_create_channel_with_view_shared_only_connection</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt13.9' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_cannot_create_channel_without_a_name</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_channel_groups_view_page_functions_test.AimChannelGroupsViewPageFunctionsTest</td>
+    <td>19</td>
+    <td>19</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c14',19)">Detail</a></td>
+</tr>
+
+<tr id='pt14.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_batch_delete_channel_groups</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt14.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_cancel_batch_delete</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt14.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_delete_channel_group</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt14.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_open_add_channel_group_via_button</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt14.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_open_and_cancel_delete_channel_group_dialogue</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt14.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_open_clone_channel_group_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt14.7' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_open_config_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt14.8' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_descriptions_ascending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt14.9' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_descriptions_decending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt14.10' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_names_ascending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt14.11' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_names_decending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt14.12' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_toggle_batch_delete_mode</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt14.13' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_description_filter_can_be_cleared</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt14.14' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_description_filter_can_be_disabled</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt14.15' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_description_filter_operates_as_expected</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt14.16' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_name_filter_can_be_cleared</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt14.17' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_name_filter_can_be_disabled</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt14.18' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_name_filter_operates_as_expected</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt14.19' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_remove_filters_button_operates_as_expected</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_channel_group_config_functions_test.AimChannelGroupConfigFunctionsTest</td>
+    <td>5</td>
+    <td>5</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c15',5)">Detail</a></td>
+</tr>
+
+<tr id='pt15.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_add_channel_to_group</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt15.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_channel_description</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt15.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_user_group_of_channel_group</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt15.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_user_permissions_of_channel_group</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt15.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_change_channel_group_name</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_channel_group_clone_page_functions_test.AimChannelGroupClonePageFunctionsTest</td>
+    <td>7</td>
+    <td>7</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c16',7)">Detail</a></td>
+</tr>
+
+<tr id='pt16.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_add_all_members_to_channel_group</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt16.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_add_one_member_to_channel_group</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt16.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_channel_group_desc</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt16.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_channel_group_name</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt16.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_user_permissions_of_channel_group</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt16.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_clone_channel_group_with_user_group</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt16.7' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_clone_existing_change_group</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_add_channel_group_page_functions_test.AimAddChannelGroupPageFunctionsTest</td>
+    <td>5</td>
+    <td>5</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c17',5)">Detail</a></td>
+</tr>
+
+<tr id='pt17.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_user_permissions_of_channel_group</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt17.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_create_channel_group_with_all_channels</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt17.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_create_channel_group_with_one_channel</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt17.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_create_channel_group_with_user_group</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt17.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_cannot_create_channel_group_without_a_name</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_receivers_page_functions_test.AimReceiversPageFunctionsTest</td>
+    <td>27</td>
+    <td>27</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c18',27)">Detail</a></td>
+</tr>
+
+<tr id='pt18.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_all_links_operate_as_expected</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt18.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_cancel_reboot_for_each_receiver</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt18.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_connect_and_disconnect_receiver_to_a_channel_exclusive_only</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt18.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_connect_and_disconnect_receiver_to_a_channel_shared_access</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt18.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_connect_and_disconnect_receiver_to_a_channel_view_only</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt18.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_disconnect_all_channels</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt18.7' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_open_config_for_each_receiver</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt18.8' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_descriptions_ascending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt18.9' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_descriptions_decending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt18.10' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_locations_ascending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt18.11' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_locations_decending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt18.12' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_names_ascending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt18.13' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_names_decending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt18.14' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_description_filter_can_be_cleared</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt18.15' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_description_filter_can_be_disabled</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt18.16' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_description_filter_operates_as_expected</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt18.17' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_each_receiver_row_comprises_correct_elements</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt18.18' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_location_filter_can_be_cleared</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt18.19' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_location_filter_can_be_disabled</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt18.20' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_location_filter_operates_as_expected</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt18.21' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_name_filter_can_be_cleared</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt18.22' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_name_filter_can_be_disabled</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt18.23' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_name_filter_operates_as_expected</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt18.24' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_receiver_page_opened_correctly</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt18.25' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_receivers_are_shown_in_paginated_table</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt18.26' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_remove_filters_button_operates_as_expected</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt18.27' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_search_fields_are_shown</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_receiver_config_page_functions_test.AimReceiverConfigPageFunctionsTest</td>
+    <td>21</td>
+    <td>21</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c19',21)">Detail</a></td>
+</tr>
+
+<tr id='pt19.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_HID_connection_access</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt19.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_OSD_alerts</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt19.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_audio_input_type</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt19.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_disable_isochronous_endpoint_osd_alerts</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt19.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_displayed_port_reservation_devices</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt19.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_displayed_port_reservation_devices_by_adding_test_device</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt19.7' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_displayed_port_reservation_devices_by_deleting_test_device</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt19.8' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_displayed_port_reservation_devices_via_global_toggle</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt19.9' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_enable_isochronous_endpoint_attach</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt19.10' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_keyboard_country</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt19.11' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_login_required</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt19.12' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_port_reservation_device</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt19.13' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_port_reservation_values</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt19.14' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_receiver_group_membership</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt19.15' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_receiver_user_group</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt19.16' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_receiver_users</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt19.17' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_video_compatibility_check</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt19.18' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_enter_valid_description</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt19.19' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_enter_valid_location</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt19.20' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_enter_valid_name</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt19.21' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_cannot_change_displayed_port_reservation_devices_with_incomplete_form</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_receiver_view_group_functions_test.AimReceiverViewGroupFunctionsTest</td>
+    <td>19</td>
+    <td>19</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c20',19)">Detail</a></td>
+</tr>
+
+<tr id='pt20.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_add_receiver_group_button_opens_correct_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt20.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_batch_delete_receivers</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt20.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_cancel_batch_delete</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt20.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_delete_receiver_group</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt20.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_open_and_cancel_delete_receiver_group_dialogue</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt20.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_open_clone_receiver_group_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt20.7' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_open_config_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt20.8' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_descriptions_ascending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt20.9' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_descriptions_decending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt20.10' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_names_ascending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt20.11' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_names_decending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt20.12' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_toggle_batch_delete_mode</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt20.13' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_description_filter_can_be_cleared</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt20.14' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_description_filter_can_be_disabled</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt20.15' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_description_filter_operates_as_expected</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt20.16' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_name_filter_can_be_cleared</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt20.17' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_name_filter_can_be_disabled</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt20.18' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_name_filter_operates_as_expected</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt20.19' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_remove_filters_button_operates_as_expected</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_receiver_group_config_functions_test.AimReceiverGroupConfigFunctionsTest</td>
+    <td>18</td>
+    <td>18</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c21',18)">Detail</a></td>
+</tr>
+
+<tr id='pt21.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_disable_isochronous_endpoint_osd_alerts</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt21.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_displayed_port_reservation_devices</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt21.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_displayed_port_reservation_devices_by_adding_test_device</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt21.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_displayed_port_reservation_devices_by_deleting_test_device</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt21.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_displayed_port_reservation_devices_via_global_toggle</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt21.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_enable_isochronous_endpoint_attach</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt21.7' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_enable_receiver_osd_alerts</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt21.8' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_enable_video_compatibility_check</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt21.9' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_hid_only</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt21.10' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_login_required</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt21.11' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_port_reservation_device</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt21.12' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_port_reservation_values</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt21.13' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_receiver_description</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt21.14' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_receiver_group_user_group</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt21.15' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_receiver_group_users</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt21.16' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_which_receivers_are_member_of_group</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt21.17' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_cannot_change_displayed_port_reservation_devices_with_incomplete_form</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt21.18' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_change_receiver_group_name</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_receiver_group_clone_page_functions_test.AimReceiverGroupClonePageFunctionsTest</td>
+    <td>9</td>
+    <td>9</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c22',9)">Detail</a></td>
+</tr>
+
+<tr id='pt22.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_receiver_group_desc</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt22.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_receiver_group_enable_receiver_osd_alerts</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt22.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_receiver_group_enable_video_compatibility_check</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt22.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_receiver_group_login_required</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt22.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_receiver_group_member_receivers</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt22.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_receiver_group_name</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt22.7' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_receiver_group_user_groups</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt22.8' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_receiver_group_users</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt22.9' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_clone_existing_change_group</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_add_receiver_group_page_functions_test.AimAddReceiverGroupPageFunctionsTest</td>
+    <td>8</td>
+    <td>8</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c23',8)">Detail</a></td>
+</tr>
+
+<tr id='pt23.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_user_permissions_of_receiver_group</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt23.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_create_receiver_group_with_all_receivers</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt23.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_create_receiver_group_with_enable_osd_alerts</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt23.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_create_receiver_group_with_login_required</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt23.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_create_receiver_group_with_one_receiver</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt23.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_create_receiver_group_with_user_group</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt23.7' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_create_receiver_group_with_video_compatibility_check</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt23.8' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_cannot_create_receiver_group_without_a_name</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_users_view_page_functions_test.AimUsersViewPageFunctionsTest</td>
+    <td>27</td>
+    <td>27</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c24',27)">Detail</a></td>
+</tr>
+
+<tr id='pt24.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_all_subtab_links_operate_correctly</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt24.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_batch_delete_users</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt24.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_cancel_user_delete</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt24.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_delete_user</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt24.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_open_user_clone</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt24.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_open_user_configuration</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt24.7' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_firstnames_ascending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt24.8' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_firstnames_decending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt24.9' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_lastnames_ascending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt24.10' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_lastnames_decending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt24.11' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_usernames_ascending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt24.12' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_usernames_decending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt24.13' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_toggle_batch_delete_mode</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt24.14' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_each_user_row_comprises_correct_elements</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt24.15' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_firstname_filter_can_be_cleared</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt24.16' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_firstname_filter_can_be_disabled</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt24.17' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_firstname_filter_operates_as_expected</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt24.18' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_lastname_filter_can_be_cleared</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt24.19' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_lastname_filter_can_be_disabled</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt24.20' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_lastname_filter_operates_as_expected</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt24.21' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_remove_filters_button_operates_as_expected</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt24.22' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_search_fields_are_shown</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt24.23' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_username_filter_can_be_cleared</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt24.24' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_username_filter_can_be_disabled</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt24.25' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_username_filter_operates_as_expected</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt24.26' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_users_are_shown_in_paginated_table</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt24.27' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_users_page_opened_correctly</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='failClass'>
+    <td>root.nested.tests.aim_user_config_page_functions_test.AimUserConfigPageFunctionsTest</td>
+    <td>18</td>
+    <td>17</td>
+    <td>1</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c25',18)">Detail</a></td>
+</tr>
+
+<tr id='pt25.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_aim_admin_access</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt25.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_channel_group_permissions_of_user</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt25.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_channel_permissions_of_user</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt25.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_receiver_group_permissions</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='ft25.5' class='none'>
+    <td class='failCase'><div class='testcase'>test_can_change_receiver_permissions</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ft25.5')" >
+        fail</a>
+
+    <div id='div_ft25.5' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_ft25.5').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+ft25.5: Traceback (most recent call last):
+  File "..\..\root\nested\tests\aim_user_config_page_functions_test.py", line 303, in test_can_change_receiver_permissions
+    self.assertEqual(set(self._rx_names), set(self._page.get_all_receivers_for_user()))
+AssertionError: Items in the first set but not the second:
+'RX'
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt25.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_to_no_password_required_for_login</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt25.7' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_user_email</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt25.8' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_user_exclusive_connection_status_to_global</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt25.9' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_user_exclusive_connection_status_to_no</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt25.10' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_user_exclusive_connection_status_to_yes</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt25.11' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_user_firstname</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt25.12' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_user_group_membership_of_user</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt25.13' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_user_lastname</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt25.14' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_user_password</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt25.15' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_user_to_suspended</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt25.16' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_user_username</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt25.17' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_cannot_change_user_email_to_invalid_address</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt25.18' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_warning_given_if_passwords_not_matching</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='failClass'>
+    <td>root.nested.tests.aim_user_clone_page_functions_test.AimUserClonePageFunctionsTest</td>
+    <td>16</td>
+    <td>15</td>
+    <td>1</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c26',16)">Detail</a></td>
+</tr>
+
+<tr id='pt26.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_channel_group_permissions_of_cloned_user</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt26.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_channel_permissions_of_cloned_user</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt26.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_cloned_user_exclusive_connection_status_to_global</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt26.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_cloned_user_exclusive_connection_status_to_no</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt26.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_cloned_user_exclusive_connection_status_to_yes</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt26.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_cloned_user_group_membership_of_user</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt26.7' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_cloned_user_to_no_password_required</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt26.8' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_cloned_user_to_suspended</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt26.9' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_email_of_cloned_user</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt26.10' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_first_name_of_cloned_user</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt26.11' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_last_name_of_cloned_user</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt26.12' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_receiver_group_permissions_of_cloned_user</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='ft26.13' class='none'>
+    <td class='failCase'><div class='testcase'>test_can_change_receiver_permissions_of_cloned_user</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ft26.13')" >
+        fail</a>
+
+    <div id='div_ft26.13' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_ft26.13').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+ft26.13: Traceback (most recent call last):
+  File "..\..\root\nested\tests\aim_user_clone_page_functions_test.py", line 261, in test_can_change_receiver_permissions_of_cloned_user
+    self.assertTrue("RX2" and "RX" in self._page.get_all_receivers_for_user())
+AssertionError: False is not true
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt26.14' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_username_of_cloned_user</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt26.15' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_clone_existing_user</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt26.16' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_cannot_change_email_to_invalid_address</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_user_group_view_page_functions_test.AimUserGroupViewPageFunctionsTest</td>
+    <td>16</td>
+    <td>16</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c27',16)">Detail</a></td>
+</tr>
+
+<tr id='pt27.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_add_user_group_button_opens_correct_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt27.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_batch_delete_user_groups</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt27.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_delete_user_group</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt27.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_open_and_cancel_delete_user_group_dialogue</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt27.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_open_clone_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt27.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_open_config_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt27.7' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_names_ascending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt27.8' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_sort_names_decending</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt27.9' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_toggle_batch_delete_mode</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt27.10' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_each_user_group_row_comprises_correct_elements</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt27.11' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_name_filter_can_be_cleared</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt27.12' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_name_filter_can_be_disabled</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt27.13' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_name_filter_operates_as_expected</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt27.14' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_search_fields_are_shown</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt27.15' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_user_group_page_opened_correctly</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt27.16' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_user_groups_are_shown_in_paginated_table</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_user_group_config_page_functions_test.AimUserGroupConfigPageFunctionsTest</td>
+    <td>8</td>
+    <td>8</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c28',8)">Detail</a></td>
+</tr>
+
+<tr id='pt28.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_allowed_exclusive_connection</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt28.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_channel_group_permissions_of_user_group</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt28.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_channel_permissions_of_user_group</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt28.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_member_users_of_group</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt28.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_name</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt28.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_receiver_group_permissions_of_user_group</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt28.7' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_receiver_permissions_of_user_group</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt28.8' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_remote_osd</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_user_group_clone_page_functions_test.AimUserGroupClonePageFunctionsTest</td>
+    <td>9</td>
+    <td>9</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c29',9)">Detail</a></td>
+</tr>
+
+<tr id='pt29.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_cloned_user_group_allowed_exclusive_connection_to_global</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt29.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_cloned_user_group_allowed_exclusive_connection_to_no</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt29.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_cloned_user_group_allowed_exclusive_connection_to_yes</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt29.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_cloned_user_group_channel_group_permissions</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt29.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_cloned_user_group_channel_permissions</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt29.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_cloned_user_group_member_users</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt29.7' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_cloned_user_group_name</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt29.8' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_cloned_user_group_receiver_group_permissions</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt29.9' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_cloned_user_group_receiver_permissions</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_add_user_group_page_functions_test.AimAddUserGroupPageFunctionsTest</td>
+    <td>10</td>
+    <td>10</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c30',10)">Detail</a></td>
+</tr>
+
+<tr id='pt30.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_create_user_group_with_allow_exclusive_global</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt30.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_create_user_group_with_allow_exclusive_no</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt30.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_create_user_group_with_allow_exclusive_yes</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt30.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_create_user_group_with_channel_group_permission</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt30.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_create_user_group_with_channel_permission</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt30.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_create_user_group_with_name_but_no_members_or_permissions</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt30.7' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_create_user_group_with_receiver_group_permission</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt30.8' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_create_user_group_with_receiver_permission</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt30.9' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_create_user_group_with_user</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt30.10' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_cannot_create_user_group_without_name</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='errorClass'>
+    <td>root.nested.tests.aim_servers_page_functions_test.AimServersPageFunctionsTest</td>
+    <td>7</td>
+    <td>3</td>
+    <td>0</td>
+    <td>4</td>
+    <td><a href="javascript:showClassDetail('c31',7)">Detail</a></td>
+</tr>
+
+<tr id='ft31.1' class='none'>
+    <td class='errorCase'><div class='testcase'>test_can_change_backup_server_description</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ft31.1')" >
+        error</a>
+
+    <div id='div_ft31.1' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_ft31.1').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+ft31.1: Traceback (most recent call last):
+  File "..\..\root\nested\tests\aim_servers_page_functions_test.py", line 134, in test_can_change_backup_server_description
+    raise RuntimeError("No Backup server in cluster")
+RuntimeError: No Backup server in cluster
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='ft31.2' class='none'>
+    <td class='errorCase'><div class='testcase'>test_can_change_backup_server_location</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ft31.2')" >
+        error</a>
+
+    <div id='div_ft31.2' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_ft31.2').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+ft31.2: Traceback (most recent call last):
+  File "..\..\root\nested\tests\aim_servers_page_functions_test.py", line 159, in test_can_change_backup_server_location
+    raise RuntimeError("No Backup server in cluster")
+RuntimeError: No Backup server in cluster
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='ft31.3' class='none'>
+    <td class='errorCase'><div class='testcase'>test_can_change_backup_server_name</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ft31.3')" >
+        error</a>
+
+    <div id='div_ft31.3' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_ft31.3').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+ft31.3: Traceback (most recent call last):
+  File "..\..\root\nested\tests\aim_servers_page_functions_test.py", line 109, in test_can_change_backup_server_name
+    raise RuntimeError("No Backup server in cluster")
+RuntimeError: No Backup server in cluster
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt31.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_primary_server_description</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt31.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_primary_server_location</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt31.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_primary_server_name</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='ft31.7' class='none'>
+    <td class='errorCase'><div class='testcase'>test_can_open_backup_server_local_config</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ft31.7')" >
+        error</a>
+
+    <div id='div_ft31.7' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_ft31.7').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+ft31.7: Traceback (most recent call last):
+  File "..\..\root\nested\tests\aim_servers_page_functions_test.py", line 179, in test_can_open_backup_server_local_config
+    raise RuntimeError("No Backup server in cluster")
+RuntimeError: No Backup server in cluster
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr class='failClass'>
+    <td>root.nested.tests.aim_dashboard_page_defaults_test.AimDashboardDefaultsTest</td>
+    <td>6</td>
+    <td>5</td>
+    <td>1</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c32',6)">Detail</a></td>
+</tr>
+
+<tr id='pt32.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_adder_branding_is_shown</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt32.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_adder_infinty_management_suite_is_shown</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt32.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_aim_is_shown_in_page_footer</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='ft32.4' class='none'>
+    <td class='failCase'><div class='testcase'>test_footer_is_showing_correct_firmware_version</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ft32.4')" >
+        fail</a>
+
+    <div id='div_ft32.4' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_ft32.4').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+ft32.4: Traceback (most recent call last):
+  File "..\..\root\nested\tests\aim_dashboard_page_defaults_test.py", line 47, in test_footer_is_showing_correct_firmware_version
+    self.assertEqual(self._page.get_footer_text(), "AIM %s" %(self._version))
+AssertionError: 'AIM v4.0.31796' != 'AIM v4.0.31768'
+- AIM v4.0.31796
+?             -
++ AIM v4.0.31768
+?              +
+
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt32.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_logout_button_is_present_and_displayed_correctly</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt32.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_time_and_date_shown_and_correct</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_dashboard_home_page_functions_test.AimDashbordHomePageFunctionsTest</td>
+    <td>40</td>
+    <td>40</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c33',40)">Detail</a></td>
+</tr>
+
+<tr id='pt33.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_all_channel_change_channel_links_open_correct_config_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_all_channel_change_receiver_links_open_correct_config_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_all_channel_change_user_links_open_correct_config_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_all_event_log_channel_name_open_config_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_all_event_log_receiver_name_open_config_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_all_event_log_transmitter_name_open_config_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.7' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_all_event_log_user_name_open_config_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.8' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_all_latest_active_connect_channel_name_open_config_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.9' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_all_latest_active_connect_preset_name_open_config_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.10' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_all_latest_active_connect_receiver_name_open_config_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.11' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_all_latest_active_connect_user_name_open_config_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.12' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_all_latest_channel_names_corresponding_clone_icon_opens_correct_clone_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.13' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_all_latest_channel_names_corresponding_pencil_icon_opens_correct_config_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.14' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_all_latest_channel_names_open_corresponding_config_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.15' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_all_receiver_links_corresponding_connect_icon_opens_connect_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.16' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_all_receiver_links_corresponding_pencil_icon_opens_correct_config_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.17' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_all_receiver_links_open_corresponding_config_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.18' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_all_sublinks_operate_correctly</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.19' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_all_transmitter_links_corresponding_pencil_icon_opens_correct_config_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.20' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_all_transmitter_links_open_corresponding_config_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.21' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_all_user_logins_corresponding_pencil_icon_opens_correct_config_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.22' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_all_user_logins_open_corresponding_config_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.23' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_all_user_registration_links_corresponding_icon_opens_correct_clone_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.24' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_all_user_registration_links_corresponding_pencil_icon_opens_correct_config_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.25' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_all_user_registration_links_open_corresponding_config_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.26' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_cancel_restart</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.27' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_cancel_shutdown</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.28' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_disconnect_all_button_functions_correctly</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.29' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_is_a_confirmation_given_when_restart_attempted</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.30' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_is_a_confirmation_given_when_shutdown_attempted</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.31' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_receivers_shown_in_widget_can_connect_to_channel</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.32' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_receivers_shown_in_widget_can_disconnect_from_channel</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.33' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_view_all_active_connections_link_operates_correctly</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.34' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_view_all_channel_changes_link_operates_correctly</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.35' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_view_all_channels_link_operates_correctly</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.36' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_view_all_events_link_operates_correctly</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.37' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_view_all_receivers_link_operates_correctly</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.38' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_view_all_transmitters_link_operates_correctly</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.39' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_view_all_user_logins_link_operates_correctly</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt33.40' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_view_all_users_link_operates_correctly</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_dashboard_settings_general_page_functions_test.AimDashboardSettingsGeneralPageFunctionsTest</td>
+    <td>10</td>
+    <td>10</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c34',10)">Detail</a></td>
+</tr>
+
+<tr id='pt34.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_admin_timeout</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt34.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_anonymous_user</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt34.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_api_anonymous_user</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt34.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_locale</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt34.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_osd_timeout</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt34.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_rows_per_page</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt34.7' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_toggle_allowed_connections</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt34.8' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_toggle_api_login_required</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt34.9' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_toggle_grant_all_users_exclusive_access</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt34.10' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_toggle_hide_dormant_devices</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_dashboard_settings_transmitters_page_functions_test.AimDashboardSettingsTransmittersPageFunctionsTest</td>
+    <td>15</td>
+    <td>15</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c35',15)">Detail</a></td>
+</tr>
+
+<tr id='pt35.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_background_refresh</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt35.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_compression_level</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt35.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_compression_level_advanced</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt35.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_ddc</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt35.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_hot_plug_detect_control</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt35.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_hot_plug_detect_signal_period</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt35.7' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_magic_eye</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt35.8' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_reserved_USB_ports</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt35.9' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_serial_data_bits</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt35.10' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_serial_parity</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt35.11' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_serial_speed</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt35.12' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_serial_stop_bits</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt35.13' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_toggle_enable_dummy_boot_keyboard</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt35.14' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_toggle_usd_hub_size</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt35.15' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_toggle_usd_speed</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_dashboard_settings_receivers_page_functions_test.AimDashboardSettingsReceiversPageFunctionsTest</td>
+    <td>24</td>
+    <td>24</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c36',24)">Detail</a></td>
+</tr>
+
+<tr id='pt36.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_displayed_port_reservation_devices</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt36.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_displayed_port_reservation_devices_by_adding_test_device</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt36.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_displayed_port_reservation_devices_by_deleting_test_device</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt36.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_displayed_port_reservation_devices_via_global_toggle</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt36.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_port_reservation_device</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt36.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_port_reservation_merge</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt36.7' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_port_reservation_values</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt36.8' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_receiver_keyboard_country_code</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt36.9' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_video_compatibility_check</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt36.10' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_toggle_audio_input_type</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt36.11' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_toggle_disable_isochronous_endpoint_osd_alerts</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt36.12' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_toggle_enable_isochronous_endpoint_attach</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt36.13' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_toggle_enable_required_osd_alerts</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt36.14' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_toggle_hid_only</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt36.15' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_toggle_login_required</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt36.16' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_cannot_change_displayed_port_reservation_devices_with_incomplete_form</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt36.17' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_ensure_usb_devices_that_reject_merging_force_merge_to_disabled</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt36.18' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_error_given_if_same_key_used_for_disconnect_hotkeys</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt36.19' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_error_given_if_same_key_used_for_exclusive_mode_hotkeys</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt36.20' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_error_given_if_same_key_used_for_last_channel_hotkey</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt36.21' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_error_given_if_same_key_used_for_osd_hotkeys</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt36.22' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_error_given_if_same_key_used_for_shared_mode_hotkeys</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt36.23' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_error_given_if_same_key_used_for_shortcut_hotkeys</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt36.24' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_error_given_if_same_key_used_for_view_only_mode_hotkeys</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_dashboard_settings_network_page_functions_test.AimDashboardSettingsNetworkPageFunctionsTest</td>
+    <td>15</td>
+    <td>15</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c37',15)">Detail</a></td>
+</tr>
+
+<tr id='pt37.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_change_multicast_ip_base_address_to_valid</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt37.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_syslog_ip_address_to_valid</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt37.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_cannot_change_aim_ip_address_to_invalid</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt37.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_cannot_change_dns_server_ip_address_to_invalid</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt37.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_cannot_change_multicast_ip_base_address_to_invalid</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt37.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_cannot_change_netmask_address_to_invalid</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt37.7' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_cannot_change_syslog_ip_address_to_invalid</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt37.8' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_changing_ethernet_port_2_to_dhcp_reveals_mac_and_ip</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt37.9' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_selecting_ethernet_port_2_to_static_provide_no_details_gives_warning</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt37.10' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_selecting_ethernet_port_2_to_static_reveals_all</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt37.11' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_snmp_options_available_once_snmp_enabled</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt37.12' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_warning_given_for_aim_ip_address_2_if_invalid</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt37.13' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_warning_given_for_dns_server_ip_address_2_if_invalid</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt37.14' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_warning_given_for_gateway_ip_address_2_if_invalid</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt37.15' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_warning_given_for_netmask_2_if_invalid</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='failClass'>
+    <td>root.nested.tests.aim_dashboard_settings_time_page_functions_test.AimDashboardSettingsTimePageFunctionsTest</td>
+    <td>2</td>
+    <td>1</td>
+    <td>1</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c38',2)">Detail</a></td>
+</tr>
+
+<tr id='pt38.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_new_ntp_options_can_be_activated</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='ft38.2' class='none'>
+    <td class='failCase'><div class='testcase'>test_time_zone_changes_updates_cities_correctly</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ft38.2')" >
+        fail</a>
+
+    <div id='div_ft38.2' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_ft38.2').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+ft38.2: Traceback (most recent call last):
+  File "..\..\root\nested\tests\aim_dashboard_settings_time_page_functions_test.py", line 111, in test_time_zone_changes_updates_cities_correctly
+    self.assertTrue(location in cities)
+AssertionError: False is not true
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_dashboard_settings_mail_page_functions_test.AimDashboardSettingsMailPageFunctionsTest</td>
+    <td>2</td>
+    <td>2</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c39',2)">Detail</a></td>
+</tr>
+
+<tr id='pt39.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_server_input_fields_become_active_if_enabled_set_to_yes</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt39.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_server_input_fields_become_inactive_if_enable_set_to_no</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_dashboard_settings_active_directory_page_functions_test.AimDashboardSettingsActiveDirectoryPageFunctionsTest</td>
+    <td>2</td>
+    <td>2</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c40',2)">Detail</a></td>
+</tr>
+
+<tr id='pt40.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_server_input_fields_become_active_if_enabled_set_to_yes</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt40.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_server_input_fields_become_inactive_if_enabled_set_to_no</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='passClass'>
+    <td>root.nested.tests.aim_statistics_v32_page_functions_test.AimStatisticsV32PageFunctionsTest</td>
+    <td>5</td>
+    <td>5</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c41',5)">Detail</a></td>
+</tr>
+
+<tr id='pt41.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_activate_statistics_for_devices</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt41.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_disable_statistics_for_devices</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt41.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_set_device_filter_to_rx_only</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt41.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_set_device_filter_to_tx_only</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt41.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_filters_work</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr class='failClass'>
+    <td>root.nested.api.api_test.ApiTest</td>
+    <td>6</td>
+    <td>3</td>
+    <td>3</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c42',6)">Detail</a></td>
+</tr>
+
+<tr id='pt42.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_get_channels</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='pt42.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_can_get_devices</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='ft42.3' class='none'>
+    <td class='failCase'><div class='testcase'>test_can_get_presets</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ft42.3')" >
+        fail</a>
+
+    <div id='div_ft42.3' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_ft42.3').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+ft42.3: Traceback (most recent call last):
+  File "..\..\root\nested\api\api_test.py", line 63, in test_can_get_presets
+    self.assertTrue(len(self.presets_list) &gt; 0)
+AssertionError: False is not true
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt42.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_connect_and_disconnect_channel</div></td>
+    <td colspan='5' align='center'>pass</td>
+</tr>
+
+<tr id='ft42.5' class='none'>
+    <td class='failCase'><div class='testcase'>test_connect_and_disconnect_preset</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ft42.5')" >
+        fail</a>
+
+    <div id='div_ft42.5' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_ft42.5').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+ft42.5: Traceback (most recent call last):
+  File "..\..\root\nested\api\api_test.py", line 84, in test_connect_and_disconnect_preset
+    self.test_can_get_presets()
+  File "..\..\root\nested\api\api_test.py", line 63, in test_can_get_presets
+    self.assertTrue(len(self.presets_list) &gt; 0)
+AssertionError: False is not true
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='ft42.6' class='none'>
+    <td class='failCase'><div class='testcase'>test_create_and_delete_preset</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ft42.6')" >
+        fail</a>
+
+    <div id='div_ft42.6' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_ft42.6').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+ft42.6: Traceback (most recent call last):
+  File "..\..\root\nested\api\api_test.py", line 103, in test_create_and_delete_preset
+    self.test_can_get_presets()
+  File "..\..\root\nested\api\api_test.py", line 63, in test_can_get_presets
+    self.assertTrue(len(self.presets_list) &gt; 0)
+AssertionError: False is not true
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='total_row'>
+    <td>Total</td>
+    <td>552</td>
+    <td>541</td>
+    <td>7</td>
+    <td>4</td>
+    <td>&nbsp;</td>
+</tr>
+</table>
+
+<div id='ending'>&nbsp;</div>
+
+</body>
+</html>

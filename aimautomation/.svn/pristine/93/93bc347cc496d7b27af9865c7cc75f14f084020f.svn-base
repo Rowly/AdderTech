@@ -1,0 +1,195 @@
+'''
+Created on 12 Apr 2013
+
+@author: Mark.rowlands
+'''
+import unittest
+import HTMLTestRunner
+import requests
+from xml.dom.minidom import parseString
+import glob, os
+import time
+
+
+class AimApiTest(unittest.TestCase):
+
+    baseurl = "http://10.10.10.10"
+    username = 'admin'
+    password = 'password'
+    v = '2.3'
+    rx_ids = []
+    tx_ids = []
+    c_ids = []
+    cp_ids = []
+
+    @classmethod
+    def setUpClass(self):
+        response = requests.get('%s/api/?v=%s&method=login&username=%s&password=%s'%(self.baseurl, self.v, self.username, self.password))
+        parsed_response = parseString(response.text)
+        token = parsed_response.getElementsByTagName('token')[0].firstChild.nodeValue
+        token_file = open('token.txt', 'w+')
+        token_file.write(token)
+    
+    @classmethod    
+    def tearDownClass(self):
+        filelist = glob.glob("*.txt")
+        for f in filelist:
+            os.remove(f)
+    
+    def test_A_can_successfully_login(self):
+        token_file = open('token.txt', 'r')
+        token = token_file.read()
+        self.assertNotEqual(token, '')
+        
+    def test_B_can_get_devices(self):
+        token_file = open('token.txt', 'r')
+        token = token_file.read()
+        response = requests.get('%s/api/?v=%s&method=get_devices&token=%s&show_all=1'%(self.baseurl, self.v, token))
+        parsed_response = parseString(response.text)    
+        devices = parsed_response.getElementsByTagName('device')
+        for device in devices:
+            descriptions = device.getElementsByTagName('d_type')
+            if descriptions[0].firstChild.nodeValue == 'rx':
+                ids = device.getElementsByTagName('d_id')
+                self.rx_ids.append(ids[0].firstChild.nodeValue)
+            elif descriptions[0].firstChild.nodeValue == 'tx':
+                ids = device.getElementsByTagName('d_id')
+                self.tx_ids.append(ids[0].firstChild.nodeValue)
+        rx_ids_file = open('receivers.txt', 'w+')
+        for rx_id in self.rx_ids:
+            self.assertNotEqual(rx_id, '')
+            rx_ids_file.write('%s\n' % rx_id)
+        tx_ids_file = open('transmitters.txt', 'w+')
+        for tx_id in self.tx_ids:
+            self.assertNotEqual(tx_id, '')
+            tx_ids_file.write('%s\n' % tx_id)
+        
+    def test_C_can_get_channels(self):
+        token_file = open('token.txt', 'r')
+        token = token_file.read()
+        response = requests.get('%s/api/?v=%s&method=get_channels&token=%s&show_all=1'%(self.baseurl, self.v, token))
+        parsed_response = parseString(response.text)
+        channels = parsed_response.getElementsByTagName('channel')
+        for channel in channels:
+            c_ids = channel.getElementsByTagName('c_id')
+            self.c_ids.append(c_ids[0].firstChild.nodeValue)
+        c_ids_file = open('channels.txt', 'w+')
+        for c_id in self.c_ids:
+            self.assertNotEqual(c_id, '')
+            c_ids_file.write('%s\n' % c_id)
+            
+    def test_D_can_get_presets(self):
+        token_file = open('token.txt', 'r')
+        token = token_file.read()
+        response = requests.get('%s/api/?v=%s&method=get_presets&token=%s'%(self.baseurl, self.v, token))
+        parsed_response = parseString(response.text)
+        presets = parsed_response.getElementsByTagName('connection_preset')
+        for preset in presets:
+            cp_ids = preset.getElementsByTagName('cp_id')
+            self.cp_ids.append(cp_ids[0].firstChild.nodeValue)
+        cp_ids_file = open('presets.txt', 'w+')
+        for cp_id in self.cp_ids:
+            self.assertNotEqual(cp_id, '')
+            cp_ids_file.write('%s\n' % cp_id)
+            
+    def test_E_can_connect_channel(self):
+        token_file = open('token.txt', 'r')
+        token = token_file.read()
+        
+        rx_file = open('receivers.txt', 'r')
+        receivers = rx_file.readlines()
+        
+        channels_file = open('channels.txt', 'r')
+        channels = channels_file.readlines()
+        
+        for receiver in receivers:
+            receiver = receiver.rstrip()
+            for channel in channels:
+                channel = channel.rstrip()
+                response = requests.get('%s/api/?v=%s&method=connect_channel&token=%s&c_id=%s&rx_id=%s&view_only=1'%(self.baseurl, self.v, token, channel, receiver))
+                parsed_response = parseString(response.text)
+                success_state = parsed_response.getElementsByTagName('success')
+                self.assertTrue(success_state[0].firstChild.nodeValue == '1', response.text)
+                time.sleep(10)
+    
+    def test_F_can_disconnect_channel(self):
+        token_file = open('token.txt', 'r')
+        token = token_file.read()
+        
+        rx_file = open('receivers.txt', 'r')
+        receivers = rx_file.readlines()
+        
+        channels_file = open('channels.txt', 'r')
+        channels = channels_file.readlines()
+        
+        for receiver in receivers:
+            receiver = receiver.rstrip()
+            for channel in channels:
+                channel = channel.rstrip()
+                
+                response = requests.get('%s/api/?v=%s&method=connect_channel&token=%s&c_id=%s&rx_id=%s'%(self.baseurl, self.v, token, channel, receiver))
+                parsed_response = parseString(response.text)
+                success_state = parsed_response.getElementsByTagName('success')
+                self.assertTrue(success_state[0].firstChild.nodeValue == '1', response.text)
+                time.sleep(10)
+                response = requests.get('%s/api/?v=%s&method=disconnect_channel&token=%s&rx_ids=%s'%(self.baseurl, self.v, token,  receiver))
+                parsed_response = parseString(response.text)
+                success_state = parsed_response.getElementsByTagName('success')
+                self.assertTrue(success_state[0].firstChild.nodeValue == '1', response.text)
+                time.sleep(5)
+    
+    def test_G_can_connect_preset(self):
+        token_file = open('token.txt', 'r')
+        token = token_file.read()
+         
+        preset_file = open('presets.txt', 'r')
+        presets = preset_file.readlines()
+         
+        for preset in presets:
+            preset = preset.rstrip()
+            response = requests.get('%s/api/?v=%s&method=connect_preset&token=%s&id=%s'%(self.baseurl, self.v, token, preset))
+            parsed_response = parseString(response.text)
+            success_state = parsed_response.getElementsByTagName('success')
+            self.assertTrue(success_state[0].firstChild.nodeValue == '1', response.text)
+            time.sleep(10)
+    
+    def test_H_can_disconnect_preset(self):
+        token_file = open('token.txt', 'r')
+        token = token_file.read()
+        
+        preset_file = open('presets.txt', 'r')
+        presets = preset_file.readlines()
+        
+        for preset in presets:
+            preset = preset.rstrip()
+            response = requests.get('%s/api/?v=%s&method=connect_preset&token=%s&id=%s'%(self.baseurl, self.v, token, preset))
+            parsed_response = parseString(response.text)
+            success_state = parsed_response.getElementsByTagName('success')
+            self.assertTrue(success_state[0].firstChild.nodeValue == '1', response.text)
+            time.sleep(10)
+            response = requests.get(self.baseurl + '/api/?v=' + self.v + '&method=disconnect_preset&token=' + token + '&id=' + preset)
+            response = requests.get('%s/api/?v=%s&method=disconnect_preset&token=%s&id=%s'%(self.baseurl, self.v, token, preset))
+            parsed_response = parseString(response.text)
+            success_state = parsed_response.getElementsByTagName('success')
+            self.assertTrue(success_state[0].firstChild.nodeValue == '1', response.text)
+            time.sleep(5)
+        
+    def test_X_can_successfully_logout(self):
+        token_file = open('token.txt')
+        token = token_file.read()
+        response = requests.get('%s/api/?v=%s&method=logout&token=%s'%(self.baseurl, self.v, token))
+        parsed_response = parseString(response.text)
+        success_state = parsed_response.getElementsByTagName('success')
+        try:
+            self.assertTrue(success_state[0].firstChild.nodeValue == '1')
+        except AssertionError :
+            if success_state[0].firstChild.nodeValue == '0':
+                error_codes = parsed_response.getElementsByTagName('msg')
+                self.assertTrue(error_codes[0].firstChild.nodeValue == 'Error logging out (you may already have logged out)')
+                print('<msg>Error logging out (you may already have logged out)</msg> seen, unexpected but caught')
+                 
+            
+               
+        
+if __name__ == "__main__":
+    HTMLTestRunner.main()

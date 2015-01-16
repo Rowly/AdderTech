@@ -1,0 +1,61 @@
+'''
+Created on 18 Mar 2014
+
+@author: Mark
+'''
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
+import datetime
+import argparse
+
+from unittest import TestLoader, TestSuite
+from root.nested.tests.aim_transmitter_config_page_functions_test import AimTransmitterConfigPageFunctions
+from root.nested.tests.aim_transmitters_page_functions_test import AimTransmittersPageFunctionsTest
+from root.nested.tests.aim_channel_page_functions_test import AimChannelPageFunctionsTest
+from root.nested.tests.aim_channel_config_page_functions_test import AimChannelConfigPageFunctionsTest
+from root.nested.tests.aim_receiver_config_page_functions_test import AimReceiverConfigPageFunctionsTest
+from root.nested.tests.aim_receivers_page_functions_test import AimReceiversPageFunctionsTest
+from root.nested.tests.aim_presets_page_functions_test import AimPresetsPageFunctionsTest
+from root.nested.tests.aim_presets_config_page_functions_test import AimPresetsConfigPageFunctionsTest
+from root.nested.services.parameters import parameter_singleton
+from root.nested.services.HTMLTestRunner import HTMLTestRunner
+
+class AimRegressionSuite():
+    
+    lengths_allowed = ["long", "short"]
+        
+    if __name__ == "__main__":
+    
+        parser = argparse.ArgumentParser(description="Web UI testing of AIM.")
+        parser.add_argument("version", type=str, help="Version under test")
+        parser.add_argument("suite", type=str, help="Suite length to run", choices=lengths_allowed)
+        parser.add_argument("ip", type=str, help="IP of AIM unit under test")
+        args = parser.parse_args()
+        
+        version = args.version
+        suite_length = args.suite
+        url = "http://%s"%args.ip
+        parameter_singleton["version"] = version #for local tests edit value in base_test
+        parameter_singleton["suite"] = suite_length #for local tests edit value in base_test
+        parameter_singleton["url"] = url #for local tests edit value in base_test
+        
+        file_name = "P_%s_%s"%(version.replace(".", "-"), datetime.datetime.now().strftime("%Y_%m_%d_%H%M_report.html"))
+    
+        output = open(file_name, "wb")
+    
+        loader = TestLoader()
+        suite = TestSuite((
+            loader.loadTestsFromTestCase(AimTransmittersPageFunctionsTest),
+            loader.loadTestsFromTestCase(AimTransmitterConfigPageFunctions),
+            loader.loadTestsFromTestCase(AimChannelPageFunctionsTest),
+            loader.loadTestsFromTestCase(AimChannelConfigPageFunctionsTest),
+            loader.loadTestsFromTestCase(AimReceiversPageFunctionsTest),
+            loader.loadTestsFromTestCase(AimReceiverConfigPageFunctionsTest),
+            loader.loadTestsFromTestCase(AimPresetsPageFunctionsTest),
+            loader.loadTestsFromTestCase(AimPresetsConfigPageFunctionsTest)
+            ))
+    
+    
+        runner = HTMLTestRunner(stream = output, verbosity = 1, title = "Aim UI Priority Regression Suite " + version)
+        runner.run(suite)

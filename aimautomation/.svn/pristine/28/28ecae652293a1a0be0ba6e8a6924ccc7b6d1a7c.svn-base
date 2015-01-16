@@ -1,0 +1,345 @@
+'''
+Created on 4 Jun 2013
+
+@author: Mark.rowlands
+'''
+from root.nested.tests.base_aim_regression_test import BaseAimRegressionTest
+from root.nested.pages.base_page import BasePage
+
+class AimChannelGroupsViewPageFunctionsTest(BaseAimRegressionTest):
+    
+    search_term = "0"
+    
+    def test_can_open_add_channel_group_via_button(self):
+        self._page.open_AIM_homepage_on_base_url()
+        self._page.login_as("admin", "password", False)
+        self._page.open_channels_tab()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channels")
+        self._page.click_view_channel_group_button()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channel Groups")
+        self._page.click_add_channel_group_button()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channel Groups > Add Channel Group")
+   
+    def test_name_filter_operates_as_expected(self):
+        self._page.open_AIM_homepage_on_base_url()
+        self._page.login_as("admin", "password", False)
+        self._page.open_channels_tab()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channels")
+        self._page.click_view_channel_group_button()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channel Groups")
+        self._page.send_search_term_to_channel_group_name_field(self.search_term)
+        self._page.click_on_filter_channel_groups_by_name()
+        groups = self._page.get_list_of_channel_groups()
+        for group in groups:
+            self.assertNotEqual(self._page.get_channel_group_name(group).lower().find(self.search_term), -1)
+
+    def test_name_filter_can_be_disabled(self):
+        self._page.open_AIM_homepage_on_base_url()
+        self._page.login_as("admin", "password", False)
+        self._page.open_channels_tab()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channels")
+        self._page.click_view_channel_group_button()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channel Groups")
+        self._page.send_search_term_to_channel_group_name_field(self.search_term)
+        self._page.click_on_filter_channel_groups_by_name()
+        filtered_groups = self._page.get_list_of_channel_groups()
+        for group in filtered_groups:
+            self.assertNotEqual(self._page.get_channel_group_name(group).lower().find(self.search_term), -1)
+        self._page.click_on_remove_channel_groups_name_filter()
+        non_filtered_groups = self._page.get_list_of_channel_groups()
+        self.assertTrue(len(filtered_groups) <= len(non_filtered_groups))
+    
+    def test_name_filter_can_be_cleared(self):
+        self._page.open_AIM_homepage_on_base_url()
+        self._page.login_as("admin", "password", False)
+        self._page.open_channels_tab()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channels")
+        self._page.click_view_channel_group_button()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channel Groups")
+        self._page.send_search_term_to_channel_group_name_field(self.search_term)
+        self._page.click_on_filter_channel_groups_by_name()
+        filtered_groups = self._page.get_list_of_channel_groups()
+        for group in filtered_groups:
+            self.assertNotEqual(self._page.get_channel_group_name(group).lower().find(self.search_term), -1)
+        self._page.clear_channel_names_filter()
+        self._page.click_on_filter_channel_groups_by_name()
+        non_filtered_groups = self._page.get_list_of_channel_groups()
+        self.assertTrue(len(filtered_groups) <= len(non_filtered_groups))
+
+    def test_description_filter_operates_as_expected(self):
+        self._page.open_AIM_homepage_on_base_url()
+        self._page.login_as("admin", "password", False)
+        self._page.open_channels_tab()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channels")
+        self._page.click_view_channel_group_button()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channel Groups")
+        self._page.send_search_term_to_channel_group_description_field(self.search_term)
+        self._page.click_on_filter_channel_groups_by_description()
+        groups = self._page.get_list_of_channel_groups()
+        for group in groups:
+            self.assertNotEqual(self._page.get_channel_group_description(group).lower().find(self.search_term), -1)
+
+    def test_description_filter_can_be_disabled(self):
+        self._page.open_AIM_homepage_on_base_url()
+        self._page.login_as("admin", "password", False)
+        self._page.open_channels_tab()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channels")
+        self._page.click_view_channel_group_button()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channel Groups")
+        self._page.send_search_term_to_channel_group_description_field(self.search_term)
+        self._page.click_on_filter_channel_groups_by_description()
+        filtered_groups = self._page.get_list_of_channel_groups()
+        for group in filtered_groups:
+            self.assertNotEqual(self._page.get_channel_group_description(group).lower().find(self.search_term), -1)
+        self._page.click_on_remove_channel_groups_description_filter()
+        non_filtered_groups = self._page.get_list_of_channel_groups()
+        self.assertTrue(len(filtered_groups) <= len(non_filtered_groups))
+    
+    def test_description_filter_can_be_cleared(self):
+        self._page.open_AIM_homepage_on_base_url()
+        self._page.login_as("admin", "password", False)
+        self._page.open_channels_tab()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channels")
+        self._page.click_view_channel_group_button()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channel Groups")
+        self._page.send_search_term_to_channel_group_description_field(self.search_term)
+        self._page.click_on_filter_channel_groups_by_description()
+        filtered_groups = self._page.get_list_of_channel_groups()
+        for group in filtered_groups:
+            self.assertNotEqual(self._page.get_channel_group_description(group).lower().find(self.search_term), -1)
+        self._page.clear_channel_group_names_filter()
+        self._page.click_on_filter_channel_groups_by_description()
+        non_filtered_groups = self._page.get_list_of_channel_groups()
+        self.assertTrue(len(filtered_groups) <= len(non_filtered_groups))
+        
+    def test_remove_filters_button_operates_as_expected(self):
+        self._page.open_AIM_homepage_on_base_url()
+        self._page.login_as("admin", "password", False)
+        self._page.open_channels_tab()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channels")
+        self._page.click_view_channel_group_button()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channel Groups")
+        self._page.send_search_term_to_channel_group_name_field(self.search_term)
+        self._page.click_on_filter_channel_groups_by_name()
+        filtered_by_name_groups = self._page.get_list_of_channel_groups()
+        self._page.click_on_remove_filters()
+        remove_filter_groups = self._page.get_list_of_channel_groups()
+        self.assertTrue(len(filtered_by_name_groups) <= len(remove_filter_groups))
+        self._page.send_search_term_to_channel_group_description_field(self.search_term)
+        self._page.click_on_filter_channel_groups_by_description()
+        filtered_by_description_groups = self._page.get_list_of_channel_groups()
+        self._page.click_on_remove_filters()
+        remove_filter_groups = self._page.get_list_of_channel_groups()
+        self.assertTrue(len(filtered_by_description_groups) <= len(remove_filter_groups))
+        
+    def test_can_sort_names_ascending(self):
+        self._page.open_AIM_homepage_on_base_url()
+        self._page.login_as("admin", "password", False)
+        self._page.open_channels_tab()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channels")
+        self._page.click_view_channel_group_button()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channel Groups")
+        self._page.click_on_ascend_channel_group_names()
+        sorted_groups = self._page.get_list_of_channel_groups()
+        group_names = []
+        if len(sorted_groups) > 1:
+            for group in sorted_groups:
+                group_names.append(self._page.get_channel_group_name(group))
+            counter = 0
+            for counter in range((len(group_names) - 1)):
+                self.assertTrue(group_names[counter] < group_names[counter + 1])
+                
+    def test_can_sort_names_decending(self):
+        self._page.open_AIM_homepage_on_base_url()
+        self._page.login_as("admin", "password", False)
+        self._page.open_channels_tab()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channels")
+        self._page.click_view_channel_group_button()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channel Groups")
+        self._page.click_on_decend_channel_group_names()
+        sorted_groups = self._page.get_list_of_channel_groups()
+        group_names = []
+        if len(sorted_groups) > 1:
+            for channel in sorted_groups:
+                group_names.append(self._page.get_channel_group_name(channel))
+            counter = 0
+            for counter in range((len(group_names) - 1)):
+                self.assertTrue(group_names[counter] > group_names[counter + 1])
+                
+    def test_can_sort_descriptions_ascending(self):
+        self._page.open_AIM_homepage_on_base_url()
+        self._page.login_as("admin", "password", False)
+        self._page.open_channels_tab()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channels")
+        self._page.click_view_channel_group_button()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channel Groups")
+        self._page.click_on_ascend_channel_group_descriptions()
+        sorted_groups = self._page.get_list_of_channel_groups()
+        group_descriptions = []
+        if len(sorted_groups) > 1:
+            for group in sorted_groups:
+                group_descriptions.append(self._page.get_channel_group_description(group))
+            counter = 0
+            for counter in range((len(group_descriptions) - 1)):
+                self.assertTrue(group_descriptions[counter] < group_descriptions[counter + 1])        
+    
+    def test_can_sort_descriptions_decending(self):
+        self._page.open_AIM_homepage_on_base_url()
+        self._page.login_as("admin", "password", False)
+        self._page.open_channels_tab()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channels")
+        self._page.click_view_channel_group_button()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channel Groups")
+        self._page.click_on_decend_channel_group_descriptions()
+        sorted_groups = self._page.get_list_of_channel_groups()
+        group_descriptions = []
+        if len(sorted_groups) > 1:
+            for group in sorted_groups:
+                group_descriptions.append(self._page.get_channel_group_description(group))
+            counter = 0
+            for counter in range((len(group_descriptions) - 1)):
+                self.assertTrue(group_descriptions[counter] > group_descriptions[counter + 1])
+                
+    def test_can_open_config_page(self):
+        self._page.open_AIM_homepage_on_base_url()
+        self._page.login_as("admin", "password", False)
+        self._page.open_channels_tab()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channels")
+        self._page.click_view_channel_group_button()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channel Groups")
+        groups = self._page.get_list_of_channel_groups()
+        page = BasePage()
+        page.open_AIM_homepage_on_base_url()
+        page.login_as("admin", "password", False)
+        for group in groups:
+            link_text = self._page.get_channel_group_config_linktext(group)
+            page.driver.get(link_text)
+            self.assertEqual(page.get_text_of_page_header(), "Channel Groups > Configure Channel Group")
+        page.driver.quit()
+    
+    def test_can_open_clone_channel_group_page(self):
+        self._page.open_AIM_homepage_on_base_url()
+        self._page.login_as("admin", "password", False)
+        self._page.open_channels_tab()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channels")
+        self._page.click_view_channel_group_button()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channel Groups")
+        groups = self._page.get_list_of_channel_groups()
+        page = BasePage()
+        page.open_AIM_homepage_on_base_url()
+        page.login_as("admin", "password", False)
+        for group in groups:
+            link_text = self._page.get_channel_group_clone_linktext(group)
+            page.driver.get(link_text)
+            self.assertEqual(page.get_text_of_page_header(), "Channel Groups > Configure Cloned Channel Group")
+        page.driver.quit()
+    
+    def test_can_open_and_cancel_delete_channel_group_dialogue(self):
+        self._page.open_AIM_homepage_on_base_url()
+        self._page.login_as("admin", "password", False)
+        self._page.open_channels_tab()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channels")
+        self._page.click_view_channel_group_button()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channel Groups")
+        groups = self._page.get_list_of_channel_groups()
+        for group in groups:
+            self._page.click_channel_group_delete(group)
+            self.assertTrue("Delete channel group" in self._page.get_delete_channel_text_from_lightbox())
+            self._page.click_lightbox_cancel_button()
+            self.assertFalse(self._page.check_lightbox_visibility())
+    
+    def test_can_delete_channel_group(self):
+        self._page.open_AIM_homepage_on_base_url()
+        self._page.login_as("admin", "password", False)
+        self._page.open_channels_tab()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channels")
+        self._page.click_view_channel_group_button()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channel Groups")
+        self.reset_number_of_channel_groups()
+        groups = self._page.get_list_of_channel_groups()
+        self._page.click_channel_group_delete(groups[-1])
+        self.assertTrue("Delete channel group" in self._page.get_delete_channel_text_from_lightbox())
+        self._page.click_lightbox_delete_button()
+        self.assertFalse(self._page.check_lightbox_visibility())
+        new_groupss = self._page.get_list_of_channel_groups()
+        self.assertTrue(len(groups) > len(new_groupss))
+        self.reset_number_of_channel_groups()
+         
+    def test_can_toggle_batch_delete_mode(self):
+        self._page.open_AIM_homepage_on_base_url()
+        self._page.login_as("admin", "password", False)
+        self._page.open_channels_tab()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channels")
+        self._page.click_view_channel_group_button()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channel Groups")
+        self.assertFalse(self._page.check_for_batch_delete_checkbox())
+        self._page.click_batch_delete_mode()
+        self.assertTrue(self._page.check_for_batch_delete_checkbox())
+        self._page.click_batch_delete_mode()
+        self.assertFalse(self._page.check_for_batch_delete_checkbox())       
+    
+    def test_can_cancel_batch_delete(self):
+        self._page.open_AIM_homepage_on_base_url()
+        self._page.login_as("admin", "password", False)
+        self._page.open_channels_tab()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channels")
+        self._page.click_view_channel_group_button()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channel Groups")
+        self._page.click_batch_delete_mode()
+        groups = self._page.get_list_of_channel_groups()
+        for group in groups:
+            self.assertTrue(self._page.check_for_batch_delete_checkbox_for_channel_group_element(group))
+        self._page.click_batch_delete_mode()
+        for groups in groups:
+            self.assertFalse(self._page.check_for_batch_delete_checkbox_for_channel_group_element(group))
+        groups = self._page.get_list_of_channel_groups()
+        self._page.click_batch_delete_mode()
+        self._page.click_batch_delete_selector_for_channel_group_element(groups[-1])
+        self._page.click_batch_delete_selector_for_channel_group_element(groups[-2])
+        self._page.click_batch_delete_channel_groups()
+        self._page.click_lightbox_cancel_button()
+        new_groups = self._page.get_list_of_channel_groups()
+        self.assertTrue(len(groups) == len(new_groups))
+        
+    def test_can_batch_delete_channels(self):
+        self._page.open_AIM_homepage_on_base_url()
+        self._page.login_as("admin", "password", False)
+        self._page.open_channels_tab()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channels")
+        self._page.click_view_channel_group_button()
+        self.assertEqual(self._page.get_text_of_page_header(), "Channel Groups")
+        self.reset_number_of_channel_groups()
+        groups = self._page.get_list_of_channel_groups()
+        self._page.click_batch_delete_mode()
+        self._page.click_batch_delete_selector_for_channel_group_element(groups[-1])
+        self._page.click_batch_delete_selector_for_channel_group_element(groups[-2])
+        self._page.click_batch_delete_channel_groups()
+        self._page.click_lightbox_delete_button()
+        new_groups = self._page.get_list_of_channel_groups()
+        self.assertTrue(len(groups) >= len(new_groups))
+        self.reset_number_of_channel_groups()
+    
+    def reset_number_of_channel_groups(self):
+        groups = self._page.get_list_of_channel_groups()
+        if len(groups) < 5:
+            page = BasePage()
+            page.open_AIM_homepage_on_base_url()
+            page.login_as("admin", "password", False)
+            counter = 5 - len(groups)
+            for counter in range(0, counter):
+                self._page.driver.refresh()
+                groups = self._page.get_list_of_channel_groups()
+                link_text = self._page.get_channel_group_clone_linktext(groups[-1])
+                last_name = self._page.get_channel_group_name(groups[-1])
+                last_desc = self._page.get_channel_group_description(groups[-1])    
+                last_name = last_name.split(" ")
+                last_desc = last_desc.split(" ")
+                last_name[1] = str(int(last_name[1]) + 1)
+                last_desc[1] = str(int(last_desc[1]) + 1)
+                seperator = " "
+                page.driver.get(link_text)
+                page.set_channel_group_name_via_config_page(seperator.join((last_name[0], last_name[1])))
+                page.set_channel_group_description_via_config_page(seperator.join((last_desc[0], last_desc[1])))
+                page.click_save()
+                page.confirm_no_longer_on_clone_channel_page()
+            page.driver.quit()        
