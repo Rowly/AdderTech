@@ -21,26 +21,28 @@ from root.nested.tests.aim_presets_config_page_functions_test import AimPresetsC
 from root.nested.services.parameters import parameter_singleton
 from root.nested.services.HTMLTestRunner import HTMLTestRunner
 
+
 class AimRegressionSuite():
-    
-    lengths_allowed = ["long", "short"]
-        
+
     if __name__ == "__main__":
-    
+
         parser = argparse.ArgumentParser(description="Web UI testing of AIM.")
         parser.add_argument("version", type=str, help="Version under test")
         parser.add_argument("ip", type=str, help="IP of AIM unit under test")
         args = parser.parse_args()
-        
+
         version = args.version
-        url = "http://%s"%args.ip
-        parameter_singleton["version"] = version #for local tests edit value in base_test
-        parameter_singleton["url"] = url #for local tests edit value in base_test
-        
-        file_name = "P_%s_%s"%(version.replace(".", "-"), datetime.datetime.now().strftime("%Y_%m_%d_%H%M_report.html"))
-    
+        url = "http://%s" % args.ip
+        parameter_singleton["version"] = version
+        parameter_singleton["url"] = url
+        parameter_singleton["local_only"] = False
+
+        format = "%Y_%m_%d_%H%M_report.html"
+        file_name = "P_%s_%s" % (version.replace(".", "-"),
+                                 datetime.datetime.now().strftime(format))
+
         output = open(file_name, "wb")
-    
+
         loader = TestLoader()
         suite = TestSuite((
             loader.loadTestsFromTestCase(AimTransmittersPageFunctionsTest),
@@ -52,7 +54,9 @@ class AimRegressionSuite():
             loader.loadTestsFromTestCase(AimChannelPageFunctionsTest),
             loader.loadTestsFromTestCase(AimChannelConfigPageFunctionsTest)
             ))
-    
-    
-        runner = HTMLTestRunner(stream = output, verbosity = 1, title = "Aim UI Priority Regression Suite " + version)
+
+        runner = HTMLTestRunner(stream=output,
+                                verbosity=1,
+                                title="Aim UI Priority Regression Suite " +
+                                version)
         runner.run(suite)

@@ -34,7 +34,7 @@ class AimLoginPageDefaultsTest(BaseAimRegressionTest):
         self.assertEqual(self._page.get_user_validate_tooltip_text("warning"),
                          "Username::This field must not be empty. ")
 
-    def test_username_validation_updates_once_text_is_entered_into_the_field(self):
+    def test_username_validation_correct_on_text_entry(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.enter_text_into_input_field("username", "test")
         self.assertEqual(self._page.get_user_validate_tooltip_text("ok"),
@@ -42,12 +42,13 @@ class AimLoginPageDefaultsTest(BaseAimRegressionTest):
 
     def test_background_colour_is_black(self):
         self._page.open_AIM_homepage_on_base_url()
-        self.assertEqual(self._page.get_back_ground_colour(), 
+        self.assertEqual(self._page.get_back_ground_colour(),
                          "rgba(0, 0, 0, 1)")
 
     def test_background_image_is_present_and_set_to_repeat(self):
         self._page.open_AIM_homepage_on_base_url()
-#         NOTE: different browsers are returning a different string for the image url
+#       NOTE: different browsers are returning
+#       a different string for the image url
         if (self._page.get_back_ground_image() ==
             "url(\"" + self._baseurl + "/admin/images/background.png\")"):
             found = True
@@ -57,10 +58,10 @@ class AimLoginPageDefaultsTest(BaseAimRegressionTest):
         else:
             found = False
         self.assertTrue(found)
-        self.assertEqual(self._page.get_back_ground_repeat_property(), 
+        self.assertEqual(self._page.get_back_ground_repeat_property(),
                          "repeat-x")
 
     def test_adder_favicon_is_present(self):
         self._page.open_AIM_homepage_on_base_url()
-        self.assertEqual(self._page.get_favicon_href(), 
-                         self._baseurl + "/admin/images/adder/favicon.ico")
+        self.assertEqual(self._page.get_favicon_href(),
+                        self._baseurl + "/admin/images/adder/favicon.ico")

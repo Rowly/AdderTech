@@ -9,102 +9,119 @@ from root.nested.services.telnet_service import TelnetService
 from root.nested.services.parameters import parameter_singleton
 import re
 
+
 class AimTransmitterConfigPageFunctions(BaseAimRegressionTest):
-     
+
     def test_transmitter_ip_address_cannot_be_changed_to_invalid_address(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_transmitters_tab()
         self.open_config_page_for_tx_under_test()
-        self.assertEqual(self._page.get_text_of_page_header(), "Transmitters > Configure Transmitter")
+        self.assertEqual(self._page.get_text_of_page_header(),
+                         "Transmitters > Configure Transmitter")
         self._page.set_transmitter_ip_via_config_page("1.1.123123123.1")
         self._page.click_save()
-        self.assertEquals(self._page.get_lightbox_title_text(), "Device Off Network")
+        self.assertEquals(self._page.get_lightbox_title_text(),
+                          "Device Off Network")
         self._page.click_lightbox_ok_button()
         self._page.set_transmitter_ip_via_config_page("abc.ade.ade.adf")
         self._page.click_save()
-        self.assertEquals(self._page.get_lightbox_title_text(), "Device Off Network")
+        self.assertEquals(self._page.get_lightbox_title_text(),
+                          "Device Off Network")
         self._page.click_lightbox_ok_button()
         self._page.set_transmitter_ip_via_config_page("1.2")
         self._page.click_save()
-        self.assertEquals(self._page.get_lightbox_title_text(), "Device Off Network")
+        self.assertEquals(self._page.get_lightbox_title_text(),
+                          "Device Off Network")
         self._page.click_lightbox_ok_button()
         self._page.set_transmitter_ip_via_config_page("255.255.255.255")
         self._page.click_save()
-        self.assertEquals(self._page.get_lightbox_title_text(), "Device Off Network")
+        self.assertEquals(self._page.get_lightbox_title_text(),
+                          "Device Off Network")
         self._page.click_lightbox_ok_button()
-         
+
     def test_can_select_dummy_boot_keyboard_options(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_transmitters_tab()
         self.open_config_page_for_tx_under_test()
-        self.assertEqual(self._page.get_text_of_page_header(), "Transmitters > Configure Transmitter")
+        self.assertEqual(self._page.get_text_of_page_header(),
+                         "Transmitters > Configure Transmitter")
         self.assertTrue(self._page.get_state_dummy_keyboard("global"))
-        self.assertEquals(self.get_fake_keyboard_setting_via_telnet(self._page.get_ip_address_from_config_page() ), "1")        
+        ip = self._page.get_ip_address_from_config_page()
+        self.assertEquals(self.get_fake_keyboard_via_telnet(ip), "1")
         self._page.set_state_dummy_keyboard_no(True)
         self._page.click_save()
         self.open_config_page_for_tx_under_test()
-        self.assertTrue(self._page.get_state_dummy_keyboard("no")) 
-        self.assertEquals(self.get_fake_keyboard_setting_via_telnet(self._page.get_ip_address_from_config_page() ), "0")
+        self.assertTrue(self._page.get_state_dummy_keyboard("no"))
+        self.assertEquals(self.get_fake_keyboard_via_telnet(ip), "0")
         self._page.set_state_dummy_keyboard_yes(True)
         self._page.click_save()
         self.open_config_page_for_tx_under_test()
         self.assertTrue(self._page.get_state_dummy_keyboard("yes"))
-        self.assertEquals(self.get_fake_keyboard_setting_via_telnet(self._page.get_ip_address_from_config_page() ), "1")
+        self.assertEquals(self.get_fake_keyboard_via_telnet(ip), "1")
         self._page.set_state_dummy_keyboard_global(True)
         self._page.click_save()
-        
+        self._page.open_transmitters_tab()
+
     def test_can_select_USB_speed_options(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_transmitters_tab()
         self.open_config_page_for_tx_under_test()
-        self.assertEqual(self._page.get_text_of_page_header(), "Transmitters > Configure Transmitter")
+        self.assertEqual(self._page.get_text_of_page_header(),
+                         "Transmitters > Configure Transmitter")
         self.assertTrue(self._page.get_state_usb_speed("global"))
-        self.assertEquals(self.get_usb_speed_setting_via_telnet(self._page.get_ip_address_from_config_page() ), "0")    
+        ip = self._page.get_ip_address_from_config_page()
+        self.assertEquals(self.get_usb_speed_via_telnet(ip), "0")
         self._page.set_state_usb_speed_hi_speed(True)
         self._page.click_save()
         self.open_config_page_for_tx_under_test()
         self.assertTrue(self._page.get_state_usb_speed("hi_speed"))
-        self.assertEquals(self.get_usb_speed_setting_via_telnet(self._page.get_ip_address_from_config_page() ), "0")
+        self.assertEquals(self.get_usb_speed_via_telnet(ip), "0")
         self._page.set_state_usb_speed_full_speed(True)
         self._page.click_save()
         self.open_config_page_for_tx_under_test()
         self.assertTrue(self._page.get_state_usb_speed("full_speed"))
-        self.assertEquals(self.get_usb_speed_setting_via_telnet(self._page.get_ip_address_from_config_page() ), "1")
+        self.assertEquals(self.get_usb_speed_via_telnet(ip), "1")
         self._page.set_state_usb_speed_global(True)
         self._page.click_save()
-         
+        self._page.open_transmitters_tab()
+
     def test_can_select_USB_hub_options(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_transmitters_tab()
         self.open_config_page_for_tx_under_test()
-        self.assertEqual(self._page.get_text_of_page_header(), "Transmitters > Configure Transmitter")
+        self.assertEqual(self._page.get_text_of_page_header(),
+                         "Transmitters > Configure Transmitter")
         self.assertTrue(self._page.get_state_hub_size("global"))
-        self.assertEqual(self.get_usb_hub_size_setting_via_telnet(self._page.get_ip_address_from_config_page() ), "13")
+        ip = self._page.get_ip_address_from_config_page()
+        self.assertEqual(self.get_usb_hub_size_via_telnet(ip), "13")
         self._page.set_state_usb_hub_size_13(True)
         self._page.click_save()
         self.open_config_page_for_tx_under_test()
         self.assertTrue(self._page.get_state_hub_size("13"))
-        self.assertEqual(self.get_usb_hub_size_setting_via_telnet(self._page.get_ip_address_from_config_page() ), "13")
+        self.assertEqual(self.get_usb_hub_size_via_telnet(ip), "13")
         self._page.set_state_usb_hub_size_7(True)
         self._page.click_save()
         self.open_config_page_for_tx_under_test()
         self.assertTrue(self._page.get_state_hub_size("7"))
-        self.assertEqual(self.get_usb_hub_size_setting_via_telnet(self._page.get_ip_address_from_config_page() ), "7")
+        self.assertEqual(self.get_usb_hub_size_via_telnet(ip), "7")
         self._page.set_state_usb_hub_size_global(True)
         self._page.click_save()
-      
+        self._page.open_transmitters_tab()
+
     def test_can_select_magic_eye_options(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_transmitters_tab()
         self.skip_test_for_single_link_devices()
         self.open_config_page_for_tx_under_test()
-        self.assertEqual(self._page.get_text_of_page_header(), "Transmitters > Configure Transmitter")
-        self.assertEqual(self._page.get_selected_magic_eye_setting(), "USE GLOBAL SETTING")
+        self.assertEqual(self._page.get_text_of_page_header(),
+                         "Transmitters > Configure Transmitter")
+        self.assertEqual(self._page.get_selected_magic_eye_setting(),
+                         "USE GLOBAL SETTING")
         for eye in self._page.get_magic_eye_options():
             self._page.set_magic_eye_option(eye)
             self._page.click_save()
@@ -112,27 +129,33 @@ class AimTransmitterConfigPageFunctions(BaseAimRegressionTest):
             self.assertEqual(self._page.get_selected_magic_eye_setting(), eye)
         self._page.set_magic_eye_option("USE GLOBAL SETTING")
         self._page.click_save()
-            
+        self._page.open_transmitters_tab()
+
     def test_can_select_DDC_options(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_transmitters_tab()
         self.open_config_page_for_tx_under_test()
-        self.assertEqual(self._page.get_text_of_page_header(), "Transmitters > Configure Transmitter")
-        self.assertEqual(self._page.get_selected_ddc_setting(), "USE GLOBAL SETTING")
+        self.assertEqual(self._page.get_text_of_page_header(),
+                         "Transmitters > Configure Transmitter")
+        self.assertEqual(self._page.get_selected_ddc_setting(),
+                         "USE GLOBAL SETTING")
         for ddc in self._page.get_ddc_options():
             self._page.set_ddc_option(ddc)
             self._page.click_save()
             self.open_config_page_for_tx_under_test()
             self.assertEqual(self._page.get_selected_ddc_setting(), ddc)
             ddc_value = self._page.get_selected_ddc_value_setting()
-            telnet_value = self.get_ddc_setting_via_telnet(self._page.get_ip_address_from_config_page())
-            if ddc_value == '-1' and telnet_value == '0':#unchanged global setting DDDC=0
+            ip = self._page.get_ip_address_from_config_page()
+            telnet_value = self.get_ddc_via_telnet(ip)
+            if ddc_value == '-1' and telnet_value == '0':
+                #unchanged global setting DDDC=0
                 telnet_value = '-1'
             self.assertEqual(ddc_value, telnet_value)
         self._page.set_ddc_option("USE GLOBAL SETTING")
         self._page.click_save()
-       
+        self._page.open_transmitters_tab()
+
     def test_can_change_edid_optimisation(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -148,28 +171,35 @@ class AimTransmitterConfigPageFunctions(BaseAimRegressionTest):
         self.open_config_page_for_tx_under_test()
         self.assertTrue(self._page.get_state_edid_optimisation("yes"))
         self._page.set_state_edid_optimisation_global(True)
-        self._page.click_save()           
-       
+        self._page.click_save()
+        self._page.open_transmitters_tab()
+
     def test_can_select_hot_plug_options(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_transmitters_tab()
         self.open_config_page_for_tx_under_test()
-        self.assertEqual(self._page.get_text_of_page_header(), "Transmitters > Configure Transmitter")
-        self.assertEqual(self._page.get_selected_hot_plug_detect_setting(), "USE GLOBAL SETTING")
+        self.assertEqual(self._page.get_text_of_page_header(),
+                         "Transmitters > Configure Transmitter")
+        selected = self._page.get_selected_hot_plug_detect_setting()
+        self.assertEqual(selected,
+                         "USE GLOBAL SETTING")
         for plug in self._page.get_hot_plug_detect_options():
             self._page.set_hot_plug_detect_option(plug)
             self._page.click_save()
             self.open_config_page_for_tx_under_test()
-            self.assertEqual(self._page.get_selected_hot_plug_detect_setting(), plug)
-            plug_value = self._page.get_selected_hot_plug_detect_value_setting()
-            telnet_value = self.get_hot_plug_detect_setting_via_telnet(self._page.get_ip_address_from_config_page())
+            selected = self._page.get_selected_hot_plug_detect_setting()
+            self.assertEqual(selected, plug)
+            plug_value = self._page.get_selected_hot_plug_detect_value()
+            ip = self._page.get_ip_address_from_config_page()
+            telnet_value = self.get_hot_plug_detect_via_telnet(ip)
             if plug_value == '-1' and telnet_value == '1':
                 telnet_value = '-1'
             self.assertEqual(plug_value, telnet_value)
         self._page.set_hot_plug_detect_option("USE GLOBAL SETTING")
         self._page.click_save()
-     
+        self._page.open_transmitters_tab()
+
     def test_can_select_hot_plug_signal_options(self):
         version = parameter_singleton["version"]
         split_version = version.replace("v", "").split(".")
@@ -177,15 +207,18 @@ class AimTransmitterConfigPageFunctions(BaseAimRegressionTest):
         self._page.login_as("admin", "password", False)
         self._page.open_transmitters_tab()
         self.open_config_page_for_tx_under_test()
-        self.assertEqual(self._page.get_text_of_page_header(), "Transmitters > Configure Transmitter")
-        self.assertEqual(self._page.get_selected_hot_plug_period_setting(), "USE GLOBAL SETTING")
+        self.assertEqual(self._page.get_text_of_page_header(),
+                         "Transmitters > Configure Transmitter")
+        self.assertEqual(self._page.get_selected_hot_plug_period(),
+                         "USE GLOBAL SETTING")
         for period in self._page.get_hot_plug_period_options():
             self._page.set_hot_plug_period_option(period)
             self._page.click_save()
             self.open_config_page_for_tx_under_test()
-            self.assertEqual(self._page.get_selected_hot_plug_period_setting(), period)
-            period_value = self._page.get_selected_hot_plug_period_value_setting()
-            telnet_value = self.get_hot_plug_signal_period_setting_via_telnet(self._page.get_ip_address_from_config_page())
+            self.assertEqual(self._page.get_selected_hot_plug_period(), period)
+            period_value = self._page.get_selected_hot_plug_period_value()
+            ip = self._page.get_ip_address_from_config_page()
+            telnet_value = self.get_hot_plug_signal_via_telnet(ip)
             if int(split_version[0]) >= 3:
                 if period_value == '-1' and telnet_value == '100000':
                     telnet_value = '-1'
@@ -195,45 +228,55 @@ class AimTransmitterConfigPageFunctions(BaseAimRegressionTest):
             self.assertEqual(period_value, telnet_value)
         self._page.set_hot_plug_period_option("USE GLOBAL SETTING")
         self._page.click_save()
-        
+        self._page.open_transmitters_tab()
+
     def test_can_select_background_refresh_options(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_transmitters_tab()
         self.open_config_page_for_tx_under_test()
-        self.assertEqual(self._page.get_text_of_page_header(), "Transmitters > Configure Transmitter")
-        self.assertEqual(self._page.get_selected_background_refresh_period_setting(), "USE GLOBAL SETTING")
+        self.assertEqual(self._page.get_text_of_page_header(),
+                         "Transmitters > Configure Transmitter")
+        self.assertEqual(self._page.get_selected_bkground_refresh_period(),
+                         "USE GLOBAL SETTING")
         for period in self._page.get_background_refresh_period_options():
             self._page.set_background_refresh_period_option(period)
             self._page.click_save()
             self.open_config_page_for_tx_under_test()
-            self.assertEqual(self._page.get_selected_background_refresh_period_setting(), period)
-            period_value = self._page.get_selected_background_refresh_period_value_setting()
-            telnet_value = self.get_background_refresh_period_setting_via_telnet(self._page.get_ip_address_from_config_page())
-            if period_value == '-1' and telnet_value == '32':
+            self.assertEqual(self._page.get_selected_bkground_refresh_period(),
+                             period)
+            p_value = self._page.get_selected_bkground_refresh_period_value()
+            ip = self._page.get_ip_address_from_config_page()
+            telnet_value = self.get_background_refresh_via_telnet(ip)
+            if p_value == '-1' and telnet_value == '32':
                 telnet_value = '-1'
-            self.assertEqual(period_value, telnet_value)
+            self.assertEqual(p_value, telnet_value)
         self._page.set_background_refresh_period_option("USE GLOBAL SETTING")
         self._page.click_save()
-     
+        self._page.open_transmitters_tab()
+
     def test_can_select_compression_options(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_transmitters_tab()
         self.skip_test_for_single_link_devices()
         self.open_config_page_for_tx_under_test()
-        self.assertEqual(self._page.get_text_of_page_header(), "Transmitters > Configure Transmitter")
-        self.assertEqual(self._page.get_selected_compression_setting(), "USE GLOBAL SETTING")
+        self.assertEqual(self._page.get_text_of_page_header(),
+                         "Transmitters > Configure Transmitter")
+        self.assertEqual(self._page.get_selected_compression_setting(),
+                         "USE GLOBAL SETTING")
         compressions = self._page.get_compression_options()
         compressions.remove("Advanced")
         for compression in compressions:
             self._page.set_compression_option(compression)
             self._page.click_save()
             self.open_config_page_for_tx_under_test()
-            self.assertEqual(self._page.get_selected_compression_setting(), compression)
+            self.assertEqual(self._page.get_selected_compression_setting(),
+                             compression)
         self._page.set_compression_option("USE GLOBAL SETTING")
         self._page.click_save()
-    
+        self._page.open_transmitters_tab()
+
     def test_can_change_compression_level_advanced(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -245,212 +288,260 @@ class AimTransmitterConfigPageFunctions(BaseAimRegressionTest):
         self._page.set_compression_maxiumum("1")
         self._page.click_save()
         self.open_config_page_for_tx_under_test()
-        self.assertEqual(self._page.get_selected_compression_setting(), "Pixel Perfect")
+        self.assertEqual(self._page.get_selected_compression_setting(),
+                         "Pixel Perfect")
         self._page.set_compression_option("Advanced")
         self._page.set_compression_minimum("4")
         self._page.set_compression_maxiumum("4")
         self._page.click_save()
         self.open_config_page_for_tx_under_test()
-        self.assertEqual(self._page.get_selected_compression_setting(), "Smoothest Video")
+        self.assertEqual(self._page.get_selected_compression_setting(),
+                         "Smoothest Video")
         self._page.set_compression_option("Advanced")
         self._page.set_compression_minimum("2")
         self._page.set_compression_maxiumum("2")
         self._page.click_save()
         self.open_config_page_for_tx_under_test()
-        self.assertEqual(self._page.get_selected_compression_setting(), "Advanced")
+        self.assertEqual(self._page.get_selected_compression_setting(),
+                         "Advanced")
         self._page.set_compression_option("USE GLOBAL SETTING")
         self._page.click_save()
-    
+        self._page.open_transmitters_tab()
+
     def test_can_select_serial_parity_options(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_transmitters_tab()
         self.open_config_page_for_tx_under_test()
-        self.assertEqual(self._page.get_text_of_page_header(), "Transmitters > Configure Transmitter")
-        self.assertEqual(self._page.get_selected_serial_parity_setting(), "USE GLOBAL SETTING")
+        self.assertEqual(self._page.get_text_of_page_header(),
+                         "Transmitters > Configure Transmitter")
+        self.assertEqual(self._page.get_selected_serial_parity(),
+                         "USE GLOBAL SETTING")
         for parity in self._page.get_serial_parity_options():
             self._page.set_serial_parity_option(parity)
             self._page.click_save()
             self.open_config_page_for_tx_under_test()
-            self.assertEqual(self._page.get_selected_serial_parity_setting(), parity)
-            parity_value = self._page.get_selected_serial_parity_value_setting()
-            telnet_value = self.get_serial_parity_setting_via_telnet(self._page.get_ip_address_from_config_page())
+            self.assertEqual(self._page.get_selected_serial_parity(),
+                             parity)
+            parity_value = self._page.get_selected_serial_parity_value()
+            ip = self._page.get_ip_address_from_config_page()
+            telnet_value = self.get_serial_parity_via_telnet(ip)
             if parity_value == '-1' and telnet_value == 'N':
                 telnet_value = '-1'
             self.assertEquals(telnet_value, parity_value)
         self._page.set_serial_parity_option("USE GLOBAL SETTING")
         self._page.click_save()
-                  
+        self._page.open_transmitters_tab()
+
     def test_can_select_serial_data_options(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_transmitters_tab()
         self.open_config_page_for_tx_under_test()
-        self.assertEqual(self._page.get_text_of_page_header(), "Transmitters > Configure Transmitter")
-        self.assertEqual(self._page.get_selected_serial_data_bit_setting(), "USE GLOBAL SETTING")
+        self.assertEqual(self._page.get_text_of_page_header(),
+                         "Transmitters > Configure Transmitter")
+        self.assertEqual(self._page.get_selected_serial_data_bit(),
+                         "USE GLOBAL SETTING")
         for bit in self._page.get_serial_data_bit_options():
             self._page.set_serial_data_bit_option(bit)
             self._page.click_save()
             self.open_config_page_for_tx_under_test()
-            self.assertEqual(self._page.get_selected_serial_data_bit_setting(), bit)
-            bit_value = self._page.get_selected_serial_data_bit_value_setting()
-            telnet_value = self.get_serial_data_bit_setting_via_telnet(self._page.get_ip_address_from_config_page())
+            self.assertEqual(self._page.get_selected_serial_data_bit(), bit)
+            bit_value = self._page.get_selected_serial_data_bit_value()
+            ip = self._page.get_ip_address_from_config_page()
+            telnet_value = self.get_serial_data_bit_via_telnet(ip)
             if bit_value == '-1' and telnet_value == '8':
                 telnet_value = '-1'
             self.assertEquals(telnet_value, bit_value)
         self._page.set_serial_data_bit_option("USE GLOBAL SETTING")
         self._page.click_save()
-        
+        self._page.open_transmitters_tab()
+
     def test_can_select_serial_stop_options(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_transmitters_tab()
         self.open_config_page_for_tx_under_test()
-        self.assertEqual(self._page.get_text_of_page_header(), "Transmitters > Configure Transmitter")
-        self.assertEqual(self._page.get_selected_serial_data_stop_setting(), "USE GLOBAL SETTING")
+        self.assertEqual(self._page.get_text_of_page_header(),
+                         "Transmitters > Configure Transmitter")
+        self.assertEqual(self._page.get_selected_serial_data_stop(),
+                         "USE GLOBAL SETTING")
         for bit in self._page.get_serial_data_stop_options():
             self._page.set_serial_data_stop_option(bit)
             self._page.click_save()
             self.open_config_page_for_tx_under_test()
-            self.assertEqual(self._page.get_selected_serial_data_stop_setting(), bit)
-            bit_value = self._page.get_selected_serial_data_stop_value_setting()
-            telnet_value = self.get_serial_stop_bit_setting_via_telnet(self._page.get_ip_address_from_config_page())
+            self.assertEqual(self._page.get_selected_serial_data_stop(), bit)
+            bit_value = self._page.get_selected_serial_data_stop_value()
+            ip = self._page.get_ip_address_from_config_page()
+            telnet_value = self.get_serial_stop_bit_via_telnet(ip)
             if bit_value == '-1' and telnet_value == '1':
                 telnet_value = '-1'
             self.assertEquals(telnet_value, bit_value)
         self._page.set_serial_data_stop_option("USE GLOBAL SETTING")
         self._page.click_save()
-        
+        self._page.open_transmitters_tab()
+
     def test_can_select_serial_speed_options(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_transmitters_tab()
         self.open_config_page_for_tx_under_test()
-        self.assertEqual(self._page.get_text_of_page_header(), "Transmitters > Configure Transmitter")
-        self.assertEqual(self._page.get_selected_serial_speed_setting(), "USE GLOBAL SETTING")
+        self.assertEqual(self._page.get_text_of_page_header(),
+                         "Transmitters > Configure Transmitter")
+        self.assertEqual(self._page.get_selected_serial_speed(),
+                         "USE GLOBAL SETTING")
         for speed in self._page.get_serial_speed_options():
             self._page.set_serial_speed_option(speed)
             self._page.click_save()
             self.open_config_page_for_tx_under_test()
-            self.assertEqual(self._page.get_selected_serial_speed_setting(), speed)
-            speed_value = self._page.get_selected_serial_speed_value_setting()
-            telnet_value = self.get_serial_speed_setting_via_telnet(self._page.get_ip_address_from_config_page())
+            self.assertEqual(self._page.get_selected_serial_speed(),
+                             speed)
+            speed_value = self._page.get_selected_serial_speed_value()
+            ip = self._page.get_ip_address_from_config_page()
+            telnet_value = self.get_serial_speed_via_telnet(ip)
             if speed_value == '-1' and telnet_value == '115200':
                 telnet_value = '-1'
             self.assertEqual(speed_value, telnet_value)
         self._page.set_serial_speed_option("USE GLOBAL SETTING")
         self._page.click_save()
-           
+        self._page.open_transmitters_tab()
+
     def test_can_enter_valid_name(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_transmitters_tab()
         self.open_config_page_for_tx_under_test()
-        self.assertEqual(self._page.get_text_of_page_header(), "Transmitters > Configure Transmitter")
+        self.assertEqual(self._page.get_text_of_page_header(),
+                         "Transmitters > Configure Transmitter")
         original_name = self._page.get_transmitter_name_from_config_page()
         new_name = original_name.upper()
         self._page.set_transmitter_name_via_config_page(new_name)
-        self.assertEqual(self._page.get_transmitter_name_from_config_page(), original_name.upper())
-        new_name = original_name+"test"
+        self.assertEqual(self._page.get_transmitter_name_from_config_page(),
+                         original_name.upper())
+        new_name = original_name + "test"
         self._page.set_transmitter_name_via_config_page(new_name)
-        self.assertEqual(self._page.get_transmitter_name_from_config_page(), original_name+"test")
-        new_name = original_name+"%%%%%"
+        self.assertEqual(self._page.get_transmitter_name_from_config_page(),
+                         original_name + "test")
+        new_name = original_name + "%%%%%"
         self._page.set_transmitter_name_via_config_page(new_name)
-        self.assertEqual(self._page.get_transmitter_name_from_config_page(), original_name+"%%%%%")
+        self.assertEqual(self._page.get_transmitter_name_from_config_page(),
+                         original_name + "%%%%%")
         new_name = original_name.lower()
         self._page.set_transmitter_name_via_config_page(new_name)
-        self.assertEqual(self._page.get_transmitter_name_from_config_page(), original_name.lower())
+        self.assertEqual(self._page.get_transmitter_name_from_config_page(),
+                         original_name.lower())
         self._page.set_transmitter_name_via_config_page(original_name)
-                   
+
     def test_can_enter_valid_description(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_transmitters_tab()
         self.open_config_page_for_tx_under_test()
-        self.assertEqual(self._page.get_text_of_page_header(), "Transmitters > Configure Transmitter")
-        original_name = self._page.get_transmitter_description_from_config_page()
-        new_name = original_name.upper()
-        self._page.set_transmitter_description_via_config_page(new_name)
-        self.assertEqual(self._page.get_transmitter_description_from_config_page(), original_name.upper())
-        new_name = original_name+"test"
-        self._page.set_transmitter_description_via_config_page(new_name)
-        self.assertEqual(self._page.get_transmitter_description_from_config_page(), original_name+"test")
-        new_name = original_name+"%%%%%"
-        self._page.set_transmitter_description_via_config_page(new_name)
-        self.assertEqual(self._page.get_transmitter_description_from_config_page(), original_name+"%%%%%")
-        new_name = original_name.lower()
-        self._page.set_transmitter_description_via_config_page(new_name)
-        self.assertEqual(self._page.get_transmitter_description_from_config_page(), original_name.lower())
-        self._page.set_transmitter_description_via_config_page(original_name)
-       
+        self.assertEqual(self._page.get_text_of_page_header(),
+                         "Transmitters > Configure Transmitter")
+        original_desc = self._page.get_transmitter_desc_from_config_page()
+        new_desc = original_desc.upper()
+        self._page.set_transmitter_desc_via_config_page(new_desc)
+        self.assertEqual(self._page.get_transmitter_desc_from_config_page(),
+                         original_desc.upper())
+        new_desc = original_desc + "test"
+        self._page.set_transmitter_desc_via_config_page(new_desc)
+        self.assertEqual(self._page.get_transmitter_desc_from_config_page(),
+                         original_desc + "test")
+        new_desc = original_desc + "%%%%%"
+        self._page.set_transmitter_desc_via_config_page(new_desc)
+        self.assertEqual(self._page.get_transmitter_desc_from_config_page(),
+                         original_desc + "%%%%%")
+        new_desc = original_desc.lower()
+        self._page.set_transmitter_desc_via_config_page(new_desc)
+        self.assertEqual(self._page.get_transmitter_desc_from_config_page(),
+                         original_desc.lower())
+        self._page.set_transmitter_desc_via_config_page(original_desc)
+
     def test_can_enter_valid_location(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_transmitters_tab()
         self.open_config_page_for_tx_under_test()
-        self.assertEqual(self._page.get_text_of_page_header(), "Transmitters > Configure Transmitter")
-        original_name = self._page.get_transmitter_location_from_config_page()
+        self.assertEqual(self._page.get_text_of_page_header(),
+                         "Transmitters > Configure Transmitter")
+        original_name = self._page.get_transmitter_loc_from_config_page()
         new_name = original_name.upper()
         self._page.set_transmitter_location_via_config_page(new_name)
-        self.assertEqual(self._page.get_transmitter_location_from_config_page(), original_name.upper())
-        new_name = original_name+"test"
+        self.assertEqual(self._page.get_transmitter_loc_from_config_page(),
+                         original_name.upper())
+        new_name = original_name + "test"
         self._page.set_transmitter_location_via_config_page(new_name)
-        self.assertEqual(self._page.get_transmitter_location_from_config_page(), original_name+"test")
-        new_name = original_name+"%%%%%"
+        self.assertEqual(self._page.get_transmitter_loc_from_config_page(),
+                         original_name + "test")
+        new_name = original_name + "%%%%%"
         self._page.set_transmitter_location_via_config_page(new_name)
-        self.assertEqual(self._page.get_transmitter_location_from_config_page(), original_name+"%%%%%")
+        self.assertEqual(self._page.get_transmitter_loc_from_config_page(),
+                         original_name + "%%%%%")
         new_name = original_name.lower()
         self._page.set_transmitter_location_via_config_page(new_name)
-        self.assertEqual(self._page.get_transmitter_location_from_config_page(), original_name.lower())
-  
- 
+        self.assertEqual(self._page.get_transmitter_loc_from_config_page(),
+                         original_name.lower())
+
     """
     Utils
     """
     def skip_test_for_single_link_devices(self):
         transmitters = self._page.get_list_of_transmitters()
         device_info = self._page.get_device_version_via_api()
-        device_id = self._page.get_device_id_from_row_id(self._page.get_row_id_of_transmitter(transmitters[0]))
+        row_id = self._page.get_row_id_of_transmitter(transmitters[0])
+        device_id = self._page.get_device_id_from_row_id(row_id)
         if device_info[device_id] != "2":
             raise unittest.SkipTest("Skip for single devices")
-        
+
     def open_config_page_for_tx_under_test(self):
         transmitters = self._page.get_list_of_transmitters()
         self._page.click_transmitter_configure(transmitters[0])
-          
-    def get_fake_keyboard_setting_via_telnet(self, ip):
-        return self.get_value_from_telnet(ip, b"dvix_config_get usb:fake_keyboard; exit\n")
-      
-    def get_usb_speed_setting_via_telnet(self, ip):
-        return self.get_value_from_telnet(ip, b"dvix_config_get usb:fullspeed; exit\n")
-      
-    def get_usb_hub_size_setting_via_telnet(self, ip):
-        return self.get_value_from_telnet(ip, b"dvix_config_get usb:hub_size; exit\n")
-      
-    def get_ddc_setting_via_telnet(self, ip):
-        return self.get_value_from_telnet(ip, b"dvix_config_get dvix:video_dddc; exit\n")
-      
-    def get_hot_plug_detect_setting_via_telnet(self, ip):
-        return self.get_value_from_telnet(ip, b"dvix_config_get dvix:video_hpd; exit\n")
-      
-    def get_hot_plug_signal_period_setting_via_telnet(self, ip):
-        return self.get_value_from_telnet(ip, b"dvix_config_get dvix:video_ddc_delay; exit\n")
-      
-    def get_background_refresh_period_setting_via_telnet(self, ip):
-        return self.get_value_from_telnet(ip, b"dvix_config_get dvix:video_br; exit\n")
-      
-    def get_serial_parity_setting_via_telnet(self, ip):
-        return self.get_value_from_telnet(ip, b"dvix_config_get dvix:serial_parity; exit\n", r"(?P<value>[A-Z])")
-      
-    def get_serial_data_bit_setting_via_telnet(self, ip):
-        return self.get_value_from_telnet(ip, b"dvix_config_get dvix:serial_data_bits; exit\n")
-      
-    def get_serial_stop_bit_setting_via_telnet(self, ip):
-        return self.get_value_from_telnet(ip, b"dvix_config_get dvix:serial_stop_bits; exit\n")
-      
-    def get_serial_speed_setting_via_telnet(self, ip):
-        return self.get_value_from_telnet(ip, b"dvix_config_get dvix:serial_speed; exit\n")
-      
+
+    def get_fake_keyboard_via_telnet(self, ip):
+        command = b"dvix_config_get usb:fake_keyboard; exit\n"
+        return self.get_value_from_telnet(ip, command)
+
+    def get_usb_speed_via_telnet(self, ip):
+        command = b"dvix_config_get usb:fullspeed; exit\n"
+        return self.get_value_from_telnet(ip, command)
+
+    def get_usb_hub_size_via_telnet(self, ip):
+        command = b"dvix_config_get usb:hub_size; exit\n"
+        return self.get_value_from_telnet(ip, command)
+
+    def get_ddc_via_telnet(self, ip):
+        command = b"dvix_config_get dvix:video_dddc; exit\n"
+        return self.get_value_from_telnet(ip, command)
+
+    def get_hot_plug_detect_via_telnet(self, ip):
+        command = b"dvix_config_get dvix:video_hpd; exit\n"
+        return self.get_value_from_telnet(ip, command)
+
+    def get_hot_plug_signal_via_telnet(self, ip):
+        command = b"dvix_config_get dvix:video_ddc_delay; exit\n"
+        return self.get_value_from_telnet(ip, command)
+
+    def get_background_refresh_via_telnet(self, ip):
+        command = b"dvix_config_get dvix:video_br; exit\n"
+        return self.get_value_from_telnet(ip, command)
+
+    def get_serial_parity_via_telnet(self, ip):
+        command = b"dvix_config_get dvix:serial_parity; exit\n"
+        return self.get_value_from_telnet(ip, command, r"(?P<value>[A-Z])")
+
+    def get_serial_data_bit_via_telnet(self, ip):
+        command = b"dvix_config_get dvix:serial_data_bits; exit\n"
+        return self.get_value_from_telnet(ip, command)
+
+    def get_serial_stop_bit_via_telnet(self, ip):
+        command = b"dvix_config_get dvix:serial_stop_bits; exit\n"
+        return self.get_value_from_telnet(ip, command)
+
+    def get_serial_speed_via_telnet(self, ip):
+        command = b"dvix_config_get dvix:serial_speed; exit\n"
+        return self.get_value_from_telnet(ip, command)
+
     def get_value_from_telnet(self, ip, command, pattern=r"(?P<value>[0-9]+)"):
         telnet = TelnetService(ip, 23)
         returned_value = str(telnet.get_response_from_command(command))

@@ -5,8 +5,9 @@ Created on 13 Jun 2013
 '''
 from root.nested.tests.base_aim_regression_test import BaseAimRegressionTest
 
+
 class AimReceiverGroupClonePageFunctionsTest(BaseAimRegressionTest):
-    
+
     def test_can_clone_existing_change_group(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -16,40 +17,43 @@ class AimReceiverGroupClonePageFunctionsTest(BaseAimRegressionTest):
         self._page.click_receiver_group_clone(groups[-1])
         self._page.click_save()
         groups = self._page.get_list_of_receiver_groups()
-        self.assertEqual(self._page.get_receiver_group_name(groups[-1])[-6:], "(Copy)")
+        name = self._page.get_receiver_group_name(groups[-1])
+        self.assertEqual(name[-6:], "(Copy)")
         self._page.click_receiver_group_delete(groups[-1])
         self._page.click_lightbox_delete_button()
-      
+
     def test_can_change_receiver_group_name(self):
-        name = "New Name"
+        test = "New Name"
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_receivers_tab()
         self._page.open_view_receiver_groups_page()
         groups = self._page.get_list_of_receiver_groups()
         self._page.click_receiver_group_clone(groups[-1])
-        self._page.set_receiver_group_name_via_config_page(name)
+        self._page.set_receiver_group_name(test)
         self._page.click_save()
         groups = self._page.get_list_of_receiver_groups()
-        self.assertEqual(self._page.get_receiver_group_name(groups[-1]), name)
+        name = self._page.get_receiver_group_name(groups[-1])
+        self.assertEqual(name, test)
         self._page.click_receiver_group_delete(groups[-1])
         self._page.click_lightbox_delete_button()
-      
+
     def test_can_change_receiver_group_desc(self):
-        desc = "New Desc"
+        test = "New Desc"
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_receivers_tab()
         self._page.open_view_receiver_groups_page()
         groups = self._page.get_list_of_receiver_groups()
         self._page.click_receiver_group_clone(groups[-1])
-        self._page.set_receiver_group_description_via_config_page(desc)
+        self._page.set_receiver_group_description(test)
         self._page.click_save()
         groups = self._page.get_list_of_receiver_groups()
-        self.assertEqual(self._page.get_receiver_group_description(groups[-1]), desc)
+        desc = self._page.get_receiver_group_description(groups[-1])
+        self.assertEqual(desc, test)
         self._page.click_receiver_group_delete(groups[-1])
         self._page.click_lightbox_delete_button()
-  
+
     def test_can_change_receiver_group_login_required(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -61,12 +65,13 @@ class AimReceiverGroupClonePageFunctionsTest(BaseAimRegressionTest):
         self._page.click_save()
         groups = self._page.get_list_of_receiver_groups()
         self._page.click_receiver_group_clone(groups[-1])
-        self.assertTrue(self._page.get_state_of_receiver_group_login_required("no"))
+        state = self._page.get_state_of_rx_group_login_required("no")
+        self.assertTrue(state)
         self._page.open_view_receiver_groups_page()
         groups = self._page.get_list_of_receiver_groups()
         self._page.click_receiver_group_delete(groups[-1])
         self._page.click_lightbox_delete_button()
-  
+
     def test_can_change_receiver_group_enable_receiver_osd_alerts(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -83,7 +88,7 @@ class AimReceiverGroupClonePageFunctionsTest(BaseAimRegressionTest):
         groups = self._page.get_list_of_receiver_groups()
         self._page.click_receiver_group_delete(groups[-1])
         self._page.click_lightbox_delete_button()
-  
+
     def test_can_change_receiver_group_enable_video_compatibility_check(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -95,12 +100,13 @@ class AimReceiverGroupClonePageFunctionsTest(BaseAimRegressionTest):
         self._page.click_save()
         groups = self._page.get_list_of_receiver_groups()
         self._page.click_receiver_group_clone(groups[-1])
-        self.assertTrue(self._page.get_state_receiver_group_video_compatibility("no"))
+        state = self._page.get_state_rx_group_video_compatibility("no")
+        self.assertTrue(state)
         self._page.open_view_receiver_groups_page()
         groups = self._page.get_list_of_receiver_groups()
         self._page.click_receiver_group_delete(groups[-1])
         self._page.click_lightbox_delete_button()
-          
+
     def test_can_change_receiver_group_member_receivers(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -108,16 +114,17 @@ class AimReceiverGroupClonePageFunctionsTest(BaseAimRegressionTest):
         self._page.open_view_receiver_groups_page()
         groups = self._page.get_list_of_receiver_groups()
         self._page.click_receiver_group_clone(groups[-1])
-        self._page.add_member_receiver_to_receiver_group("RX")
+        self._page.add_member_receiver_to_receiver_group("RX2")
         self._page.click_save()
         groups = self._page.get_list_of_receiver_groups()
         self._page.click_receiver_group_clone(groups[-1])
-        self.assertTrue("RX" in self._page.get_all_rxs_in_receiver_group())
+        self.assertTrue("RX2"
+                        in self._page.get_all_rxs_in_receiver_group())
         self._page.open_view_receiver_groups_page()
         groups = self._page.get_list_of_receiver_groups()
         self._page.click_receiver_group_delete(groups[-1])
         self._page.click_lightbox_delete_button()
-   
+
     def test_can_change_receiver_group_users(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -131,12 +138,13 @@ class AimReceiverGroupClonePageFunctionsTest(BaseAimRegressionTest):
         groups = self._page.get_list_of_receiver_groups()
         self._page.click_receiver_group_clone(groups[-1])
         self._page.show_user_permissions()
-        self.assertTrue("user 0" in self._page.get_all_users_of_receiver_group())
+        self.assertTrue("user 0"
+                        in self._page.get_all_users_of_receiver_group())
         self._page.open_view_receiver_groups_page()
         groups = self._page.get_list_of_receiver_groups()
         self._page.click_receiver_group_delete(groups[-1])
         self._page.click_lightbox_delete_button()
-   
+
     def test_can_change_receiver_group_user_groups(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -150,7 +158,8 @@ class AimReceiverGroupClonePageFunctionsTest(BaseAimRegressionTest):
         groups = self._page.get_list_of_receiver_groups()
         self._page.click_receiver_group_clone(groups[-1])
         self._page.show_user_permissions()
-        self.assertTrue("group 0" in self._page.get_all_permitted_user_groups_of_receiver_group())
+        self.assertTrue("group 0"
+                        in self._page.get_selected_user_groups_of_rx_group())
         self._page.open_view_receiver_groups_page()
         groups = self._page.get_list_of_receiver_groups()
         self._page.click_receiver_group_delete(groups[-1])

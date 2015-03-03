@@ -6,8 +6,9 @@ Created on 23 Jul 2013
 from root.nested.tests.base_aim_regression_test import BaseAimRegressionTest
 #from root.nested.pages.login_page import LoginPage
 
+
 class AimDashboardSettingsMailPageFunctionsTest(BaseAimRegressionTest):
-    
+
     def test_server_input_fields_become_active_if_enabled_set_to_yes(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -27,7 +28,7 @@ class AimDashboardSettingsMailPageFunctionsTest(BaseAimRegressionTest):
         self.assertTrue(self._page.is_mail_alert_email_address_active())
         self._page.click_mail_enable_no()
         self._page.click_save()
-        
+
     def test_server_input_fields_become_inactive_if_enable_set_to_no(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -50,7 +51,7 @@ class AimDashboardSettingsMailPageFunctionsTest(BaseAimRegressionTest):
 
 #     def test_server_input_fields_become_active_if_enabled_set_to_yes_PO(self):
 #         mail_page = self.get_page_under_test()
-#         mail_page.click_mail_enable_yes() 
+#         mail_page.click_mail_enable_yes()
 #         self.assertTrue(mail_page.is_mail_smpt_domain_name_ip_active())
 #         self.assertTrue(mail_page.is_mail_smpt_port_active())
 #         self.assertTrue(mail_page.is_mail_username_active())

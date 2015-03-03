@@ -5,6 +5,7 @@ Created on 30 May 2013
 '''
 from root.nested.tests.base_aim_regression_test import BaseAimRegressionTest
 
+
 class AimChannelClonePageFunctionsTest(BaseAimRegressionTest):
 
     def test_can_clone_existing_channel(self):
@@ -15,10 +16,11 @@ class AimChannelClonePageFunctionsTest(BaseAimRegressionTest):
         self._page.click_channel_clone(channels[-1])
         self._page.click_save()
         channels = self._page.get_list_of_channels()
-        self.assertEqual(self._page.get_channel_name(channels[-1])[-6:], "(Copy)")
+        channel = self._page.get_channel_name(channels[-1])
+        self.assertEqual(channel[-6:], "(Copy)")
         self._page.click_channel_delete(channels[-1])
         self._page.click_lightbox_delete_button()
-      
+
     def test_can_cancel_clone_existing_channel(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -28,63 +30,68 @@ class AimChannelClonePageFunctionsTest(BaseAimRegressionTest):
         self._page.click_cancel()
         new_channels = self._page.get_list_of_channels()
         self.assertEqual(len(channels), len(new_channels))
-          
+
     def test_can_change_name_of_cloned_channel(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_channels_tab()
         channels = self._page.get_list_of_channels()
-        self._page.click_channel_clone(channels[-1])
+        channel = channels[-1]
+        self._page.click_channel_clone(channel)
         self._page.set_channel_name_via_config_page("new clone")
-        description = self._page.get_channel_description_from_config_page()
-        location = self._page.get_channel_location_from_config_page()
+        desc = self._page.get_channel_description_from_config_page()
+        loc = self._page.get_channel_location_from_config_page()
         self._page.click_save()
         channels = self._page.get_list_of_channels()
-        self.assertEqual(self._page.get_channel_name(channels[-1]), "new clone")
-        self.assertEqual(self._page.get_channel_description(channels[-1]), description)
-        self.assertEqual(self._page.get_channel_location(channels[-1]), location)
-        self._page.click_channel_delete(channels[-1])
+        channel = channels[-1]
+        self.assertEqual(self._page.get_channel_name(channel), "new clone")
+        self.assertEqual(self._page.get_channel_desc(channel), desc)
+        self.assertEqual(self._page.get_channel_loc(channel), loc)
+        self._page.click_channel_delete(channel)
         self._page.click_lightbox_delete_button()
-  
+
     def test_can_change_description_of_cloned_channel(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_channels_tab()
         channels = self._page.get_list_of_channels()
-        self._page.click_channel_clone(channels[-1])
+        channel = channels[-1]
+        self._page.click_channel_clone(channel)
         self._page.set_channel_description_via_config_page("new clone")
         location = self._page.get_channel_location_from_config_page()
         self._page.click_save()
         channels = self._page.get_list_of_channels()
-        self.assertEqual(self._page.get_channel_name(channels[-1])[-6:], "(Copy)")
-        self.assertEqual(self._page.get_channel_description(channels[-1]), "new clone")
-        self.assertEqual(self._page.get_channel_location(channels[-1]), location)
-        self._page.click_channel_delete(channels[-1])
+        channel = channels[-1]
+        self.assertEqual(self._page.get_channel_name(channel)[-6:], "(Copy)")
+        self.assertEqual(self._page.get_channel_desc(channel), "new clone")
+        self.assertEqual(self._page.get_channel_loc(channel), location)
+        self._page.click_channel_delete(channel)
         self._page.click_lightbox_delete_button()
-  
+
     def test_can_change_location_of_cloned_channel(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_channels_tab()
         channels = self._page.get_list_of_channels()
-        self._page.click_channel_clone(channels[-1])
+        channel = channels[-1]
+        self._page.click_channel_clone(channel)
         self._page.set_channel_location_via_config_page("new clone")
         description = self._page.get_channel_description_from_config_page()
         self._page.click_save()
         channels = self._page.get_list_of_channels()
-        self.assertEqual(self._page.get_channel_name(channels[-1])[-6:], "(Copy)")
-        self.assertEqual(self._page.get_channel_description(channels[-1]), description)
-        self.assertEqual(self._page.get_channel_location(channels[-1]), "new clone")
-        self._page.click_channel_delete(channels[-1])
+        channel = channels[-1]
+        self.assertEqual(self._page.get_channel_name(channel)[-6:], "(Copy)")
+        self.assertEqual(self._page.get_channel_desc(channel), description)
+        self.assertEqual(self._page.get_channel_loc(channel), "new clone")
+        self._page.click_channel_delete(channel)
         self._page.click_lightbox_delete_button()
-  
+
     def test_can_change_video_source_of_cloned_channel(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_channels_tab()
         channels = self._page.get_list_of_channels()
         self._page.click_channel_clone(channels[-1])
-        self._page.set_channel_video_source(1)
         check = self._page.get_selected_video_source()
         self._page.click_save()
         channels = self._page.get_list_of_channels()
@@ -94,14 +101,13 @@ class AimChannelClonePageFunctionsTest(BaseAimRegressionTest):
         channels = self._page.get_list_of_channels()
         self._page.click_channel_delete(channels[-1])
         self._page.click_lightbox_delete_button()
-  
+
     def test_can_change_audio_source_of_cloned_channel(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_channels_tab()
         channels = self._page.get_list_of_channels()
         self._page.click_channel_clone(channels[-1])
-        self._page.set_channel_audio_source(1)
         check = self._page.get_selected_audio_source()
         self._page.click_save()
         channels = self._page.get_list_of_channels()
@@ -111,14 +117,13 @@ class AimChannelClonePageFunctionsTest(BaseAimRegressionTest):
         channels = self._page.get_list_of_channels()
         self._page.click_channel_delete(channels[-1])
         self._page.click_lightbox_delete_button()
-  
+
     def test_can_change_usb_source_of_cloned_channel(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_channels_tab()
         channels = self._page.get_list_of_channels()
         self._page.click_channel_clone(channels[-1])
-        self._page.set_channel_usb_source(1)
         check = self._page.get_selected_usb_source()
         self._page.click_save()
         channels = self._page.get_list_of_channels()
@@ -128,14 +133,13 @@ class AimChannelClonePageFunctionsTest(BaseAimRegressionTest):
         channels = self._page.get_list_of_channels()
         self._page.click_channel_delete(channels[-1])
         self._page.click_lightbox_delete_button()
-  
+
     def test_can_change_serial_source_of_cloned_channel(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_channels_tab()
         channels = self._page.get_list_of_channels()
         self._page.click_channel_clone(channels[-1])
-        self._page.set_channel_serial_source(1)
         check = self._page.get_selected_serial_source()
         self._page.click_save()
         channels = self._page.get_list_of_channels()
@@ -145,8 +149,8 @@ class AimChannelClonePageFunctionsTest(BaseAimRegressionTest):
         channels = self._page.get_list_of_channels()
         self._page.click_channel_delete(channels[-1])
         self._page.click_lightbox_delete_button()
-      
-    def test_can_change_allowed_connections_of_cloned_channel_to_view_only(self):
+
+    def test_can_change_allowed_connections_to_view_only(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_channels_tab()
@@ -156,13 +160,14 @@ class AimChannelClonePageFunctionsTest(BaseAimRegressionTest):
         self._page.click_save()
         channels = self._page.get_list_of_channels()
         self._page.click_configure_channel(channels[-1])
-        self.assertTrue(self._page.get_channel_connection_selection_state("view_only"))
+        state = self._page.get_channel_connection_state("view_only")
+        self.assertTrue(state)
         self._page.click_cancel()
         channels = self._page.get_list_of_channels()
         self._page.click_channel_delete(channels[-1])
         self._page.click_lightbox_delete_button()
- 
-    def test_can_change_allowed_connections_of_cloned_channel_to_view_shared_only(self):
+
+    def test_can_change_allowed_connections_to_view_shared_only(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_channels_tab()
@@ -172,13 +177,14 @@ class AimChannelClonePageFunctionsTest(BaseAimRegressionTest):
         self._page.click_save()
         channels = self._page.get_list_of_channels()
         self._page.click_configure_channel(channels[-1])
-        self.assertTrue(self._page.get_channel_connection_selection_state("view_shared"))
+        state = self._page.get_channel_connection_state("view_shared")
+        self.assertTrue(state)
         self._page.click_cancel()
         channels = self._page.get_list_of_channels()
         self._page.click_channel_delete(channels[-1])
         self._page.click_lightbox_delete_button()
- 
-    def test_can_change_allowed_connections_of_cloned_channel_to_exclusive_only(self):
+
+    def test_can_change_allowed_connections__to_exclusive_only(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_channels_tab()
@@ -188,13 +194,14 @@ class AimChannelClonePageFunctionsTest(BaseAimRegressionTest):
         self._page.click_save()
         channels = self._page.get_list_of_channels()
         self._page.click_configure_channel(channels[-1])
-        self.assertTrue(self._page.get_channel_connection_selection_state("exclusive"))
+        state = self._page.get_channel_connection_state("exclusive")
+        self.assertTrue(state)
         self._page.click_cancel()
         channels = self._page.get_list_of_channels()
         self._page.click_channel_delete(channels[-1])
         self._page.click_lightbox_delete_button()
- 
-    def test_can_change_allowed_connections_of_cloned_channel_to_view_shared_and_exclusive(self):
+
+    def test_can_change_allowed_connections_to_view_shared_and_exclusive(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_channels_tab()
@@ -204,12 +211,13 @@ class AimChannelClonePageFunctionsTest(BaseAimRegressionTest):
         self._page.click_save()
         channels = self._page.get_list_of_channels()
         self._page.click_configure_channel(channels[-1])
-        self.assertTrue(self._page.get_channel_connection_selection_state("all"))
+        state = self._page.get_channel_connection_state("all")
+        self.assertTrue(state)
         self._page.click_cancel()
         channels = self._page.get_list_of_channels()
         self._page.click_channel_delete(channels[-1])
         self._page.click_lightbox_delete_button()
-     
+
     def test_can_change_user_permissions_of_cloned_channel(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -220,12 +228,13 @@ class AimChannelClonePageFunctionsTest(BaseAimRegressionTest):
         self._page.click_save()
         channels = self._page.get_list_of_channels()
         self._page.click_configure_channel(channels[-1])
-        self.assertTrue("user 0" in self._page.get_all_users_for_channel())
+        self.assertTrue("user 0"
+                        in self._page.get_all_users_for_channel())
         self._page.click_cancel()
         channels = self._page.get_list_of_channels()
         self._page.click_channel_delete(channels[-1])
         self._page.click_lightbox_delete_button()
-  
+
     def test_can_change_channel_group_of_cloned_channel(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -236,12 +245,13 @@ class AimChannelClonePageFunctionsTest(BaseAimRegressionTest):
         self._page.click_save()
         channels = self._page.get_list_of_channels()
         self._page.click_configure_channel(channels[-1])
-        self.assertTrue("group 0" in self._page.get_all_current_channel_groups_for_channel())
+        self.assertTrue("group 0"
+                        in self._page.get_selected_c_groups_for_user())
         self._page.click_cancel()
         channels = self._page.get_list_of_channels()
         self._page.click_channel_delete(channels[-1])
         self._page.click_lightbox_delete_button()
-  
+
     def test_can_change_user_group_of_cloned_channel(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -252,7 +262,8 @@ class AimChannelClonePageFunctionsTest(BaseAimRegressionTest):
         self._page.click_save()
         channels = self._page.get_list_of_channels()
         self._page.click_configure_channel(channels[-1])
-        self.assertTrue("group 0" in self._page.get_all_user_groups_for_channel())
+        self.assertTrue("group 0"
+                        in self._page.get_all_user_groups_for_channel())
         self._page.click_cancel()
         channels = self._page.get_list_of_channels()
         self._page.click_channel_delete(channels[-1])

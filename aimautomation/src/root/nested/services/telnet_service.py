@@ -5,6 +5,7 @@ Created on 30 Apr 2013
 '''
 import telnetlib
 
+
 class TelnetService():
 
     def __init__(self, host, port):
@@ -30,4 +31,3 @@ if __name__ == '__main__':
     output = test.get_response_from_command(b"ifconfig; exit\n")
     print(output)
     assert(host in output)
-    

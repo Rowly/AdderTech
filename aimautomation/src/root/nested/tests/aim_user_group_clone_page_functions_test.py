@@ -5,6 +5,7 @@ Created on 4 Jul 2013
 '''
 from root.nested.tests.base_aim_regression_test import BaseAimRegressionTest
 
+
 class AimUserGroupClonePageFunctionsTest(BaseAimRegressionTest):
 
     def test_can_change_cloned_user_group_name(self):
@@ -18,11 +19,12 @@ class AimUserGroupClonePageFunctionsTest(BaseAimRegressionTest):
         self._page.set_user_group_name_via_config_page(name + " edit")
         self._page.click_save()
         users = self._page.get_list_of_user_groups()
-        self.assertEqual(self._page.get_user_group_name(users[-1]), name + " edit")
+        n_name = self._page.get_user_group_name(users[-1])
+        self.assertEqual(n_name, name + " edit")
         self._page.click_user_group_delete(users[-1])
         self._page.click_lightbox_delete_button()
-     
-    def test_can_change_cloned_user_group_allowed_exclusive_connection_to_no(self):
+
+    def test_change_cloned_user_group_allow_exclusive_connection_no(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_users_tab()
@@ -32,11 +34,12 @@ class AimUserGroupClonePageFunctionsTest(BaseAimRegressionTest):
         self._page.select_user_group_exclusive_no()
         self._page.click_save()
         users = self._page.get_list_of_user_groups()
-        self.assertEqual(self._page.get_user_group_connection_image_src(users[-1]), self._baseurl + "/admin/images/silk_icons/cross.png")
+        src = self._page.get_user_group_connection_image_src(users[-1])
+        self.assertEqual(src, self._silk_dir + "cross.png")
         self._page.click_user_group_delete(users[-1])
         self._page.click_lightbox_delete_button()
-      
-    def test_can_change_cloned_user_group_allowed_exclusive_connection_to_global(self):
+
+    def test_change_cloned_user_group_allow_exclusive_connection_global(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_users_tab()
@@ -46,11 +49,12 @@ class AimUserGroupClonePageFunctionsTest(BaseAimRegressionTest):
         self._page.select_user_group_exclusive_global()
         self._page.click_save()
         users = self._page.get_list_of_user_groups()
-        self.assertEqual(self._page.get_user_group_connection_image_src(users[-1]), self._baseurl + "/admin/images/silk_icons/inherit.png")
+        src = self._page.get_user_group_connection_image_src(users[-1])
+        self.assertEqual(src, self._silk_dir + "inherit.png")
         self._page.click_user_group_delete(users[-1])
         self._page.click_lightbox_delete_button()
-      
-    def test_can_change_cloned_user_group_allowed_exclusive_connection_to_yes(self):
+
+    def test_change_cloned_user_group_allow_exclusive_connection_yes(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_users_tab()
@@ -60,10 +64,11 @@ class AimUserGroupClonePageFunctionsTest(BaseAimRegressionTest):
         self._page.select_user_group_exclusive_yes()
         self._page.click_save()
         users = self._page.get_list_of_user_groups()
-        self.assertEqual(self._page.get_user_group_connection_image_src(users[-1]), self._baseurl + "/admin/images/silk_icons/tick.png")
+        src = self._page.get_user_group_connection_image_src(users[-1])
+        self.assertEqual(src, self._silk_dir + "tick.png")
         self._page.click_user_group_delete(users[-1])
         self._page.click_lightbox_delete_button()
-      
+
     def test_can_change_cloned_user_group_member_users(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -80,7 +85,7 @@ class AimUserGroupClonePageFunctionsTest(BaseAimRegressionTest):
         users = self._page.get_list_of_user_groups()
         self._page.click_user_group_delete(users[-1])
         self._page.click_lightbox_delete_button()
-  
+
     def test_can_change_cloned_user_group_channel_permissions(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -92,13 +97,14 @@ class AimUserGroupClonePageFunctionsTest(BaseAimRegressionTest):
         self._page.click_save()
         users = self._page.get_list_of_user_groups()
         self._page.click_user_group_config(users[-1])
-        self.assertTrue(self._channel_names[0] in self._page.get_all_channel_permissions_for_user_group())
+        channels = self._page.get_all_channel_permissions_for_user_group()
+        self.assertTrue(self._channel_names[0] in channels)
         self._page.driver.back()
         users = self._page.get_list_of_user_groups()
         self._page.click_user_group_delete(users[-1])
         self._page.click_lightbox_delete_button()
         self._page.driver.refresh()
-      
+
     def test_can_change_cloned_user_group_channel_group_permissions(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -110,12 +116,13 @@ class AimUserGroupClonePageFunctionsTest(BaseAimRegressionTest):
         self._page.click_save()
         users = self._page.get_list_of_user_groups()
         self._page.click_user_group_config(users[-1])
-        self.assertTrue("group 0" in self._page.get_all_channel_groups_for_user_group())
+        groups = self._page.get_all_channel_groups_for_user_group()
+        self.assertTrue("group 0" in groups)
         self._page.driver.back()
         users = self._page.get_list_of_user_groups()
         self._page.click_user_group_delete(users[-1])
         self._page.click_lightbox_delete_button()
-      
+
     def test_can_change_cloned_user_group_receiver_permissions(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -124,17 +131,18 @@ class AimUserGroupClonePageFunctionsTest(BaseAimRegressionTest):
         users = self._page.get_list_of_user_groups()
         self._page.click_user_group_clone(users[-1])
         self._page.show_receiver_permissions()
-        self._page.add_receiver_permission_to_user_group("RX")
+        self.assertTrue("RX" in self._page.get_all_rxs_for_user_group())
+        self._page.remove_all_receivers_from_user_group()
         self._page.click_save()
         users = self._page.get_list_of_user_groups()
         self._page.click_user_group_config(users[-1])
         self._page.show_receiver_permissions()
-        self.assertTrue("RX" in self._page.get_all_rxs_for_user_group())
+        self.assertTrue(len(self._page.get_all_rxs_for_user_group()) == 0)
         self._page.driver.back()
         users = self._page.get_list_of_user_groups()
         self._page.click_user_group_delete(users[-1])
         self._page.click_lightbox_delete_button()
-      
+
     def test_can_change_cloned_user_group_receiver_group_permissions(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -148,7 +156,8 @@ class AimUserGroupClonePageFunctionsTest(BaseAimRegressionTest):
         users = self._page.get_list_of_user_groups()
         self._page.click_user_group_config(users[-1])
         self._page.show_receiver_permissions()
-        self.assertTrue("group 0" in self._page.get_all_rx_groups_for_user_group())
+        groups = self._page.get_all_rx_groups_for_user_group()
+        self.assertTrue("group 0" in groups)
         self._page.driver.back()
         users = self._page.get_list_of_user_groups()
         self._page.click_user_group_delete(users[-1])

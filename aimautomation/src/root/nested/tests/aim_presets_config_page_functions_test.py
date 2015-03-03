@@ -6,8 +6,9 @@ Created on 19 Jun 2013
 from root.nested.tests.base_aim_regression_test import BaseAimRegressionTest
 import time
 
+
 class AimPresetsConfigPageFunctionsTest(BaseAimRegressionTest):
-    
+
     def test_can_change_preset_name(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -21,11 +22,12 @@ class AimPresetsConfigPageFunctionsTest(BaseAimRegressionTest):
             self._page.click_save()
             presets = self._page.get_list_of_presets()
             self._page.click_preset_configure(presets[counter])
-            self.assertEqual(self._page.get_preset_name_from_config_page(), name + " edit")
+            self.assertEqual(self._page.get_preset_name_from_config_page(),
+                             name + " edit")
             self._page.set_preset_name_via_config_page(name)
             self._page.click_save()
         self.reset_number_of_channels()
-  
+
     def test_can_change_preset_description(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -39,17 +41,18 @@ class AimPresetsConfigPageFunctionsTest(BaseAimRegressionTest):
             self._page.click_save()
             presets = self._page.get_list_of_presets()
             self._page.click_preset_configure(presets[counter])
-            self.assertEqual(self._page.get_preset_description_from_config_page(), desc + " edit")
+            self.assertEqual(self._page.get_preset_desc_from_config_page(),
+                             desc + " edit")
             self._page.set_preset_description_via_config_page(desc)
             self._page.click_save()
         self.reset_number_of_channels()
-   
+
     def test_can_change_number_of_pairs_in_preset(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self.change_channels_to_working_set()
         self._page.open_presets_tab()
-        for counter in range(0 , len(self._page.get_list_of_presets())):
+        for counter in range(0, len(self._page.get_list_of_presets())):
             presets = self._page.get_list_of_presets()
             self._page.click_preset_configure(presets[counter])
             self._page.add_new_preset_pair()
@@ -60,7 +63,7 @@ class AimPresetsConfigPageFunctionsTest(BaseAimRegressionTest):
             self._page.reset_preset_pairs()
             self._page.click_save()
         self.reset_number_of_channels()
-   
+
     def test_can_change_number_pairs_to_all_unicast_available(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -76,7 +79,7 @@ class AimPresetsConfigPageFunctionsTest(BaseAimRegressionTest):
         self._page.reset_preset_pairs()
         self._page.click_save()
         self.reset_number_of_channels()
-  
+
     def test_can_change_number_pairs_to_include_multicast(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -91,7 +94,7 @@ class AimPresetsConfigPageFunctionsTest(BaseAimRegressionTest):
         self._page.reset_preset_pairs()
         self._page.click_save()
         self.reset_number_of_channels()
-   
+
     def test_cannot_change_number_pairs_to_include_same_receiver(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -100,9 +103,11 @@ class AimPresetsConfigPageFunctionsTest(BaseAimRegressionTest):
         presets = self._page.get_list_of_presets()
         self._page.click_preset_configure(presets[-1])
         self._page.add_same_receiver_pair()
-        self.assertEqual(self._page.check_for_receiver_single_connnection_error_message(), "A Receiver can only be used in one connection pair")
+        msg = self._page.get_receiver_single_connnection_error_message()
+        self.assertEqual(msg,
+                         "A Receiver can only be used in one connection pair")
         self.reset_number_of_channels()
-   
+
     def test_can_change_allowed_connections_to_view_only(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -113,14 +118,15 @@ class AimPresetsConfigPageFunctionsTest(BaseAimRegressionTest):
         self._page.select_preset_connection_view_only()
         self._page.click_save()
         presets = self._page.get_list_of_presets()
-        self.assertTrue(self._page.get_preset_connection_view_only_button_visibility(presets[-1]))
-        self.assertFalse(self._page.get_preset_connection_shared_button_visibility(presets[-1]))
-        self.assertFalse(self._page.get_preset_connection_exclusive_button_visibility(presets[-1]))
-        self._page.click_preset_configure(presets[-1])
+        p = presets[-1]
+        self.assertTrue(self._page.get_preset_conx_view_only_visibility(p))
+        self.assertFalse(self._page.get_preset_conx_shared_visibility(p))
+        self.assertFalse(self._page.get_preset_conx_exclusive_visibility(p))
+        self._page.click_preset_configure(p)
         self._page.select_preset_connection_global()
         self._page.click_save()
         self.reset_number_of_channels()
-   
+
     def test_can_change_allowed_connections_to_shared(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -131,14 +137,15 @@ class AimPresetsConfigPageFunctionsTest(BaseAimRegressionTest):
         self._page.select_preset_connection_shared()
         self._page.click_save()
         presets = self._page.get_list_of_presets()
-        self.assertTrue(self._page.get_preset_connection_view_only_button_visibility(presets[-1]))
-        self.assertTrue(self._page.get_preset_connection_shared_button_visibility(presets[-1]))
-        self.assertFalse(self._page.get_preset_connection_exclusive_button_visibility(presets[-1]))
-        self._page.click_preset_configure(presets[-1])
+        p = presets[-1]
+        self.assertTrue(self._page.get_preset_conx_view_only_visibility(p))
+        self.assertTrue(self._page.get_preset_conx_shared_visibility(p))
+        self.assertFalse(self._page.get_preset_conx_exclusive_visibility(p))
+        self._page.click_preset_configure(p)
         self._page.select_preset_connection_global()
         self._page.click_save()
         self.reset_number_of_channels()
-           
+
     def test_can_change_allowed_connections_to_exclusive(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -149,14 +156,15 @@ class AimPresetsConfigPageFunctionsTest(BaseAimRegressionTest):
         self._page.select_preset_connection_exclusive()
         self._page.click_save()
         presets = self._page.get_list_of_presets()
-        self.assertFalse(self._page.get_preset_connection_view_only_button_visibility(presets[-1]))
-        self.assertFalse(self._page.get_preset_connection_shared_button_visibility(presets[-1]))
-        self.assertTrue(self._page.get_preset_connection_exclusive_button_visibility(presets[-1]))
-        self._page.click_preset_configure(presets[-1])
+        p = presets[-1]
+        self.assertFalse(self._page.get_preset_conx_view_only_visibility(p))
+        self.assertFalse(self._page.get_preset_conx_shared_visibility(p))
+        self.assertTrue(self._page.get_preset_conx_exclusive_visibility(p))
+        self._page.click_preset_configure(p)
         self._page.select_preset_connection_global()
         self._page.click_save()
         self.reset_number_of_channels()
-   
+
     def test_can_change_allowed_connections_to_all(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -167,14 +175,15 @@ class AimPresetsConfigPageFunctionsTest(BaseAimRegressionTest):
         self._page.select_preset_connection_all()
         self._page.click_save()
         presets = self._page.get_list_of_presets()
-        self.assertTrue(self._page.get_preset_connection_view_only_button_visibility(presets[-1]))
-        self.assertTrue(self._page.get_preset_connection_shared_button_visibility(presets[-1]))
-        self.assertTrue(self._page.get_preset_connection_exclusive_button_visibility(presets[-1]))
-        self._page.click_preset_configure(presets[-1])
+        p = presets[-1]
+        self.assertTrue(self._page.get_preset_conx_view_only_visibility(p))
+        self.assertTrue(self._page.get_preset_conx_shared_visibility(p))
+        self.assertTrue(self._page.get_preset_conx_exclusive_visibility(p))
+        self._page.click_preset_configure(p)
         self._page.select_preset_connection_global()
         self._page.click_save()
         self.reset_number_of_channels()
-       
+
     def change_channels_to_working_set(self):
         self._page.open_channels_tab()
         channels = self._page.get_list_of_channels()
@@ -182,10 +191,10 @@ class AimPresetsConfigPageFunctionsTest(BaseAimRegressionTest):
             self._page.click_batch_delete_mode()
             counter = 6
             for counter in range(counter, len(channels)):
-                self._page.click_batch_delete_selector_for_channel_element(channels[counter])
+                self._page.click_batch_delete_channel(channels[counter])
             self._page.click_batch_delete_channels()
             self._page.click_lightbox_delete_button()
-       
+
     def reset_number_of_channels(self):
         time.sleep(2)
         self._page.open_channels_tab()
@@ -199,11 +208,15 @@ class AimPresetsConfigPageFunctionsTest(BaseAimRegressionTest):
                 self._page.set_channel_name_via_config_page(name)
                 split = name.split()
                 end = split[-1]
-                self._page.set_channel_description_via_config_page("desc " + end)
-                self._page.set_channel_location_via_config_page("loc " + end)
-                self._page.set_channel_video_source_by_visible_text(end + " [1]")
+                desc = "desc " + end
+                loc = "loc " + end
+                v_src = end + " [1]"
+                v2_src = end + " [2]"
+                self._page.set_channel_description_via_config_page(desc)
+                self._page.set_channel_location_via_config_page(loc)
+                self._page.set_channel_video_source(v_src)
                 if (end + " [2]") in self._page.get_video2_source_options():
-                    self._page.set_channel_video2_source_by_visible_text(end + " [2]")
+                    self._page.set_channel_video2_source(v2_src)
                 self._page.set_channel_audio_source_by_visible_text(end)
                 self._page.set_channel_usb_source_by_visible_text(end)
                 self._page.add_user_to_channel_permission("admin")

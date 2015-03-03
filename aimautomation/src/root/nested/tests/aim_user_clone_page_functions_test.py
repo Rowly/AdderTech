@@ -5,8 +5,9 @@ Created on 2 Jul 2013
 '''
 from root.nested.tests.base_aim_regression_test import BaseAimRegressionTest
 
+
 class AimUserClonePageFunctionsTest(BaseAimRegressionTest):
-    
+
     def test_can_clone_existing_user(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -20,7 +21,7 @@ class AimUserClonePageFunctionsTest(BaseAimRegressionTest):
         self.assertEqual(self._page.get_user_username(users[-1])[-5:], "_copy")
         self._page.click_user_delete(users[-1])
         self._page.click_lightbox_delete_button()
-    
+
     def test_can_change_username_of_cloned_user(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -33,10 +34,11 @@ class AimUserClonePageFunctionsTest(BaseAimRegressionTest):
         self._page.set_user_password2_via_config_page("password")
         self._page.click_save()
         users = self._page.get_list_of_users()
-        self.assertEqual(self._page.get_user_username(users[-1]), username + " edit")
+        n_username = self._page.get_user_username(users[-1])
+        self.assertEqual(n_username, username + " edit")
         self._page.click_user_delete(users[-1])
         self._page.click_lightbox_delete_button()
-        
+
     def test_can_change_first_name_of_cloned_user(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -49,7 +51,8 @@ class AimUserClonePageFunctionsTest(BaseAimRegressionTest):
         self._page.set_user_password2_via_config_page("password")
         self._page.click_save()
         users = self._page.get_list_of_users()
-        self.assertEqual(self._page.get_user_firstname(users[-1]), firstname + " edit")
+        n_firstname = self._page.get_user_firstname(users[-1])
+        self.assertEqual(n_firstname, firstname + " edit")
         self._page.click_user_delete(users[-1])
         self._page.click_lightbox_delete_button()
 
@@ -65,7 +68,8 @@ class AimUserClonePageFunctionsTest(BaseAimRegressionTest):
         self._page.set_user_password2_via_config_page("password")
         self._page.click_save()
         users = self._page.get_list_of_users()
-        self.assertEqual(self._page.get_user_lastname(users[-1]), lastname + " edit")
+        n_lastname = self._page.get_user_lastname(users[-1])
+        self.assertEqual(n_lastname, lastname + " edit")
         self._page.click_user_delete(users[-1])
         self._page.click_lightbox_delete_button()
 
@@ -81,12 +85,13 @@ class AimUserClonePageFunctionsTest(BaseAimRegressionTest):
         self._page.click_save()
         users = self._page.get_list_of_users()
         self._page.click_user_clone(users[-1])
-        self.assertEqual(self._page.get_user_email_from_config_page(), "new@email.com")
+        email = self._page.get_user_email_from_config_page()
+        self.assertEqual(email, "new@email.com")
         self._page.driver.back()
         users = self._page.get_list_of_users()
         self._page.click_user_delete(users[-1])
         self._page.click_lightbox_delete_button()
-    
+
     def test_cannot_change_email_to_invalid_address(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -98,7 +103,7 @@ class AimUserClonePageFunctionsTest(BaseAimRegressionTest):
         self._page.set_user_password2_via_config_page("password")
         self._page.click_save_ignore_warnings()
         self.assertTrue(self._page.is_ajax_error_message_displayed_for_user())
-    
+
     def test_can_change_cloned_user_to_no_password_required(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -119,7 +124,7 @@ class AimUserClonePageFunctionsTest(BaseAimRegressionTest):
         users = self._page.get_list_of_users()
         self._page.click_user_delete(users[-1])
         self._page.click_lightbox_delete_button()
-    
+
     def test_can_change_cloned_user_to_suspended(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -129,7 +134,7 @@ class AimUserClonePageFunctionsTest(BaseAimRegressionTest):
         username = self._page.get_user_username_from_config_page()
         self._page.set_user_password_via_config_page("password")
         self._page.set_user_password2_via_config_page("password")
-        self.assertTrue(self._page.get_user_suspended_for_user_state("no"), True)
+        self.assertTrue(self._page.get_user_suspended_for_user_state("no"))
         self._page.select_user_suspended_yes()
         self._page.select_aim_admin_yes()
         self._page.click_save()
@@ -142,7 +147,7 @@ class AimUserClonePageFunctionsTest(BaseAimRegressionTest):
         users = self._page.get_list_of_users()
         self._page.click_user_delete(users[-1])
         self._page.click_lightbox_delete_button()
-    
+
     def test_can_change_cloned_user_exclusive_connection_status_to_no(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -151,15 +156,17 @@ class AimUserClonePageFunctionsTest(BaseAimRegressionTest):
         self._page.click_user_clone(users[-1])
         self._page.set_user_password_via_config_page("password")
         self._page.set_user_password2_via_config_page("password")
-        self.assertTrue(self._page.get_user_exclusive_for_user_state("inherit"))
+        state = self._page.get_user_exclusive_for_user_state("inherit")
+        self.assertTrue(state)
         self._page.select_user_exclusive_no()
         self._page.click_save()
         users = self._page.get_list_of_users()
-        self.assertEqual(self._page.get_user_connection_image_src(users[-1]), self._baseurl + "/admin/images/silk_icons/cross.png")
+        src = self._page.get_user_connection_image_src(users[-1])
+        self.assertEqual(src, self._silk_dir + "cross.png")
         self._page.click_user_delete(users[-1])
         self._page.click_lightbox_delete_button()
-    
-    def test_can_change_cloned_user_exclusive_connection_status_to_global(self):
+
+    def test_change_cloned_user_exclusive_connection_status_to_global(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.open_users_tab()
@@ -167,11 +174,13 @@ class AimUserClonePageFunctionsTest(BaseAimRegressionTest):
         self._page.click_user_clone(users[-1])
         self._page.set_user_password_via_config_page("password")
         self._page.set_user_password2_via_config_page("password")
-        self.assertTrue(self._page.get_user_exclusive_for_user_state("inherit"))
+        state = self._page.get_user_exclusive_for_user_state("inherit")
+        self.assertTrue(state)
         self._page.select_user_exclusive_global()
         self._page.click_save()
         users = self._page.get_list_of_users()
-        self.assertEqual(self._page.get_user_connection_image_src(users[-1]), self._baseurl + "/admin/images/silk_icons/inherit.png")
+        src = self._page.get_user_connection_image_src(users[-1])
+        self.assertEqual(src, self._silk_dir + "inherit.png")
         self._page.click_user_delete(users[-1])
         self._page.click_lightbox_delete_button()
 
@@ -183,14 +192,16 @@ class AimUserClonePageFunctionsTest(BaseAimRegressionTest):
         self._page.click_user_clone(users[-1])
         self._page.set_user_password_via_config_page("password")
         self._page.set_user_password2_via_config_page("password")
-        self.assertTrue(self._page.get_user_exclusive_for_user_state("inherit"))
+        state = self._page.get_user_exclusive_for_user_state("inherit")
+        self.assertTrue(state)
         self._page.select_user_exclusive_yes()
         self._page.click_save()
         users = self._page.get_list_of_users()
-        self.assertEqual(self._page.get_user_connection_image_src(users[-1]), self._baseurl + "/admin/images/silk_icons/tick.png")
+        src = self._page.get_user_connection_image_src(users[-1])
+        self.assertEqual(src, self._silk_dir + "tick.png")
         self._page.click_user_delete(users[-1])
         self._page.click_lightbox_delete_button()
-    
+
     def test_can_change_cloned_user_group_membership_of_user(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -209,7 +220,7 @@ class AimUserClonePageFunctionsTest(BaseAimRegressionTest):
         users = self._page.get_list_of_users()
         self._page.click_user_delete(users[-1])
         self._page.click_lightbox_delete_button()
-    
+
     def test_can_change_channel_permissions_of_cloned_user(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -218,17 +229,19 @@ class AimUserClonePageFunctionsTest(BaseAimRegressionTest):
         self._page.click_user_clone(users[-1])
         self._page.set_user_password_via_config_page("password")
         self._page.set_user_password2_via_config_page("password")
-        self.assertTrue(len(self._page.get_all_channel_permissions_for_user()) == 0)
-        self._page.add_channel_permission_to_user_via_user_config_page(self._channel_names[0])
+        channels = self._page.get_all_channel_permissions_for_user()
+        self.assertTrue(len(channels) == 0)
+        self._page.add_channel_permission_to_user(self._channel_names[0])
         self._page.click_save()
         users = self._page.get_list_of_users()
         self._page.click_user_config(users[-1])
-        self.assertTrue(self._channel_names[0] in self._page.get_all_channel_permissions_for_user())
+        channels = self._page.get_all_channel_permissions_for_user()
+        self.assertTrue(self._channel_names[0] in channels)
         self._page.driver.back()
         users = self._page.get_list_of_users()
         self._page.click_user_delete(users[-1])
         self._page.click_lightbox_delete_button()
-    
+
     def test_can_change_channel_group_permissions_of_cloned_user(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -237,18 +250,20 @@ class AimUserClonePageFunctionsTest(BaseAimRegressionTest):
         self._page.click_user_clone(users[-1])
         self._page.set_user_password_via_config_page("password")
         self._page.set_user_password2_via_config_page("password")
-        self.assertTrue(len(self._page.get_all_channel_groups_for_channel()) == 0)
-        self._page.add_channel_group_permission_to_user_via_user_config_page("group 0")
+        groups = self._page.get_selected_c_groups_for_user()
+        self.assertTrue(len(groups) == 0)
+        self._page.add_channel_group_permission_to_user("group 0")
         self._page.click_save()
         users = self._page.get_list_of_users()
         self._page.click_user_config(users[-1])
-        self.assertTrue("group 0" in self._page.get_all_channel_groups_for_channel())
-        self.assertTrue(self._page.get_all_channel_groups_for_channel())
+        groups = self._page.get_selected_c_groups_for_user()
+        self.assertTrue("group 0" in groups)
+        self.assertTrue(groups)
         self._page.driver.back()
         users = self._page.get_list_of_users()
         self._page.click_user_delete(users[-1])
         self._page.click_lightbox_delete_button()
-    
+
     def test_can_change_receiver_permissions_of_cloned_user(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -258,7 +273,8 @@ class AimUserClonePageFunctionsTest(BaseAimRegressionTest):
         self._page.set_user_password_via_config_page("password")
         self._page.set_user_password2_via_config_page("password")
         self._page.show_receiver_permissions()
-        self.assertTrue("RX2" and "RX" in self._page.get_all_receivers_for_user())
+        self.assertEqual(set(self._rx_names),
+                         set(self._page.get_all_receivers_for_user()))
         self._page.remove_all_receiver_permissions_from_user()
         self._page.click_save()
         users = self._page.get_list_of_users()
@@ -269,7 +285,7 @@ class AimUserClonePageFunctionsTest(BaseAimRegressionTest):
         users = self._page.get_list_of_users()
         self._page.click_user_delete(users[-1])
         self._page.click_lightbox_delete_button()
-    
+
     def test_can_change_receiver_group_permissions_of_cloned_user(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -280,7 +296,7 @@ class AimUserClonePageFunctionsTest(BaseAimRegressionTest):
         self._page.set_user_password2_via_config_page("password")
         self._page.show_receiver_permissions()
         self.assertTrue(len(self._page.get_all_rx_groups_for_user()) == 0)
-        self._page.add_receiver_group_permission_to_user_via_user_config_page("group 0")
+        self._page.add_receiver_group_permission_to_user("group 0")
         self._page.click_save()
         users = self._page.get_list_of_users()
         self._page.click_user_config(users[-1])

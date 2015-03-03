@@ -3,11 +3,12 @@ Created on 29 Apr 2013
 
 @author: Mark.rowlands
 '''
+import os
 import requests
 import time
 import win32clipboard as WCB
-from root.nested.services.selenium_start_service import SeleniumStartService
-from root.nested.services.parameters import parameter_singleton
+from ..services.selenium_start_service import SeleniumStartService
+from ..services.parameters import parameter_singleton
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
@@ -242,10 +243,25 @@ class BasePage():
         self.wait_for_and_click_by_link_text("Save Features")
         self.wait_for_save_message_to_be_removed()
 
+    def click_save_features_ignore_warnings(self):
+        self.wait_for_and_click_by_link_text("Save Features")
+
+    def click_save_settings_ignore_warnings(self):
+        self.wait_for_and_click_by_link_text("Save Settings")
+        time.sleep(1)
+
+    def click_save_and_sync(self):
+        self.wait_for_and_click_by_link_text("Save & Sync")
+        path = "#ldap_import_ajax_message.message_box.mb_green"
+        locator = By.CSS_SELECTOR, path
+        self.wait.until(EC.visibility_of_element_located(locator))
+        self.wait.until(EC.invisibility_of_element_located(locator))
+
     def wait_for_save_message_to_be_removed(self):
         messages = ["",
                     "Saving changes...",
-                    "Settings saved." +
+                    "Saving settings...",
+                    "Settings saved. " +
                     "The change of address will take about 40 seconds."]
         wait = WebDriverWait(self.driver, 60)
         while True:
@@ -298,21 +314,21 @@ class BasePage():
             self.login_as("admin", "password", False)
         if _type is "transmitters":
             if(any(wanted_text in self.get_pagination_text()
-                    for wanted_text in ["transmitter", "transmitters"])):
+                   for wanted_text in ["transmitter", "transmitters"])):
                 return self.driver.find_elements_by_xpath("//tbody/tr")
             else:
                 self.open_transmitters_tab()
                 return self.get_list_of_transmitters()
         elif _type is "receivers":
             if(any(wanted_text in self.get_pagination_text()
-                    for wanted_text in ["receiver", "receivers"])):
+                   for wanted_text in ["receiver", "receivers"])):
                 return self.driver.find_elements_by_xpath("//tbody/tr")
             else:
                 self.open_receivers_tab()
                 return self.get_list_of_receivers()
         elif _type is "receiver_groups":
             if(any(wanted_text in self.get_pagination_text()
-                    for wanted_text in ["receiver group", "receiver groups"])):
+                   for wanted_text in ["receiver group", "receiver groups"])):
                 return self.driver.find_elements_by_xpath("//tbody/tr")
             else:
                 self.open_receivers_tab()
@@ -320,7 +336,7 @@ class BasePage():
                 return self.get_list_of_receiver_groups()
         elif _type is "channels":
             if(any(wanted_text in self.get_pagination_text()
-                    for wanted_text in ["channel", "channels"])):
+                   for wanted_text in ["channel", "channels"])):
                 return self.driver.find_elements_by_xpath("//tbody/tr")
             else:
                 self.open_channels_tab()
@@ -370,9 +386,13 @@ class BasePage():
                 return self.get_list_of_devices()
 
     def get_pagination_text(self):
-        locator = (By.CSS_SELECTOR, "div.pagination_row div")
+        locator = (By.CSS_SELECTOR, "div.pagination_row")
         el = self.wait.until(EC.presence_of_element_located(locator))
-        return el.text.lower()
+        cols = el.find_elements_by_tag_name("div")
+        if len(cols) == 1:
+            return cols[0].text.lower()
+        else:
+            return cols[-1].text.lower()
 
     def get_pagination_total(self):
         total = self.get_element_text_by_css("div.pagination_row div")
@@ -439,8 +459,11 @@ class BasePage():
     """
     Login Page BasePage
     """
-    def login_as(self, username, password, remember):
+    def wait_for_login(self):
         self.wait.until(EC.presence_of_element_located((By.ID, "username")))
+
+    def login_as(self, username, password, remember):
+        self.wait_for_login()
         user_field = self.driver.find_element_by_id("username")
         pass_field = self.driver.find_element_by_id("password")
         self.set_text_of_element(user_field, username)
@@ -455,7 +478,8 @@ class BasePage():
             self.login_as(username, password, remember)
 
     def get_user_validate_tooltip_text(self, state):
-        path = "div.form_row.required.warning > div.validation_label.tooltip"
+        path = ("div.form_row.required.{} " +
+                "> div.validation_label.tooltip").format(state)
         el = self.driver.find_element_by_css_selector(path)
         return self.get_attribute_of_element(el, "title")
 
@@ -480,11 +504,11 @@ class BasePage():
 
     def get_back_ground_image(self):
         return self.get_element_css_prop_by_xpath("background-image",
-                                                      "//body")
+                                                  "//body")
 
     def get_back_ground_repeat_property(self):
         return self.get_element_css_prop_by_xpath("background-repeat",
-                                                      "//body")
+                                                  "//body")
 
     """
     Dashboard Page BasePage
@@ -496,66 +520,73 @@ class BasePage():
         return self.get_visibility_of_link_text("DASHBOARD")
 
     def click_dashboard_home_link(self):
-        steps = ["DASHBOARD", "Home"]
+        l = ["DASHBOARD", "Home"]
         action = ActionChains(self.driver)
-        action.move_to_element(self.driver.find_element_by_link_text(steps[0]))
-        action.move_to_element(self.driver.find_element_by_link_text(steps[1]))
-        action.click()
-        action.perform()
+        (action
+         .move_to_element(self.driver.find_element_by_link_text(l[0]))
+         .move_to_element(self.driver.find_element_by_link_text(l[1]))
+         .click()
+         .perform())
 
     def click_dashboard_settings_link(self):
-        steps = ["DASHBOARD", "Home", "Settings"]
+        l = ["DASHBOARD", "Home", "Settings"]
         action = ActionChains(self.driver)
-        action.move_to_element(self.driver.find_element_by_link_text(steps[0]))
-        action.move_to_element(self.driver.find_element_by_link_text(steps[1]))
-        action.move_to_element(self.driver.find_element_by_link_text(steps[2]))
-        action.click()
-        action.perform()
+        (action
+        .move_to_element(self.driver.find_element_by_link_text(l[0]))
+        .move_to_element(self.driver.find_element_by_link_text(l[1]))
+        .move_to_element(self.driver.find_element_by_link_text(l[2]))
+        .click()
+        .perform())
 
     def click_dashboard_backups_link(self):
-        steps = ["DASHBOARD", "Home", "Backups"]
+        l = ["DASHBOARD", "Home", "Backups"]
         action = ActionChains(self.driver)
-        action.move_to_element(self.driver.find_element_by_link_text(steps[0]))
-        action.move_to_element(self.driver.find_element_by_link_text(steps[1]))
-        action.move_to_element(self.driver.find_element_by_link_text(steps[2]))
-        action.click()
-        action.perform()
+        (action
+        .move_to_element(self.driver.find_element_by_link_text(l[0]))
+        .move_to_element(self.driver.find_element_by_link_text(l[1]))
+        .move_to_element(self.driver.find_element_by_link_text(l[2]))
+        .click()
+        .perform())
 
     def click_dashboard_updates_link(self):
-        steps = ["DASHBOARD", "Home", "Updates"]
+        l = ["DASHBOARD", "Home", "Updates"]
         action = ActionChains(self.driver)
-        action.move_to_element(self.driver.find_element_by_link_text(steps[0]))
-        action.move_to_element(self.driver.find_element_by_link_text(steps[1]))
-        action.move_to_element(self.driver.find_element_by_link_text(steps[2]))
-        action.click()
-        action.perform()
+        (action
+        .move_to_element(self.driver.find_element_by_link_text(l[0]))
+        .move_to_element(self.driver.find_element_by_link_text(l[1]))
+        .move_to_element(self.driver.find_element_by_link_text(l[2]))
+        .click()
+        .perform())
 
     def click_dashboard_active_connections_link(self):
-        steps = ["DASHBOARD", "Home", "Active Connections"]
+        l = ["DASHBOARD", "Home", "Active Connections"]
         action = ActionChains(self.driver)
-        action.move_to_element(self.driver.find_element_by_link_text(steps[0]))
-        action.move_to_element(self.driver.find_element_by_link_text(steps[1]))
-        action.move_to_element(self.driver.find_element_by_link_text(steps[2]))
-        action.click()
-        action.perform()
+        (action
+        .move_to_element(self.driver.find_element_by_link_text(l[0]))
+        .move_to_element(self.driver.find_element_by_link_text(l[1]))
+        .move_to_element(self.driver.find_element_by_link_text(l[2]))
+        .click()
+        .perform())
 
     def click_dashboard_connection_log_link(self):
-        steps = ["DASHBOARD", "Home", "Connection Log"]
+        l = ["DASHBOARD", "Home", "Connection Log"]
         action = ActionChains(self.driver)
-        action.move_to_element(self.driver.find_element_by_link_text(steps[0]))
-        action.move_to_element(self.driver.find_element_by_link_text(steps[1]))
-        action.move_to_element(self.driver.find_element_by_link_text(steps[2]))
-        action.click()
-        action.perform()
+        (action
+        .move_to_element(self.driver.find_element_by_link_text(l[0]))
+        .move_to_element(self.driver.find_element_by_link_text(l[1]))
+        .move_to_element(self.driver.find_element_by_link_text(l[2]))
+        .click()
+        .perform())
 
     def click_dashboard_event_log_link(self):
-        steps = ["DASHBOARD", "Home", "Event Log"]
+        l = ["DASHBOARD", "Home", "Event Log"]
         action = ActionChains(self.driver)
-        action.move_to_element(self.driver.find_element_by_link_text(steps[0]))
-        action.move_to_element(self.driver.find_element_by_link_text(steps[1]))
-        action.move_to_element(self.driver.find_element_by_link_text(steps[2]))
-        action.click()
-        action.perform()
+        (action
+        .move_to_element(self.driver.find_element_by_link_text(l[0]))
+        .move_to_element(self.driver.find_element_by_link_text(l[1]))
+        .move_to_element(self.driver.find_element_by_link_text(l[2]))
+        .click()
+        .perform())
 
     def click_dashboard_view_all_active_connects_link(self):
         self.wait_for_and_click_by_link_text("View all Active Connections")
@@ -588,13 +619,13 @@ class BasePage():
         xpath = "//div[@id='widget_receivers']//tbody/tr"
         return self.driver.find_elements_by_xpath(xpath)
 
-    def click_receiver_connect_via_dashboard_widget(self, element):
+    def click_receiver_connect_via_dashboard(self, element):
         element.find_element_by_xpath("./td[2]/a[2]").click()
 
-    def click_receiver_disconnect_via_dashboard_widget(self, element):
+    def click_receiver_disconnect_via_dashboard(self, element):
         element.find_element_by_xpath("./td[2]/a[3]").click()
 
-    def get_visibility_of_receiver_disconnect_button(self, element):
+    def get_visible_rx_discon_button(self, element):
         try:
             return element.find_element_by_xpath("./td[2]/a[3]").is_displayed()
         except Exception:
@@ -626,87 +657,87 @@ class BasePage():
             links = []
             return links
 
-    def get_active_connection_user_names_from_dashboard_page(self):
+    def get_active_connection_user_names(self):
         return self.get_widget_element_text("widget_active_connections",
                                             "./td[3]/a",
                                             "No Active Connections")
 
-    def get_active_connection_user_name_links_from_dashboard_page(self):
+    def get_active_connection_user_name_links(self):
         return self.get_widget_element_link("widget_active_connections",
                                             "./td[3]/a",
                                             "No Active Connections")
 
-    def get_active_connection_receiver_names_from_dashboard_page(self):
+    def get_active_connection_receiver_names(self):
         return self.get_widget_element_text("widget_active_connections",
                                             "./td[4]/span/a",
                                             "No Active Connections")
 
-    def get_active_connection_receiver_name_links_from_dashboard_page(self):
+    def get_active_connection_receiver_name_links(self):
         return self.get_widget_element_link("widget_active_connections",
                                             "./td[4]/span/a",
                                             "No Active Connections")
 
-    def get_active_connection_channel_names_from_dashboard_page(self):
+    def get_active_connection_channel_names(self):
         return self.get_widget_element_text("widget_active_connections",
                                             "./td[5]/a",
                                             "No Active Connections")
 
-    def get_active_connection_channel_name_links_from_dashboard_page(self):
+    def get_active_connection_channel_name_links(self):
         return self.get_widget_element_link("widget_active_connections",
                                             "./td[5]/a",
                                             "No Active Connections")
 
-    def get_active_connection_preset_names_from_dashboard_page(self):
+    def get_active_connection_preset_names(self):
         return self.get_widget_element_text("widget_active_connections",
                                             "./td[6]/a",
                                             "No Active Connections")
 
-    def get_active_connection_preset_name_links_from_dashboard_page(self):
+    def get_active_connection_preset_name_links(self):
         return self.get_widget_element_link("widget_active_connections",
                                             "./td[6]/a",
                                             "No Active Connections")
 
-    def get_event_log_user_names_from_dashboard_page(self):
+    def get_event_log_user_names(self):
         return self.get_widget_element_text("widget_events",
                                             "./td[6]/a",
                                             "No Active Connections")
 
-    def get_event_log_user_name_links_from_dashboard_page(self):
+    def get_event_log_user_name_links(self):
         return self.get_widget_element_link("widget_events",
                                             "./td[6]/a",
                                             "No Active Connections")
 
-    def get_event_log_transmitter_names_from_dashboard_page(self):
+    def get_event_log_transmitter_names(self):
         return self.get_widget_element_text("widget_events",
                                             "./td[4]/a",
                                             "No Active Connections")
 
-    def get_event_log_transmitter_name_links_from_dashboard_page(self):
+    def get_event_log_transmitter_name_links(self):
         return self.get_widget_element_link("widget_events",
                                             "./td[4]/a",
                                             "No Active Connections")
 
-    def get_event_log_receiver_names_from_dashboard_page(self):
+    def get_event_log_receiver_names(self):
         return self.get_widget_element_text("widget_events",
                                             "./td[5]/a",
                                             "No Active Connections")
 
-    def get_event_log_receiver_name_links_from_dashboard_page(self):
+    def get_event_log_receiver_name_links(self):
         return self.get_widget_element_link("widget_events",
                                             "./td[5]/a",
                                             "No Active Connections")
 
-    def get_event_log_channel_names_from_dashboard_page(self):
+    def get_event_log_channel_names(self):
         return self.get_widget_element_text("widget_events",
                                             "./td[7]/a",
                                             "No Active Connections")
 
-    def get_event_log_channel_name_links_from_dashboard_page(self):
+    def get_event_log_channel_name_links(self):
         return self.get_widget_element_link("widget_events",
                                             "./td[7]/a",
                                             "No Active Connections")
 
-    def get_channel_names_from_dashboard_page(self):
+    def get_channel_names(self):
         return self.get_widget_element_text("widget_channels",
                                             "./td[1]/a",
                                             "No Channels found")
@@ -716,27 +747,27 @@ class BasePage():
                                             "./td[1]/a",
                                             "No Channels found")
 
-    def get_channel_configure_links_from_icon_on_dashboard_page(self):
+    def get_channel_configure_links_icon(self):
         return self.get_widget_element_link("widget_channels",
                                             "./td[2]/a[1]",
                                             "No Channels found")
 
-    def get_channel_clone_links_from_icon_on_dashboard_page(self):
+    def get_channel_clone_links_from_icon(self):
         return self.get_widget_element_link("widget_channels",
                                             "./td[2]/a[2]",
                                             "No Channels found")
 
-    def get_user_login_names_from_dashboard_page(self):
+    def get_user_login_names(self):
         return self.get_widget_element_text("widget_user_logins",
                                             "./td[2]/a",
                                             "No Channels found")
 
-    def get_user_login_name_links_from_dashboard_page(self):
+    def get_user_login_name_links(self):
         return self.get_widget_element_link("widget_user_logins",
                                             "./td[1]/a",
                                             "No Channels found")
 
-    def get_user_login_configure_links_from_icon_on_dashboard_page(self):
+    def get_user_login_configure_links_from_icon(self):
         return self.get_widget_element_link("widget_user_logins",
                                             "./td[2]/a[1]",
                                             "No Channels found")
@@ -746,87 +777,87 @@ class BasePage():
                                             "./td[2]/a[2]",
                                             "No Channels found")
 
-    def get_user_registration_names_from_dashboard_page(self):
+    def get_user_registration_names(self):
         return self.get_widget_element_text("widget_users",
                                             "./td[2]/a",
                                             "No Channels found")
 
-    def get_user_registration_name_links_from_dashboard_page(self):
+    def get_user_registration_name_links(self):
         return self.get_widget_element_link("widget_users",
                                             "./td[2]/a",
                                             "No Channels found")
 
-    def get_user_registration_config_links_from_icon_on_dashboard_page(self):
+    def get_user_reg_config_links_from_icon(self):
         return self.get_widget_element_link("widget_users",
                                             "./td[3]/a[1]",
                                             "No Channels found")
 
-    def get_user_registration_clone_links_from_icon_on_dashboard_page(self):
+    def get_user_reg_clone_links_from_icon(self):
         return self.get_widget_element_link("widget_users",
                                             "./td[3]/a[2]",
                                             "No Channels found")
 
-    def get_receiver_names_from_dashboard_page(self):
+    def get_receiver_names(self):
         return self.get_widget_element_text("widget_receivers",
                                             "./td[1]/a",
                                             "No Channels found")
 
-    def get_receiver_name_links_from_dashboard_page(self):
+    def get_receiver_name_links(self):
         return self.get_widget_element_link("widget_receivers",
                                             "./td[1]/a",
                                             "No Channels found")
 
-    def get_receiver_configure_links_from_icon_on_dashboard_page(self):
+    def get_receiver_configure_links_from_icon(self):
         return self.get_widget_element_link("widget_receivers",
                                             "./td[2]/a[1]",
                                             "No Channels found")
 
-    def get_receiver_connect_links_from_icon_on_dashboard_page(self):
+    def get_receiver_connect_links_from_icon(self):
         return self.get_widget_element_link("widget_receivers",
                                             "./td[2]/a[2]",
                                             "No Channels found")
 
-    def get_transmitter_names_from_dashboard_page(self):
+    def get_transmitter_names(self):
         return self.get_widget_element_text("widget_transmitters",
                                             "./td[1]/a",
                                             "No Channels found")
 
-    def get_transmitter_name_links_from_dashboard_page(self):
+    def get_transmitter_name_links(self):
         return self.get_widget_element_link("widget_transmitters",
                                             "./td[1]/a",
                                             "No Channels found")
 
-    def get_transmitter_confifgure_links_from_icon_on_dashboard_page(self):
+    def get_transmitter_confifgure_links_from_icon(self):
         return self.get_widget_element_link("widget_transmitters",
                                             "./td[2]/a[1]",
                                             "No Channels found")
 
-    def get_channel_change_user_name_from_dashboard_page(self):
+    def get_channel_change_user_name(self):
         return self.get_widget_element_text("widget_channel_changes",
                                             "./td[2]/a",
                                             "No Channels found")
 
-    def get_channel_change_user_name_links_from_dashboard_page(self):
+    def get_channel_change_user_name_links(self):
         return self.get_widget_element_link("widget_channel_changes",
                                             "./td[2]/a",
                                             "No Channels found")
 
-    def get_channel_change_receiver_name_from_dashboard_page(self):
+    def get_channel_change_receiver_name(self):
         return self.get_widget_element_text("widget_channel_changes",
                                             "./td[3]/a",
                                             "No Channels found")
 
-    def get_channel_change_receiver_links_from_dashboard_page(self):
+    def get_channel_change_receiver_links(self):
         return self.get_widget_element_link("widget_channel_changes",
                                             "./td[3]/a",
                                             "No Channels found")
 
-    def get_channel_change_channel_name_from_dashboard_page(self):
+    def get_channel_change_channel_name(self):
         return self.get_widget_element_text("widget_channel_changes",
                                             "./td[4]/a",
                                             "No Channels found")
 
-    def get_channel_change_channel_links_from_dashboard_page(self):
+    def get_channel_change_channel(self):
         return self.get_widget_element_link("widget_channel_changes",
                                             "./td[4]/a",
                                             "No Channels found")
@@ -883,7 +914,7 @@ class BasePage():
             raise RuntimeError("Hour Mismatch %s %s" % (aim_time[0],
                                                         system_time[0]))
 
-    def get_minute_comparison(self, aim_time, system_time):
+    def get_min_comparison(self, aim_time, system_time):
         aim_time = aim_time.split(" ")
         system_time = system_time.split(" ")
         aim_time = aim_time[0].split(":")
@@ -930,14 +961,14 @@ class BasePage():
             wait.until(EC.text_to_be_present_in_element(locator, "Dashboard"))
 
     def get_visibility_of_dashboard_disconnect_all(self):
-        path = ("widget_active_connections " +
-               "> div.widget_content.nopadding " +
-               "> div:nth-child(1) " +
-               "> a")
+        path = ("#widget_active_connections " +
+                "> div.widget_content.nopadding " +
+                "> div:nth-child(1) " +
+                "> a")
         return self.get_element_located_by_css_selector(path)
 
     def click_dashboard_disconnect_all(self):
-        path = ("widget_active_connections " +
+        path = ("#widget_active_connections " +
                 "> div.widget_content.nopadding " +
                 "> div:nth-child(1) " +
                 "> a")
@@ -991,7 +1022,7 @@ class BasePage():
     def set_state_all_users_exclusive_access_yes(self):
         self.set_css_element_state("#allow_users_exclusive_mode_1", True)
 
-    def get_state_grant_all_users_exclusive_access_setting(self, option):
+    def get_state_grant_all_users_exclusive_access(self, option):
         no = "#allow_users_exclusive_mode_0"
         yes = "#allow_users_exclusive_mode_1"
         if option == "no":
@@ -1075,7 +1106,7 @@ class BasePage():
     def get_api_anonymous_user_options(self):
         return self.get_dropdown_option_texts("#api_anon_user")
 
-    def get_current_api_anonymous_user_selection_text(self):
+    def get_current_api_anonymous_user_selection(self):
         return self.get_selected_text_select_element("#api_anon_user")
 
     def select_api_anonymous_user_by_text(self, label):
@@ -1090,7 +1121,7 @@ class BasePage():
     def get_global_magic_eye_options(self):
         return self.get_dropdown_option_texts("#magic_eye")
 
-    def get_current_global_magic_eye_selection_text(self):
+    def get_slected_global_magic_eye(self):
         return self.get_selected_text_select_element("#magic_eye")
 
     def select_global_magic_eye_by_text(self, label):
@@ -1099,7 +1130,7 @@ class BasePage():
     def get_global_ddc_options(self):
         return self.get_dropdown_option_texts("#ddc")
 
-    def get_current_global_ddc_selection_text(self):
+    def get_selected_global_ddc(self):
         return self.get_selected_text_select_element("#ddc")
 
     def select_global_ddc_by_text(self, label):
@@ -1108,7 +1139,7 @@ class BasePage():
     def get_global_hot_plug_detect_control_options(self):
         return self.get_dropdown_option_texts("#hpd")
 
-    def get_current_global_hot_plug_detect_control_selection_text(self):
+    def get_selected_global_hot_plug_detect_control(self):
         return self.get_selected_text_select_element("#hpd")
 
     def select_global_hot_plug_detect_control_by_text(self, label):
@@ -1117,16 +1148,16 @@ class BasePage():
     def get_global_hot_plug_detect_signal_period_options(self):
         return self.get_dropdown_option_texts("#video_ddc_delay")
 
-    def get_current_global_hot_plug_detect_signal_period_selection_text(self):
+    def get_selected_global_hot_plug_detect_period(self):
         return self.get_selected_text_select_element("#video_ddc_delay")
 
-    def select_global_hot_plug_detect_signal_period_by_text(self, label):
+    def select_global_hot_plug_detect_signal_period(self, label):
         self.select_dropdown_item_text("#video_ddc_delay", label)
 
     def get_global_background_refresh_options(self):
         return self.get_dropdown_option_texts("#video_br")
 
-    def get_current_global_background_refresh_selection_text(self):
+    def get_selected_global_background_refresh(self):
         return self.get_selected_text_select_element("#video_br")
 
     def select_global_background_refresh_by_text(self, label):
@@ -1135,7 +1166,7 @@ class BasePage():
     def get_global_compression_level_options(self):
         return self.get_dropdown_option_texts("#video_compression_combo")
 
-    def get_current_global_compression_level_selection_text(self):
+    def get_selected_global_compression_level(self):
         path = "#video_compression_combo"
         return self.get_selected_text_select_element(path)
 
@@ -1196,7 +1227,7 @@ class BasePage():
     def get_global_serial_parity_options(self):
         return self.get_dropdown_option_texts("#serial_parity")
 
-    def get_current_global_serial_parity_selection_text(self):
+    def get_selected_global_serial_parity(self):
         return self.get_selected_text_select_element("#serial_parity")
 
     def select_global_serial_parity_by_text(self, label):
@@ -1205,7 +1236,7 @@ class BasePage():
     def get_global_serial_data_bits_options(self):
         return self.get_dropdown_option_texts("#serial_data_bits")
 
-    def get_current_global_serial_data_bits_selection_text(self):
+    def get_selected_global_serial_data_bits(self):
         return self.get_selected_text_select_element("#serial_data_bits")
 
     def select_global_serial_data_bits_by_text(self, label):
@@ -1214,7 +1245,7 @@ class BasePage():
     def get_global_serial_stop_bits_options(self):
         return self.get_dropdown_option_texts("#serial_stop_bits")
 
-    def get_current_global_serial_stop_bits_selection_text(self):
+    def get_selected_global_serial_stop_bits(self):
         return self.get_selected_text_select_element("#serial_stop_bits")
 
     def select_global_serial_stop_bits_by_text(self, label):
@@ -1223,7 +1254,7 @@ class BasePage():
     def get_global_serial_speed_options(self):
         return self.get_dropdown_option_texts("#serial_speed")
 
-    def get_current_global_serial_speed_selection_text(self):
+    def get_selected_global_serial_speed(self):
         return self.get_selected_text_select_element("#serial_speed")
 
     def select_global_serial_speed_by_text(self, label):
@@ -1279,7 +1310,7 @@ class BasePage():
     def get_global_video_compatibility_check_options(self):
         return self.get_dropdown_option_texts("#video_compatibility_check")
 
-    def get_current_global_video_compatibility_check_selection_text(self):
+    def get_selected_global_video_compatibility(self):
         path = "#video_compatibility_check"
         return self.get_selected_text_select_element(path)
 
@@ -1289,7 +1320,7 @@ class BasePage():
     def get_receiver_keyboard_country_code_options(self):
         return self.get_dropdown_option_texts("#keyboard_country")
 
-    def get_current_receiver_keyboard_country_code_selection_text(self):
+    def get_selected_receiver_keyboard_country_code(self):
         return self.get_selected_text_select_element("#keyboard_country")
 
     def select_receiver_keyboard_country_code_by_text(self, text):
@@ -1301,7 +1332,7 @@ class BasePage():
     def get_selected_second_osd_hotkey(self):
         return self.get_selected_text_select_element("#osd_hotkey_2")
 
-    def get_osd_hotkey_validation_icon_appearance(self):
+    def get_osd_hotkey_icon_img(self):
         xpath = ("//div[contains(text(), 'OSD Hotkeys')]" +
                  "/following-sibling::div[2]")
         return self.get_element_css_prop_by_xpath("background-image", xpath)
@@ -1315,7 +1346,7 @@ class BasePage():
     def get_selected_second_shortcut_hotkey(self):
         return self.get_selected_text_select_element("#shortcut_hotkey_2")
 
-    def get_shortcut_hotkey_validation_icon_appearance(self):
+    def get_shortcut_hotkey_icon_img(self):
         xpath = ("//div[contains(text(), 'Shortcut Hotkeys')]" +
                  "/following-sibling::div[2]")
         return self.get_element_css_prop_by_xpath("background-image", xpath)
@@ -1329,7 +1360,7 @@ class BasePage():
     def get_selected_second_last_channel_hotkey(self):
         return self.get_selected_text_select_element("#last_channel_hotkey_2")
 
-    def get_last_channel_hotkey_validation_icon_appearance(self):
+    def get_last_channel_hotkey_icon_img(self):
         xpath = ("//div[contains(text(), 'Last-Channel Hotkey')]" +
                  "/following-sibling::div[2]")
         return self.get_element_css_prop_by_xpath("background-image", xpath)
@@ -1343,7 +1374,7 @@ class BasePage():
     def get_selected_second_view_only_mode_hotkey(self):
         return self.get_selected_text_select_element("#view_only_hotkey_2")
 
-    def get_view_only_mode_hotkey_validation_icon_appearance(self):
+    def get_view_only_mode_hotkey_icon_img(self):
         xpath = ("//div[contains(text(), 'View-Only Mode Hotkeys')]" +
                  "/following-sibling::div[2]")
         return self.get_element_css_prop_by_xpath("background-image", xpath)
@@ -1357,7 +1388,7 @@ class BasePage():
     def get_selected_second_shared_mode_hotkey(self):
         return self.get_selected_text_select_element("#shared_hotkey_2")
 
-    def get_shared_mode_hotkey_validation_icon_appearance(self):
+    def get_shared_mode_hotkey_validation_icon(self):
         xpath = ("//div[contains(text(), 'Shared Mode Hotkeys')]" +
                  "/following-sibling::div[2]")
         return self.get_element_css_prop_by_xpath("background-image", xpath)
@@ -1371,7 +1402,7 @@ class BasePage():
     def get_selected_second_exclusive_mode_hotkey(self):
         return self.get_selected_text_select_element("#exclusive_hotkey_2")
 
-    def get_exclusive_mode_hotkey_validation_icon_appearance(self):
+    def get_exclusive_hotkey_icon_img(self):
         xpath = ("//div[contains(text(), 'Exclusive Mode Hotkeys')]" +
                  "/following-sibling::div[2]")
         return self.get_element_css_prop_by_xpath("background-image", xpath)
@@ -1385,7 +1416,7 @@ class BasePage():
     def get_selected_second_disconnect_hotkey(self):
         return self.get_selected_text_select_element("#disconnect_hotkey_2")
 
-    def get_disconnect_hotkey_validation_icon_appearance(self):
+    def get_disconnect_icon_img(self):
         xpath = ("//div[contains(text(), 'Disconnect Hotkeys')]" +
                  "/following-sibling::div[2]")
         return self.get_element_css_prop_by_xpath("background-image", xpath)
@@ -1407,7 +1438,7 @@ class BasePage():
     def set_state_global_hid_only_yes(self, state):
         self.set_css_element_state("#hid_only_1", state)
 
-    def get_disable_isochronous_endpoint_osd_alerts_setting(self, option):
+    def get_disable_iso_endpoint_osd_alert_setting(self, option):
         no = "#isochronous_user_warning_0"
         yes = "#isochronous_user_warning_1"
         if option == "no":
@@ -1415,13 +1446,13 @@ class BasePage():
         elif option == "yes":
             return self.get_state_of_css_element(yes)
 
-    def set_state_global_disable_isochronous_endpoint_alerts_no(self, state):
-        self.set_css_element_state("#isochronous_user_warning_0", state)
+    def set_state_global_disable_isochronous_endpoint_alerts_no(self):
+        self.set_css_element_state("#isochronous_user_warning_0", True)
 
-    def set_state_global_disable_isochronous_endpoint_alerts_yes(self, state):
-        self.set_css_element_state("#isochronous_user_warning_1", state)
+    def set_state_global_disable_isochronous_endpoint_alerts_yes(self):
+        self.set_css_element_state("#isochronous_user_warning_1", True)
 
-    def get_enable_isochronous_endpoint_attach_setting(self, option):
+    def get_enable_iso_endpoint_attach_setting(self, option):
         no = "#isochronous_enabled_0"
         yes = "#isochronous_enabled_1"
         if option == "no":
@@ -1429,11 +1460,11 @@ class BasePage():
         elif option == "yes":
             return self.get_state_of_css_element(yes)
 
-    def set_state_global_enable_isochronous_endpoint_attach_no(self, state):
-        self.set_css_element_state("#isochronous_enabled_0", state)
+    def set_state_global_enable_iso_endpoint_attach_no(self):
+        self.set_css_element_state("#isochronous_enabled_0", True)
 
-    def set_state_global_enable_isochronous_endpoint_attach_yes(self, state):
-        self.set_css_element_state("#isochronous_enabled_1", state)
+    def set_state_global_enable_iso_endpoint_attach_yes(self):
+        self.set_css_element_state("#isochronous_enabled_1", True)
 
     """
     Dashboard Setting Network
@@ -1451,113 +1482,100 @@ class BasePage():
         else:
             self.wait_for_and_click_by_css("#syslog_enabled_0")
 
-    def get_visibility_of_aim_mac_address_2_label(self, connection_type):
-        xpath = ("//div[@id='eth1_%s_div']" +
+    def get_visible_aim_mac_address_2(self, connection_type):
+        xpath = ("//div[@id='eth1_" + connection_type + "_div']" +
                  "/div" +
-                 "/div[contains(text(), 'AIM MAC Address 2')]"
-                 % connection_type)
+                 "/div[contains(text(), 'AIM MAC Address 2')]")
         return self.get_visibility_of_element_by_xpath(xpath)
 
-    def get_visibility_of_aim_ip_address_2_label(self, connection_type):
-        xpath = ("//div[@id='eth1_%s_div']" +
+    def get_visible_aim_ip_address_2(self, connection_type):
+        xpath = ("//div[@id='eth1_" + connection_type + "_div']" +
                  "/div" +
-                 "div[contains(text(), 'AIM IP Address 2')]"
-                 % connection_type)
+                 "/div[contains(text(), 'AIM IP Address 2')]")
         return self.get_visibility_of_element_by_xpath(xpath)
 
-    def get_visibility_of_gateway_ip_address_label(self, connection_type):
-        xpath = ("//div[@id='eth1_%s_div']" +
+    def get_visible_of_gateway_ip_address(self, connection_type):
+        xpath = ("//div[@id='eth1_" + connection_type + "_div']" +
                  "/div" +
-                 "/div[contains(text(), 'Gateway IP Address')]"
-                 % connection_type)
+                 "/div[contains(text(), 'Gateway IP Address')]")
         return self.get_visibility_of_element_by_xpath(xpath)
 
     def get_visibility_of_netmask_label(self, connection_type):
-        xpath = ("//div[@id='eth1_%s_div']" +
+        xpath = ("//div[@id='eth1_" + connection_type + "_div']" +
                  "/div" +
-                 "/div[contains(text(), 'Netmask')]"
-                 % connection_type)
+                 "/div[contains(text(), 'Netmask')]")
         return self.get_visibility_of_element_by_xpath(xpath)
 
-    def get_visibility_of_dns_server_ip_address_label(self, connection_type):
-        xpath = ("//div[@id='eth1_%s_div']" +
+    def get_visible_dns_ip_address(self, connection_type):
+        xpath = ("//div[@id='eth1_" + connection_type + "_div']" +
                  "/div" +
-                 "/div[contains(text(), 'DNS Server IP Address')]"
-                 % connection_type)
+                 "/div[contains(text(), 'DNS Server IP Address')]")
         return self.get_visibility_of_element_by_xpath(xpath)
 
-    def get_visibility_of_aim_mac_address_2_value(self, connection_type):
-        xpath = ("//div[@id='eth1_%s_div']" +
+    def get_visible_aim_mac_address_2_value(self, connection_type):
+        xpath = ("//div[@id='eth1_" + connection_type + "_div']" +
                  "/div" +
                  "/div[contains(text(), 'AIM MAC Address 2')]" +
-                 "/following-sibling::div"
-                 % connection_type)
+                 "/following-sibling::div")
         return self.get_visibility_of_element_by_xpath(xpath)
 
-    def get_visibility_of_aim_ip_address_2_value(self, connection_type):
-        xpath = ("//div[@id='eth1_%s_div']" +
+    def get_visible_aim_ip_address_2_value(self, connection_type):
+        xpath = ("//div[@id='eth1_" + connection_type + "_div']" +
                  "/div" +
                  "/div[contains(text(), 'AIM IP Address 2')]" +
-                 "/following-sibling::div"
-                 % connection_type)
+                 "/following-sibling::div")
         return self.get_visibility_of_element_by_xpath(xpath)
 
-    def get_visibility_of_gateway_ip_address_value(self, connection_type):
-        xpath = ("//div[@id='eth1_%s_div']" +
+    def get_visible_gateway_ip_address_value(self, connection_type):
+        xpath = ("//div[@id='eth1_" + connection_type + "_div']" +
                  "/div" +
                  "/div[contains(text(), 'Gateway IP Address')]" +
-                 "/following-sibling::div"
-                 % connection_type)
+                 "/following-sibling::div")
         return self.get_visibility_of_element_by_xpath(xpath)
 
     def get_visibility_of_netmask_value(self, connection_type):
-        xpath = ("//div[@id='eth1_%s_div']" +
+        xpath = ("//div[@id='eth1_" + connection_type + "_div']" +
                  "/div" +
                  "/div[contains(text(), 'Netmask')]" +
-                 "/following-sibling::div"
-                 % connection_type)
+                 "/following-sibling::div")
         return self.get_visibility_of_element_by_xpath(xpath)
 
-    def get_visibility_of_dns_server_ip_address_value(self, connection_type):
-        xpath = ("//div[@id='eth1_%s_div']" +
+    def get_visible_dns_ip_address_value(self, connection_type):
+        xpath = ("//div[@id='eth1_" + connection_type + "_div']" +
                  "/div" +
                  "/div[contains(text(), 'DNS Server IP Address')]" +
-                 "/following-sibling::div"
-                 % connection_type)
+                 "/following-sibling::div")
         return self.get_visibility_of_element_by_xpath(xpath)
 
-    def get_aim_mac_address_2_value(self, connection_type):
-        if self.get_visibility_of_aim_mac_address_2_value(connection_type):
-            xpath = ("//div[@id='eth1_%s_div']" +
-                     "/div" +
-                     "/div[contains(text(), 'AIM MAC Address 2')]" +
-                     "/following-sibling::div"
-                     % connection_type)
-            return self.get_element_text_by_xpath(xpath)
+#     def get_visible_aim_mac_address_2_value(self, connection_type):
+#         if self.get_visible_aim_mac_address_2(connection_type):
+#             xpath = ("//div[@id='eth1_%s_div']" +
+#                      "/div" +
+#                      "/div[contains(text(), 'AIM MAC Address 2')]" +
+#                      "/following-sibling::div"
+#                      % connection_type)
+#             return self.get_element_text_by_xpath(xpath)
 
     def get_aim_ip_address_2_value(self, connection_type):
-        if self.get_visibility_of_aim_ip_address_2_value(connection_type):
-            xpath = ("//div[@id='eth1_%s_div']" +
+        if self.get_visible_aim_ip_address_2_value(connection_type):
+            xpath = ("//div[@id='eth1_" + connection_type + "_div']" +
                      "/div" +
                      "/div[contains(text(), 'AIM IP Address 2')]" +
-                     "/following-sibling::div"
-                     % connection_type)
+                     "/following-sibling::div")
             return self.get_element_text_by_xpath(xpath)
 
     def set_network_setting_ip(self, id_, address):
         self.set_text_of_element(self.driver.find_element_by_id(id_), address)
 
-    def get_network_setting_ip_validate_appearance(self, form_label):
-        xpath = ("//div[contains(text(), '%s')]" +
-                 "/following-sibling::div[2]"
-                 % form_label)
+    def get_network_setting_ip_validate(self, form_label):
+        xpath = ("//div[contains(text(), '" + form_label + "')]" +
+                 "/following-sibling::div[2]")
         return self.get_element_css_prop_by_xpath("background-image", xpath)
 
     def get_network_setting_ip_2_validate_appearance(self, form_label):
         xpath = ("//div[@id='eth1_static_div']" +
-                 "//div[contains(text(), '%s')]" +
-                 "/following-sibling::div[2]"
-                 % form_label)
+                 "//div[contains(text(), '" + form_label + "')]" +
+                 "/following-sibling::div[2]")
         return self.get_element_css_prop_by_xpath("background-image", xpath)
 
     def set_syslog_ip(self, address):
@@ -1567,9 +1585,8 @@ class BasePage():
         el = self.driver.find_element_by_id("ip_syslog")
         return el.get_attribute("value")
 
-    def get_syslog_ip_validation_icon_appearance(self):
-        form_label = "Syslog IP Address"
-        return self.get_network_setting_ip_validate_appearance(form_label)
+    def get_syslog_ip_validation_icon(self):
+        return self.get_network_setting_ip_validate("Syslog IP Address")
 
     def set_multicast_ip_base(self, address):
         self.set_network_setting_ip("multicast_ip_address_base", address)
@@ -1578,9 +1595,8 @@ class BasePage():
         el = self.driver.find_element_by_id("multicast_ip_address_base")
         return el.get_attribute("value")
 
-    def get_multicast_ip_base_validation_icon_appearance(self):
-        form_label = "Multicast IP Base"
-        return self.get_network_setting_ip_validate_appearance(form_label)
+    def get_multicast_ip_base_validation_icon(self):
+        return self.get_network_setting_ip_validate("Multicast IP Base")
 
     def set_aim_ip(self, address):
         self.set_network_setting_ip("ip_aim_server", address)
@@ -1590,55 +1606,52 @@ class BasePage():
         return el.get_attribute("value")
 
     def get_aim_ip_validation_icon_appearance(self):
-        form_label = "AIM IP Address"
-        return self.get_network_setting_ip_validate_appearance(form_label)
+        return self.get_network_setting_ip_validate("AIM IP Address")
 
     def set_gateway_ip(self, address):
         self.set_network_setting_ip("ip_gateway", address)
 
-    def get_gateway_ip_validation_icon_appearance(self):
-        form_label = "Gateway IP Address"
-        return self.get_network_setting_ip_validate_appearance(form_label)
+    def get_gateway_ip_validation_icon(self):
+        return self.get_network_setting_ip_validate("Gateway IP Address")
 
     def set_netmask(self, address):
         self.set_network_setting_ip("ip_netmask", address)
 
     def get_netmask_validation_icon_appearance(self):
-        form_label = "Netmask"
-        return self.get_network_setting_ip_validate_appearance(form_label)
+        return self.get_network_setting_ip_validate("Netmask")
 
     def set_dns_server_ip(self, address):
         self.set_network_setting_ip("ip_name_server", address)
 
     def get_dns_server_ip_validation_icon_appearance(self):
         form_label = "DNS Server IP Address"
-        return self.get_network_setting_ip_validate_appearance(form_label)
+        return self.get_network_setting_ip_validate(form_label)
 
     def set_aim_ip_2(self, address):
         self.set_network_setting_ip("ip_aim_server1", address)
 
-    def get_aim_ip_2_validation_icon_appearance(self):
+    def get_aim_ip_2_validation_icon(self):
         form_label = "AIM IP Address 2"
         return self.get_network_setting_ip_2_validate_appearance(form_label)
 
     def set_gateway_ip_2(self, address):
         self.set_network_setting_ip("ip_gateway1", address)
 
-    def get_gateway_ip_2_validation_icon_appearance(self):
+    def get_gateway_ip_2_validation_icon(self):
         form_label = "Gateway IP Address"
         return self.get_network_setting_ip_2_validate_appearance(form_label)
 
     def set_netmask_2(self, address):
         self.set_network_setting_ip("ip_netmask1", address)
 
-    def get_netmask_2_validation_icon_appearance(self):
+    def get_netmask_2_validation_icon(self):
         form_label = "Netmask"
         return self.get_network_setting_ip_2_validate_appearance(form_label)
 
     def set_dns_server_ip_2(self, address):
         self.set_network_setting_ip("ip_name_server1", address)
 
-    def get_dns_server_ip_2_validation_icon_appearance(self):
+    def get_dns_server_ip_2_validation_icon(self):
         form_label = "DNS Server IP Address"
         return self.get_network_setting_ip_2_validate_appearance(form_label)
 
@@ -1672,7 +1685,7 @@ class BasePage():
     def select_time_zone_location(self, zone, location):
         self.select_dropdown_item_text("#timezone_location_" + zone, location)
 
-    def get_all_time_zone_locations_texts(self, zone):
+    def get_all_time_zone_locations(self, zone):
         if self.driver.name == "chrome":
             time.sleep(4)
         return self.get_dropdown_option_texts("#timezone_location_" + zone)
@@ -1845,6 +1858,9 @@ class BasePage():
     def click_active_directory_settings_button(self):
         self.wait_for_and_click_by_link_text("Active Directory")
 
+    def get_active_directory_enable_state(self):
+        return self.get_state_of_css_element("#ad_enabled_1")
+
     def click_active_directory_enable_yes(self):
         self.set_css_element_state("#ad_enabled_1", True)
 
@@ -1882,6 +1898,25 @@ class BasePage():
         xpath = "//div[@id='tab_content_mail']/div/div"
         return self.get_element_text_by_xpath(xpath)
 
+    def enter_active_directory_suffix(self):
+        el = self.driver.find_element_by_css_selector("#ad_account_suffix")
+        self.set_text_of_element(el, "@addertest0.local")
+
+    def enter_active_directory_base_dn(self):
+        el = self.driver.find_element_by_css_selector("#ad_base_dn")
+        self.set_text_of_element(el, "dc=addertest0,dc=local")
+
+    def enter_active_directory_domain(self):
+        el = self.driver.find_element_by_css_selector("#ad_domain_controllers")
+        self.set_text_of_element(el, "10.10.10.242")
+
+    def enter_active_directory_username(self):
+        el = self.driver.find_element_by_css_selector("#ad_username")
+        self.set_text_of_element(el, "admin")
+
+    def enter_active_directory_password(self):
+        el = self.driver.find_element_by_css_selector("#ad_password")
+        self.set_text_of_element(el, "4xytv9")
     """
     Dashboard Backups BasePage
     """
@@ -1972,8 +2007,7 @@ class BasePage():
         self.wait.until(EC.invisibility_of_element_located(locator))
 
     def wait_for_archiving_message_to_confirm_data_saved(self):
-        msgs = ["Archiving log data...",
-                "Log data archived"]
+        msgs = ["Archiving log data...", "Log data archived"]
         try:
             locator = (By.ID, "archive_event_log_ajax_message")
             self.wait.until(EC.text_to_be_present_in_element(locator, msgs[0]))
@@ -1983,48 +2017,76 @@ class BasePage():
             return False
 
     """
+    Dashboard Updates Page
+    """
+    def select_aim_upgrade_file(self):
+        f_path = os.path.abspath("../resources/upgrade_4.0.32179.tar.gz.asc")
+        locator = By.CSS_SELECTOR, "#uploaded_aim_upgrade_file"
+        el = self.wait.until(EC.presence_of_element_located(locator))
+        el.send_keys(f_path)
+
+    def select_aim_downgrade_file(self):
+        f_path = os.path.abspath("../resources/upgrade_4.0.32179.tar.gz.asc")
+        locator = By.CSS_SELECTOR, "#uploaded_aim_upgrade_file"
+        el = self.wait.until(EC.presence_of_element_located(locator))
+        el.send_keys(f_path)
+
+    def wait_for_upload_process_to_finish(self):
+        path = By.CSS_SELECTOR, "#upload_aim_upgrade_ajax_message"
+        self.wait.until(EC.invisibility_of_element_located(path))
+        while True:
+            url = self.driver.current_url.replace("http://", "")
+            if url.startswith("10.10.10.10"):
+                break
+            else:
+                time.sleep(2)
+
+    def click_upload(self):
+        self.driver.execute_script("upload_aim_upgrade()")
+
+    """
     Import Configuration
     """
     def click_import_configuration(self):
         self.wait_for_and_click_by_link_text("Import Configuration")
 
     def enter_tx_import_details(self):
-        locator = By.CSS_SELECTOR, "form#import_config"
-        self.wait.until(EC.presence_of_element_located(locator))
-        pasteable = self.get_content_from_import_configuration_xlsx("txs")
-        self.set_clipboard_contents(pasteable)
-        path = "form#import_config>textarea:nth-of-type(1)"
-        tx_entry = self.driver.find_element_by_css_selector(path)
+        data = self.get_import_config_xls_data("txs")
+        self.set_clipboard_contents(data)
+        path = "form#import_config > textarea:nth-of-type(1)"
+        locator = By.CSS_SELECTOR, path
+        tx_entry = self.wait.until(EC.presence_of_element_located(locator))
         tx_entry.send_keys(Keys.CONTROL, "v")
 
     def enter_rx_import_details(self):
-        locator = By.CSS_SELECTOR, "form#import_config"
-        self.wait.until(EC.presence_of_element_located(locator))
-        pasteable = self.get_content_from_import_configuration_xlsx("rxs")
-        self.set_clipboard_contents(pasteable)
+        data = self.get_import_config_xls_data("rxs")
+        self.set_clipboard_contents(data)
         path = "form#import_config > textarea:nth-of-type(2)"
-        rx_entry = self.driver.find_element_by_css_selector(path)
+        locator = By.CSS_SELECTOR, path
+        rx_entry = self.wait.until(EC.presence_of_element_located(locator))
         rx_entry.send_keys(Keys.CONTROL, "v")
 
     def enter_channel_import_details(self):
-        locator = By.CSS_SELECTOR, "form#import_config"
-        self.wait.until(EC.presence_of_element_located(locator))
-        pasteable = self.get_content_from_import_configuration_xlsx("channels")
-        self.set_clipboard_contents(pasteable)
+        data = self.get_import_config_xls_data("channels")
+        self.set_clipboard_contents(data)
         path = "form#import_config > textarea:nth-of-type(3)"
-        channel_entry = self.driver.find_element_by_css_selector(path)
-        channel_entry.send_keys(Keys.CONTROL, "v")
+        locator = By.CSS_SELECTOR, path
+        c_entry = self.wait.until(EC.presence_of_element_located(locator))
+        c_entry.send_keys(Keys.CONTROL, "v")
 
     def enter_user_import_details(self):
-        locator = By.CSS_SELECTOR, "form#import_config"
-        self.wait.until(EC.presence_of_element_located(locator))
-        pasteable = self.get_content_from_import_configuration_xlsx("users")
-        self.set_clipboard_contents(pasteable)
+        data = self.get_import_config_xls_data("users")
+        self.set_clipboard_contents(data)
         path = "form#import_config > textarea:nth-of-type(4)"
-        user_entry = self.driver.find_element_by_css_selector(path)
-        user_entry.send_keys(Keys.CONTROL, "v")
+        locator = By.CSS_SELECTOR, path
+        u_entry = self.wait.until(EC.presence_of_element_located(locator))
+        u_entry.send_keys(Keys.CONTROL, "v")
 
-    def get_content_from_import_configuration_xlsx(self, target_sheet):
+    def get_import_config_xls_data(self, target_sheet):
+        if parameter_singleton["local_only"]:
+            f_path = os.path.abspath("../resources/import_configuration.xlsx")
+        else:
+            f_path = os.path.abspath("./resources/import_configuration.xlsx")
         if target_sheet == "users":
             target_index = 4
             end_point = 7
@@ -2037,7 +2099,7 @@ class BasePage():
         elif target_sheet == "channels":
             target_index = 3
             end_point = 13
-        book = open_workbook("../resources/import_configuration.xlsx")
+        book = open_workbook(f_path)
         sheet = book.sheet_by_index(target_index)
         output = ""
         for counter in range(5, sheet.nrows):
@@ -2106,7 +2168,7 @@ class BasePage():
         tx_cell = element.find_element_by_xpath("./td[10]/span[1]/a")
         return self.get_attribute_of_element(tx_cell, "href")
 
-    def get_transmitter_status_image_src(self, element):
+    def get_tx_status_img_src(self, element):
         tx_cell = element.find_element_by_xpath("./td[1]")
         return self.check_online_status_image_src(tx_cell)
 
@@ -2122,16 +2184,19 @@ class BasePage():
     def click_transmitter_identify(self, element):
         element.find_element_by_xpath("./td[10]/span[3]/a[1]").click()
 
-    def get_validation_set_via_device_info(self, element):
+    def get_device_type(self, element):
         return self.get_text_of_element(element)
 
     def check_for_span_type_tooltip(self, element):
         return self.get_attribute_of_cell_by_xpath(element, "./span", "class")
 
-    def check_for_ahref_type_tooltip(self, element):
+    def get_element_class_attribute(self, element):
+        return self.get_attribute_of_element(element, "class")
+
+    def get_class_attribute_of_link(self, element):
         return self.get_attribute_of_cell_by_xpath(element, "./a", "class")
 
-    def check_device_type_image_src(self, element):
+    def get_device_type_image_src(self, element):
         return self.get_attribute_of_cell_by_xpath(element,
                                                    "./span[1]/img",
                                                    "src")
@@ -2142,32 +2207,32 @@ class BasePage():
                                                    "./span[2]/img",
                                                    "src")
 
-    def check_form_edit_image_src(self, element):
+    def get_form_edit_image_src(self, element):
         return self.get_attribute_of_cell_by_xpath(element,
                                                    "./img",
                                                    "src")
 
-    def check_configure_device_image_src(self, element):
+    def get_config_device_img_src(self, element):
         return self.get_attribute_of_cell_by_xpath(element,
                                                    "./span[1]/a/img",
                                                    "src")
 
-    def check_refresh_arrow_image_src(self, element):
+    def get_refresh_arrow_image_src(self, element):
         return self.get_attribute_of_cell_by_xpath(element,
                                                    "./span[2]/a/img",
                                                    "src")
 
-    def check_identify_image_src(self, element):
+    def get_identify_image_src(self, element):
         return self.get_attribute_of_cell_by_xpath(element,
                                                    "./span[3]/a/img",
                                                    "src")
 
-    def check_delete_image_src(self, element):
+    def get_delete_image_src(self, element):
         return self.get_attribute_of_cell_by_xpath(element,
                                                    "./a/img",
                                                    "src")
 
-    def check_connect_device_src(self, element):
+    def get_connect_device_src(self, element):
         return self.get_attribute_of_cell_by_xpath(element,
                                                    "./span[4]/a/img",
                                                    "src")
@@ -2210,38 +2275,40 @@ class BasePage():
     def open_update_transmitter_firmware_page(self):
         steps = ["Update Firmware"]
         action = ActionChains(self.driver)
-        action.move_to_element(self.get_transmitters_link_element())
-        action.move_to_element(self.driver.find_element_by_link_text(steps[0]))
-        action.click()
-        action.perform()
+        (action.move_to_element(self.get_transmitters_link_element())
+        .move_to_element(self.driver.find_element_by_link_text(steps[0]))
+        .click()
+        .perform())
 
     def open_update_local_firmware_page(self):
-        steps = ["Update Firmware"]
+        steps = ["#transmitters_links > ul > li:nth-child(1) > a"]
         action = ActionChains(self.driver)
-        action.move_to_element(self.get_locals_link_element())
-        action.move_by_offset(0, 19)
-        action.move_to_element(self.driver.find_element_by_link_text(steps[0]))
-        action.click()
-        action.perform()
+        (action.move_to_element(self.get_locals_link_element())
+        .move_by_offset(0, 19)
+        .move_to_element(self.driver.find_element_by_css_selector(steps[0]))
+        .click()
+        .perform())
 
     def open_view_transmitters_page(self):
-        steps = ["Update Firmware", "View Transmitters"]
+        steps = ["#transmitters_links > ul > li:nth-child(2) > a",
+                 "#transmitters_links > ul > li:nth-child(1) > a"]
         action = ActionChains(self.driver)
-        action.move_to_element(self.get_transmitters_link_element())
-        action.move_to_element(self.driver.find_element_by_link_text(steps[0]))
-        action.move_to_element(self.driver.find_element_by_link_text(steps[1]))
-        action.click()
-        action.perform()
+        (action.move_to_element(self.get_transmitters_link_element())
+         .move_to_element(self.driver.find_element_by_css_selector(steps[0]))
+         .move_to_element(self.driver.find_element_by_css_selector(steps[1]))
+         .click()
+         .perform())
 
     def open_view_locals_page(self):
-        steps = ["Update Firmware", "View Locals"]
+        steps = ["#transmitters_links > ul > li:nth-child(2) > a",
+                 "#transmitters_links > ul > li:nth-child(1) > a"]
         action = ActionChains(self.driver)
-        action.move_to_element(self.get_locals_link_element())
-        action.move_by_offset(0, 19)
-        action.move_to_element(self.driver.find_element_by_link_text(steps[0]))
-        action.move_to_element(self.driver.find_element_by_link_text(steps[1]))
-        action.click()
-        action.perform()
+        (action.move_to_element(self.get_transmitters_link_element())
+         .move_by_offset(0, 19)
+         .move_to_element(self.driver.find_element_by_css_selector(steps[0]))
+         .move_to_element(self.driver.find_element_by_css_selector(steps[1]))
+         .click()
+         .perform())
 
     def get_located_name_search_field(self):
         return self.get_element_located_by_id("filter_d_name")
@@ -2249,13 +2316,13 @@ class BasePage():
     def send_filter_term_to_element(self, id_, term):
         self.enter_text_into_input_field(id_, term)
 
-    def send_search_term_to_transmitter_name_field(self, term):
+    def send_search_term_tx_name_field(self, term):
         self.send_filter_term_to_element("filter_d_name", term)
 
-    def send_search_term_to_transmitter_description_field(self, term):
+    def send_search_term_tx_description_field(self, term):
         self.send_filter_term_to_element("filter_d_description", term)
 
-    def send_search_term_to_transmitter_location_field(self, term):
+    def send_search_term_tx_location_field(self, term):
         self.send_filter_term_to_element("filter_d_location", term)
 
     def clear_filter_of_element(self, id_):
@@ -2537,7 +2604,7 @@ class BasePage():
     def get_selected_hot_plug_detect_setting(self):
         return self.get_selected_text_select_element("#tp_hpd")
 
-    def get_selected_hot_plug_detect_value_setting(self):
+    def get_selected_hot_plug_detect_value(self):
         return self.get_selected_value_select_element("#tp_hpd")
 
     def get_hot_plug_detect_options(self):
@@ -2552,10 +2619,10 @@ class BasePage():
                      "/following-sibling::div[3]")
             return self.get_element_text_by_xpath(xpath)
 
-    def get_selected_hot_plug_period_setting(self):
+    def get_selected_hot_plug_period(self):
         return self.get_selected_text_select_element("#tp_video_ddc_delay")
 
-    def get_selected_hot_plug_period_value_setting(self):
+    def get_selected_hot_plug_period_value(self):
         return self.get_selected_value_select_element("#tp_video_ddc_delay")
 
     def get_hot_plug_period_options(self):
@@ -2571,10 +2638,10 @@ class BasePage():
                      "/following-sibling::div[3]")
             return self.get_element_text_by_xpath(xpath)
 
-    def get_selected_background_refresh_period_setting(self):
+    def get_selected_bkground_refresh_period(self):
         return self.get_selected_text_select_element("#tp_video_br")
 
-    def get_selected_background_refresh_period_value_setting(self):
+    def get_selected_bkground_refresh_period_value(self):
         return self.get_selected_value_select_element("#tp_video_br")
 
     def get_background_refresh_period_options(self):
@@ -2605,10 +2672,10 @@ class BasePage():
     def set_compression_maxiumum(self, option):
         self.select_dropdown_item_text("#tp_video_compression_min", option)
 
-    def get_selected_serial_parity_setting(self):
+    def get_selected_serial_parity(self):
         return self.get_selected_text_select_element("#tp_serial_parity")
 
-    def get_selected_serial_parity_value_setting(self):
+    def get_selected_serial_parity_value(self):
         return self.get_selected_value_select_element("#tp_serial_parity")
 
     def get_serial_parity_options(self):
@@ -2617,10 +2684,10 @@ class BasePage():
     def set_serial_parity_option(self, option):
         self.select_dropdown_item_text("#tp_serial_parity", option)
 
-    def get_selected_serial_data_bit_setting(self):
+    def get_selected_serial_data_bit(self):
         return self.get_selected_text_select_element("#tp_serial_data_bits")
 
-    def get_selected_serial_data_bit_value_setting(self):
+    def get_selected_serial_data_bit_value(self):
         return self.get_selected_value_select_element("#tp_serial_data_bits")
 
     def get_serial_data_bit_options(self):
@@ -2629,10 +2696,10 @@ class BasePage():
     def set_serial_data_bit_option(self, option):
         self.select_dropdown_item_text("#tp_serial_data_bits", option)
 
-    def get_selected_serial_data_stop_setting(self):
+    def get_selected_serial_data_stop(self):
         return self.get_selected_text_select_element("#tp_serial_stop_bits")
 
-    def get_selected_serial_data_stop_value_setting(self):
+    def get_selected_serial_data_stop_value(self):
         return self.get_selected_value_select_element("#tp_serial_stop_bits")
 
     def get_serial_data_stop_options(self):
@@ -2641,10 +2708,10 @@ class BasePage():
     def set_serial_data_stop_option(self, option):
         self.select_dropdown_item_text("#tp_serial_stop_bits", option)
 
-    def get_selected_serial_speed_setting(self):
+    def get_selected_serial_speed(self):
         return self.get_selected_text_select_element("#tp_serial_speed")
 
-    def get_selected_serial_speed_value_setting(self):
+    def get_selected_serial_speed_value(self):
         return self.get_selected_value_select_element("#tp_serial_speed")
 
     def get_serial_speed_options(self):
@@ -2666,16 +2733,16 @@ class BasePage():
         if self.get_element_located_by_id("d_name"):
             self.enter_text_into_input_field("d_name", text)
 
-    def get_transmitter_description_from_config_page(self):
+    def get_transmitter_desc_from_config_page(self):
         if self.get_element_located_by_id("d_description"):
             tx_desc = self.driver.find_element_by_id("d_description")
             return self.get_attribute_of_element(tx_desc, "value")
 
-    def set_transmitter_description_via_config_page(self, text):
+    def set_transmitter_desc_via_config_page(self, text):
         if self.get_element_located_by_id("d_description"):
             self.enter_text_into_input_field("d_description", text)
 
-    def get_transmitter_location_from_config_page(self):
+    def get_transmitter_loc_from_config_page(self):
         if self.get_element_located_by_id("d_location"):
             tx_loc = self.driver.find_element_by_id("d_location")
             return self.get_attribute_of_element(tx_loc, "value")
@@ -2693,13 +2760,6 @@ class BasePage():
     def click_lightbox_ok_button(self):
         if self.get_element_located_by_id("ibox"):
             self.wait_for_and_click_by_link_text("OK")
-
-    def confirm_no_longer_on_transmitter_config_page(self):
-        found = False
-        while(found == False):
-            if (self.get_text_of_page_header() !=
-                "Transmitters > Configure Transmitter"):
-                found = True
 
     """
     Channels Page BasePage
@@ -2728,56 +2788,59 @@ class BasePage():
         return self.get_element_text_by_xpath(xpath)
 
     def click_view_channels_subtab_link(self):
-        steps = ["Add Channel", "View Channel"]
+        steps = ["#channels_links > ul > li:nth-child(2) > a",
+                 "#channels_links > ul > li:nth-child(1) > a"]
         action = ActionChains(self.driver)
-        action.move_to_element(self.get_channels_link_element())
-        action.move_to_element(self.driver.find_element_by_link_text(steps[0]))
-        action.move_to_element(self.driver.find_element_by_link_text(steps[1]))
-        action.click()
-        action.perform()
+        (action.move_to_element(self.get_channels_link_element())
+        .move_to_element(self.driver.find_element_by_css_selector(steps[0]))
+        .move_to_element(self.driver.find_element_by_css_selector(steps[1]))
+        .click()
+        .perform())
 
     def click_add_channel_subtab_link(self):
-        steps = ["Add Channel"]
+        steps = ["#channels_links > ul > li:nth-child(2) > a"]
         action = ActionChains(self.driver)
-        action.move_to_element(self.get_channels_link_element())
-        action.move_to_element(self.driver.find_element_by_link_text(steps[0]))
-        action.click()
-        action.perform()
+        (action.move_to_element(self.get_channels_link_element())
+        .move_to_element(self.driver.find_element_by_css_selector(steps[0]))
+        .click()
+        .perform())
 
     def click_view_channel_groups_subtab_link(self):
-        steps = ["Add Channel", "View Channel Groups"]
+        steps = ["#channels_links > ul > li:nth-child(2) > a",
+                 "#channels_links > ul > li:nth-child(3) > a"]
         action = ActionChains(self.driver)
-        action.move_to_element(self.get_channels_link_element())
-        action.move_to_element(self.driver.find_element_by_link_text(steps[0]))
-        action.move_to_element(self.driver.find_element_by_link_text(steps[1]))
-        action.click()
-        action.perform()
+        (action.move_to_element(self.get_channels_link_element())
+        .move_to_element(self.driver.find_element_by_css_selector(steps[0]))
+        .move_to_element(self.driver.find_element_by_css_selector(steps[1]))
+        .click()
+        .perform())
 
     def click_add_channel_group_subtab_link(self):
-        steps = ["Add Channel", "Add Channel Group"]
+        steps = ["#channels_links > ul > li:nth-child(2) > a",
+                 "#channels_links > ul > li:nth-child(4) > a"]
         action = ActionChains(self.driver)
-        action.move_to_element(self.get_channels_link_element())
-        action.move_to_element(self.driver.find_element_by_link_text(steps[0]))
-        action.move_to_element(self.driver.find_element_by_link_text(steps[1]))
-        action.click()
-        action.perform()
+        (action.move_to_element(self.get_channels_link_element())
+        .move_to_element(self.driver.find_element_by_css_selector(steps[0]))
+        .move_to_element(self.driver.find_element_by_css_selector(steps[1]))
+        .click()
+        .perform())
 
     def click_batch_delete_mode(self):
         self.wait_for_and_click_by_css("#toggle_batch_delete_button")
 
-    def check_for_batch_delete_checkbox(self):
+    def verify_batch_delete_checkbox(self):
         return self.get_element_located_by_id("toggle_delete_checkbox")
 
-    def check_for_batch_delete_checkbox_for_channel_element(self, element):
+    def verify_batch_delete_channel(self, element):
         return element.find_element_by_xpath("./td[8]/input").is_displayed()
 
-    def click_batch_delete_selector_for_channel_element(self, element):
+    def click_batch_delete_channel(self, element):
         element.find_element_by_xpath("./td[8]/input").click()
 
-    def verify_batch_delete_for_channel_group(self, element):
+    def verify_batch_delete_channel_group(self, element):
         return element.find_element_by_xpath("./td[5]/input").is_displayed()
 
-    def click_batch_delete_selector_for_channel_group(self, element):
+    def click_batch_delete_for_channel_group(self, element):
         element.find_element_by_xpath("./td[5]/input").click()
 
     def click_batch_delete_channels(self):
@@ -2807,13 +2870,13 @@ class BasePage():
     def get_channel_group_name(self, element):
         return self.get_element_comp_text_by_xpath(element, "./td[1]")
 
-    def get_channel_description(self, element):
+    def get_channel_desc(self, element):
         return self.get_element_comp_text_by_xpath(element, "./td[6]")
 
-    def get_channel_group_description(self, element):
+    def get_channel_group_desc(self, element):
         return self.get_element_comp_text_by_xpath(element, "./td[2]")
 
-    def get_channel_location(self, element):
+    def get_channel_loc(self, element):
         return self.get_element_comp_text_by_xpath(element, "./td[7]")
 
     def get_channel_connection_img_src(self, element):
@@ -2821,22 +2884,22 @@ class BasePage():
                    for image in element.find_elements_by_xpath("./td[2]/img")]
         return sources
 
-    def check_channel_connection_default_img_src(self, element):
+    def get_channel_conx_default_img_src(self, element):
         return self.get_attribute_of_cell_by_xpath(element,
                                                    "./img",
                                                    "src")
 
-    def check_configure_channel_image_src(self, element):
+    def get_configure_channel_img_src(self, element):
         return self.get_attribute_of_cell_by_xpath(element,
                                                    "./a[1]/img",
                                                    "src")
 
-    def check_clone_channel_image_src(self, element):
+    def get_clone_channel_img_src(self, element):
         return self.get_attribute_of_cell_by_xpath(element,
                                                    "./a[2]/img",
                                                    "src")
 
-    def check_delete_channel_image_src(self, element):
+    def get_delete_channel_img_src(self, element):
         return self.get_attribute_of_cell_by_xpath(element,
                                                    "./a[3]/img",
                                                    "src")
@@ -2859,19 +2922,19 @@ class BasePage():
     def get_located_search_by_lastname(self):
         return self.get_element_located_by_id("filter_lastname")
 
-    def send_search_term_to_channel_name_field(self, term):
+    def send_search_term_to_channel_name(self, term):
         self.send_filter_term_to_element("filter_c_name", term)
 
-    def send_search_term_to_channel_group_name_field(self, term):
+    def send_search_to_c_group_name_field(self, term):
         self.send_filter_term_to_element("filter_cg_name", term)
 
-    def send_search_term_to_channel_description_field(self, term):
+    def send_search_term_to_channel_desc(self, term):
         self.send_filter_term_to_element("filter_c_description", term)
 
-    def send_search_term_to_channel_group_description_field(self, term):
+    def send_search_to_c_group_desc_field(self, term):
         self.send_filter_term_to_element("filter_cg_description", term)
 
-    def send_search_term_to_channel_location_field(self, term):
+    def send_search_term_to_channel_loc(self, term):
         self.send_filter_term_to_element("filter_c_location", term)
 
     def click_on_filter_channels_by_name(self):
@@ -2993,7 +3056,7 @@ class BasePage():
     def click_channel_group_clone(self, element):
         element.find_element_by_xpath("./td[5]/a[2]").click()
 
-    def click_on_connect_receiver_to_channel_view_only(self, element):
+    def click_connect_receiver_to_channel_view_only(self, element):
         element.find_element_by_xpath("./td[4]/a[1]").click()
 
     def click_on_connect_receiver_to_channel_shared_access(self, element):
@@ -3002,7 +3065,10 @@ class BasePage():
     def click_on_connect_receiver_to_channel_exclusive_only(self, element):
         element.find_element_by_xpath("./td[4]/a[3]").click()
 
-    def get_delete_channel_text_from_lightbox(self):
+    def get_delete_chnl_txt_from_lightbox(self):
+        return self.get_lightbox_title_text()
+
+    def get_delete_chnl_grp_txt_from_lightbox(self):
         return self.get_lightbox_title_text()
 
     def click_lightbox_reboot_button(self):
@@ -3075,7 +3141,7 @@ class BasePage():
             channel_grp_desc = self.driver.find_element_by_id("cg_description")
             return self.get_attribute_of_element(channel_grp_desc, "value")
 
-    def set_channel_group_description_via_config_page(self, text):
+    def set_channel_group_desc_via_config_page(self, text):
         if self.get_element_located_by_id("cg_description"):
             self.enter_text_into_input_field("cg_description", text)
 
@@ -3088,17 +3154,28 @@ class BasePage():
         if self.get_element_located_by_id("c_location"):
             self.enter_text_into_input_field("c_location", text)
 
+    def get_different_video_source(self, current):
+        sources = self.get_dropdown_option_texts("#video_e_id")
+        sources.remove("- OFF -")
+        for source in sources:
+            if source != current:
+                return source
+
     def get_selected_video_source(self):
         return self.get_selected_text_select_element("#video_e_id")
 
-    def set_channel_video_source(self, index):
-        self.select_dropdown_item_by_index("#video_e_id", index)
-
-    def set_channel_video_source_by_visible_text(self, text):
+    def set_channel_video_source(self, text):
         self.select_dropdown_item_text("#video_e_id", text)
 
     def reset_channel_video_source(self, text):
-        self.set_channel_video_source_by_visible_text(text)
+        self.set_channel_video_source(text)
+
+    def get_different_video2_source(self, current):
+        sources = self.get_video2_source_options()
+        sources.remove("- OFF -")
+        for source in sources:
+            if source != current:
+                return source
 
     def get_selected_video2_source(self):
         return self.get_selected_text_select_element("#video1_e_id")
@@ -3106,50 +3183,52 @@ class BasePage():
     def get_video2_source_options(self):
         return self.get_dropdown_option_texts("#video1_e_id")
 
-    def set_channel_video2_source(self, index):
-        self.select_dropdown_item_by_index("#video1_e_id", index)
-
-    def set_channel_video2_source_by_visible_text(self, text):
+    def set_channel_video2_source(self, text):
         self.select_dropdown_item_text("#video1_e_id", text)
 
     def reset_channel_video2_source(self, text):
-        self.set_channel_video2_source_by_visible_text(text)
+        self.set_channel_video2_source(text)
 
     def get_selected_audio_source(self):
         return self.get_selected_text_select_element("#audio_e_id")
 
-    def set_channel_audio_source(self, index):
-        self.select_dropdown_item_by_index("#audio_e_id", index)
-
-    def set_channel_audio_source_by_visible_text(self, text):
+    def set_channel_audio_source(self, text):
         self.select_dropdown_item_text("#audio_e_id", text)
 
     def reset_channel_audio_source(self, text):
-        self.set_channel_audio_source_by_visible_text(text)
+        self.set_channel_audio_source(text)
 
     def get_selected_usb_source(self):
         return self.get_selected_text_select_element("#usb_e_id")
 
-    def set_channel_usb_source(self, index):
-        self.select_dropdown_item_by_index("#usb_e_id", index)
-
-    def set_channel_usb_source_by_visible_text(self, text):
+    def set_channel_usb_source(self, text):
         self.select_dropdown_item_text("#usb_e_id", text)
 
     def reset_channel_usb_source(self, text):
-        self.set_channel_usb_source_by_visible_text(text)
+        self.set_channel_usb_source(text)
+
+    def get_different_usb_source(self, current):
+        sources = self.get_dropdown_option_texts("#usb_e_id")
+        sources.remove("- OFF -")
+        for source in sources:
+            if source != current:
+                return source
 
     def get_selected_serial_source(self):
         return self.get_selected_text_select_element("#serial_e_id")
 
-    def set_channel_serial_source(self, index):
-        self.select_dropdown_item_by_index("#serial_e_id", index)
-
-    def set_channel_serial_source_by_visible_text(self, text):
+    def set_channel_serial_source(self, text):
         self.select_dropdown_item_text("#serial_e_id", text)
 
     def reset_channel_serial_source(self, text):
-        self.set_channel_serial_source_by_visible_text(text)
+        self.set_channel_serial_source(text)
+
+    def get_different_serial_source(self, current):
+        sources = self.get_dropdown_option_texts("#serial_e_id")
+        sources.remove("- OFF -")
+        for source in sources:
+            if source != current:
+                return source
 
     def set_channel_connections_to_global_settings(self):
         self.set_css_element_state("#c_allowed_modes_0", True)
@@ -3169,7 +3248,7 @@ class BasePage():
     def set_channel_connections_to_view_shared_and_exclusive(self):
         self.set_css_element_state("#c_allowed_modes_3", True)
 
-    def get_channel_connection_selection_state(self, connection):
+    def get_channel_connection_state(self, connection):
         if connection == "inherit":
             return self.get_state_of_css_element("#c_allowed_modes_0")
         elif connection == "view_only":
@@ -3246,7 +3325,7 @@ class BasePage():
     def is_ajax_error_message_displayed_for_channel(self):
         return self.get_element_located_by_id("configure_channel_ajax_message")
 
-    def is_ajax_error_message_displayed_for_channel_group(self):
+    def is_error_message_displayed_for_channel_group(self):
         id_ = "configure_channel_group_ajax_message"
         return self.get_element_located_by_id(id_)
 
@@ -3269,9 +3348,6 @@ class BasePage():
     def remove_all_channels_from_group(self):
         self.wait_for_and_click_by_css("#remove_all_channels")
 
-    def get_all_current_channel_groups_for_channel(self):
-        return self.get_dropdown_option_texts("#selected_channel_groups")
-
     """
     Receiver Page
     """
@@ -3290,74 +3366,54 @@ class BasePage():
         self.wait_for_and_click_by_link_text("REMOTES")
 
     def open_view_receivers_page(self):
-        steps = ["View Receiver Groups", "View Receivers"]
+        steps = ["#receivers_links > ul > li:nth-child(2) > a",
+                 "#receivers_links > ul > li:nth-child(1) > a"]
         action = ActionChains(self.driver)
-        action.move_to_element(self.get_receivers_link_element())
-        action.move_to_element(self.driver.find_element_by_link_text(steps[0]))
-        action.move_to_element(self.driver.find_element_by_link_text(steps[1]))
-        action.click()
-        action.perform()
+        (action.move_to_element(self.get_receivers_link_element())
+        .move_to_element(self.driver.find_element_by_css_selector(steps[0]))
+        .move_to_element(self.driver.find_element_by_css_selector(steps[1]))
+        .click()
+        .perform())
 
     def open_view_remotes_page(self):
-        steps = ["View Remote Groups", "View Remotes"]
-        action = ActionChains(self.driver)
-        action.move_to_element(self.get_remotes_link_element())
-        action.move_to_element(self.driver.find_element_by_link_text(steps[0]))
-        action.move_to_element(self.driver.find_element_by_link_text(steps[1]))
-        action.click()
-        action.perform()
+        self.open_view_receivers_page()
 
     def open_view_receiver_groups_page(self):
-        steps = ["View Receiver Groups"]
+        steps = ["#receivers_links > ul > li:nth-child(2) > a"]
         action = ActionChains(self.driver)
-        action.move_to_element(self.get_receivers_link_element())
-        action.move_to_element(self.driver.find_element_by_link_text(steps[0]))
-        action.click()
-        action.perform()
+        (action.move_to_element(self.get_receivers_link_element())
+        .move_to_element(self.driver.find_element_by_css_selector(steps[0]))
+        .click()
+        .perform())
 
     def open_view_remote_groups_page(self):
-        steps = ["View Remote Groups"]
-        action = ActionChains(self.driver)
-        action.move_to_element(self.get_remotes_link_element())
-        action.move_to_element(self.driver.find_element_by_link_text(steps[0]))
-        action.click()
-        action.perform()
+        self.open_view_receiver_groups_page()
 
     def open_add_receiver_groups_page(self):
-        steps = ["View Receiver Groups", "Add Receiver Group"]
+        steps = ["#receivers_links > ul > li:nth-child(2) > a",
+                 "#receivers_links > ul > li:nth-child(3) > a"]
         action = ActionChains(self.driver)
-        action.move_to_element(self.get_receivers_link_element())
-        action.move_to_element(self.driver.find_element_by_link_text(steps[0]))
-        action.move_to_element(self.driver.find_element_by_link_text(steps[1]))
-        action.click()
-        action.perform()
+        (action.move_to_element(self.get_receivers_link_element())
+        .move_to_element(self.driver.find_element_by_css_selector(steps[0]))
+        .move_to_element(self.driver.find_element_by_css_selector(steps[1]))
+        .click()
+        .perform())
 
     def open_add_remote_groups_page(self):
-        steps = ["View Remote Groups", "Add Remote Group"]
-        action = ActionChains(self.driver)
-        action.move_to_element(self.get_remotes_link_element())
-        action.move_to_element(self.driver.find_element_by_link_text(steps[0]))
-        action.move_to_element(self.driver.find_element_by_link_text(steps[1]))
-        action.click()
-        action.perform()
+        self.open_add_receiver_groups_page()
 
     def open_update_receiver_firmware_page(self):
-        steps = ["View Receiver Groups", "Update Firmware"]
+        steps = ["#receivers_links > ul > li:nth-child(2) > a",
+                 "#receivers_links > ul > li:nth-child(4) > a"]
         action = ActionChains(self.driver)
-        action.move_to_element(self.get_receivers_link_element())
-        action.move_to_element(self.driver.find_element_by_link_text(steps[0]))
-        action.move_to_element(self.driver.find_element_by_link_text(steps[1]))
-        action.click()
-        action.perform()
+        (action.move_to_element(self.get_receivers_link_element())
+        .move_to_element(self.driver.find_element_by_css_selector(steps[0]))
+        .move_to_element(self.driver.find_element_by_css_selector(steps[1]))
+        .click()
+        .perform())
 
     def open_update_remote_firmware_page(self):
-        steps = ["View Remote Groups", "Update Firmware"]
-        action = ActionChains(self.driver)
-        action.move_to_element(self.get_remotes_link_element())
-        action.move_to_element(self.driver.find_element_by_link_text(steps[0]))
-        action.move_to_element(self.driver.find_element_by_link_text(steps[1]))
-        action.click()
-        action.perform()
+        self.open_update_receiver_firmware_page()
 
     def get_text_of_view_receivers_link(self):
         xpath = "//div[@id='receivers_links']/ul/li[1]/a"
@@ -3391,10 +3447,10 @@ class BasePage():
             ip = ip[0]
         return ip
 
-    def get_receiver_description(self, element):
+    def get_receiver_desc(self, element):
         return self.get_element_comp_text_by_xpath(element, "./td[9]")
 
-    def get_receiver_location(self, element):
+    def get_receiver_loc(self, element):
         return self.get_element_comp_text_by_xpath(element, "./td[10]")
 
     def get_receiver_linktext(self, element):
@@ -3405,13 +3461,13 @@ class BasePage():
         rx_img = element.find_element_by_xpath("./td[1]")
         return self.check_online_status_image_src(rx_img)
 
-    def send_search_term_to_receiver_name_field(self, term):
+    def send_search_term_to_receiver_name(self, term):
         self.send_filter_term_to_element("filter_d_name", term)
 
-    def send_search_term_to_receiver_description_field(self, term):
+    def send_search_term_to_receiver_desc(self, term):
         self.send_filter_term_to_element("filter_d_description", term)
 
-    def send_search_term_to_receiver_location_field(self, term):
+    def send_search_term_to_receiver_loc(self, term):
         self.send_filter_term_to_element("filter_d_location", term)
 
     def click_on_filter_receivers_by_name(self):
@@ -3524,21 +3580,21 @@ class BasePage():
     def get_receiver_name_from_config_page(self):
         return self.get_attribute_via_id("d_name", "value")
 
-    def set_receiver_name_via_config_page(self, text):
+    def set_receiver_name(self, text):
         if self.get_element_located_by_id("d_name"):
             self.enter_text_into_input_field("d_name", text)
 
-    def get_receiver_description_from_config_page(self):
+    def get_receiver_desc_from_config_page(self):
         return self.get_attribute_via_id("d_description", "value")
 
-    def set_receiver_description_via_config_page(self, text):
+    def set_receiver_desc(self, text):
         if self.get_element_located_by_id("d_description"):
             self.enter_text_into_input_field("d_description", text)
 
     def get_receiver_location_from_config_page(self):
         return self.get_attribute_via_id("d_location", "value")
 
-    def set_receiver_location_via_config_page(self, text):
+    def set_receiver_loc(self, text):
         if self.get_element_located_by_id("d_location"):
             self.enter_text_into_input_field("d_location", text)
 
@@ -3582,7 +3638,7 @@ class BasePage():
     def set_keyboard_country_to_visible_text(self, text):
         self.select_dropdown_item_text("#rp_keyboard_country", text)
 
-    def get_keyboard_country_current_selection(self):
+    def get_selected_keyboard_country(self):
         return self.get_selected_text_select_element("#rp_keyboard_country")
 
     def select_audio_input_global(self):
@@ -3616,7 +3672,7 @@ class BasePage():
     def select_video_one_compatibility_yes(self):
         self.set_css_element_state("#rp_video_compatibility_check_1", True)
 
-    def get_video_one_compatibility_option_state(self, option):
+    def get_video_one_compatibility_state(self, option):
         inherit = "#rp_video_compatibility_check_-1"
         no = "#rp_video_compatibility_check_0"
         yes = "#rp_video_compatibility_check_1"
@@ -3636,7 +3692,7 @@ class BasePage():
     def select_video_two_compatibility_yes(self):
         self.set_css_element_state("#rp_video_compatibility_check1_1", True)
 
-    def get_video_two_compatibility_option_state(self, option):
+    def get_video_two_compatibility_state(self, option):
         inherit = "#rp_video_compatibility_check1_-1"
         no = "#rp_video_compatibility_check1_0"
         yes = "#rp_video_compatibility_check1_1"
@@ -3681,13 +3737,6 @@ class BasePage():
     def get_all_current_user_groups_for_rx(self):
         return self.get_dropdown_option_texts("#selected_user_groups")
 
-    def confirm_no_longer_on_configure_receiver_page(self):
-        found = False
-        expected = "Receivers > Configure Receiver"
-        while(found == False):
-            if self.get_text_of_page_header() != expected:
-                found = True
-
     """
     Receiver USB BasePage
     """
@@ -3723,7 +3772,7 @@ class BasePage():
     def select_disable_isochronous_endpoint_osd_alerts_yes(self):
         self.set_css_element_state("#isochronous_user_warning_1", True)
 
-    def get_disable_isochronous_endpoint_osd_alerts_option_state(self, option):
+    def get_disable_iso_endpoint_alert_state(self, option):
         inherit = "#isochronous_user_warning_-1"
         no = "#isochronous_user_warning_0"
         yes = "#isochronous_user_warning_1"
@@ -3743,7 +3792,7 @@ class BasePage():
     def select_enable_isochronous_endpoint_attach_yes(self):
         self.set_css_element_state("#isochronous_enabled_1", True)
 
-    def get_enable_isochronous_endpoint_attach_option_state(self, option):
+    def get_enable_iso_endpoint_attach_state(self, option):
         if option == "inherit":
             return self.get_state_of_css_element("#isochronous_enabled_-1")
         elif option == "no":
@@ -3787,7 +3836,7 @@ class BasePage():
     def clear_receiver_groups_names_filter(self):
         self.clear_filter_of_element("filter_rg_name")
 
-    def send_search_term_to_receiver_group_description_field(self, term):
+    def send_search_to_receiver_group_desc_field(self, term):
         self.send_filter_term_to_element("filter_rg_description", term)
 
     def click_on_filter_receiver_groups_by_description(self):
@@ -3818,7 +3867,7 @@ class BasePage():
     def click_receiver_group_delete(self, element):
         element.find_element_by_xpath("./td[6]/a[3]").click()
 
-    def click_batch_delete_selector_for_receiver_group_element(self, element):
+    def click_batch_delete_receiver_group(self, element):
         element.find_element_by_xpath("./td[6]/input").click()
 
     def click_receiver_group_config(self, element):
@@ -3830,7 +3879,7 @@ class BasePage():
     def click_batch_delete_receiver_groups(self):
         self.wait_for_and_click_by_link_text("Delete selected Receiver Groups")
 
-    def check_for_batch_delete_for_receiver_group(self, element):
+    def verify_batch_delete_for_receiver_group(self, element):
         return element.find_element_by_xpath("./td[6]/input").is_displayed()
 
     def get_delete_receiver_text_from_lightbox(self):
@@ -3842,18 +3891,18 @@ class BasePage():
     def get_receiver_group_name_from_config_page(self):
         return self.get_attribute_via_id("rg_name", "value")
 
-    def set_receiver_group_name_via_config_page(self, text):
+    def set_receiver_group_name(self, text):
         if self.get_element_located_by_id("rg_name"):
             self.enter_text_into_input_field("rg_name", text)
 
-    def get_receiver_group_description_from_config_page(self):
+    def get_receiver_group_desc_from_config_page(self):
         return self.get_attribute_via_id("rg_description", "value")
 
-    def set_receiver_group_description_via_config_page(self, text):
+    def set_receiver_group_description(self, text):
         if self.get_element_located_by_id("rg_description"):
             self.enter_text_into_input_field("rg_description", text)
 
-    def select_receiver_group_login_required_global(self):
+    def select_receiver_group_login_required(self):
         self.set_css_element_state("#rg_login_required_-1", True)
 
     def select_receiver_group_login_required_no(self):
@@ -3862,7 +3911,7 @@ class BasePage():
     def select_receiver_group_login_required_yes(self):
         self.set_css_element_state("#rg_login_required_1", True)
 
-    def get_state_of_receiver_group_login_required(self, option):
+    def get_state_of_rx_group_login_required(self, option):
         if option == "inherit":
             return self.get_state_of_css_element("#rg_login_required_-1")
         elif option == "no":
@@ -3904,16 +3953,16 @@ class BasePage():
         elif option == "yes":
             return self.get_state_of_css_element("#hid_only_1")
 
-    def select_receiver_grp_disable_isochronous_endpoint_alerts_global(self):
+    def select_receiver_grp_disable_iso_endpoint_alerts_global(self):
         self.set_css_element_state("#isochronous_user_warning_-1", True)
 
-    def select_receiver_grp_disable_isochronous_endpoint_alerts_no(self):
+    def select_receiver_grp_disable_iso_endpoint_alerts_no(self):
         self.set_css_element_state("#isochronous_user_warning_0", True)
 
-    def select_receiver_grp_disable_isochronous_endpoint_alerts_yes(self):
+    def select_receiver_grp_disable_iso_endpoint_alerts_yes(self):
         self.set_css_element_state("#isochronous_user_warning_1", True)
 
-    def get_state_rx_grp_disable_isochronous_endpoint_alert(self, option):
+    def get_state_rx_grp_disable_iso_endpoint_alert(self, option):
         inherit = "#isochronous_user_warning_-1"
         no = "#isochronous_user_warning_0"
         yes = "#isochronous_user_warning_1"
@@ -3924,16 +3973,16 @@ class BasePage():
         elif option == "yes":
             return self.get_state_of_css_element(yes)
 
-    def select_receiver_group_enable_isochronous_endpoint_attach_global(self):
+    def select_rx_grp_enable_iso_endpoint_attach_global(self):
         self.set_css_element_state("#isochronous_enabled_-1", True)
 
-    def select_receiver_group_enable_isochronous_endpoint_attach_no(self):
+    def select_rx_grp_enable_iso_endpoint_attach_no(self):
         self.set_css_element_state("#isochronous_enabled_0", True)
 
-    def select_receiver_group_enable_isochronous_endpoint_attach_yes(self):
+    def select_rx_grp_enable_iso_endpoint_attach_yes(self):
         self.set_css_element_state("#isochronous_enabled_1", True)
 
-    def get_state_rx_grp_enable_isochronous_endpoint_attach(self, option):
+    def get_state_rx_grp_enable_iso_endpoint_attach(self, option):
         if option == "inherit":
             return self.get_state_of_css_element("#isochronous_enabled_-1")
         elif option == "no":
@@ -3941,7 +3990,7 @@ class BasePage():
         elif option == "yes":
             return self.get_state_of_css_element("#isochronous_enabled_1")
 
-    def select_receiver_group_video_compatibility_global(self):
+    def select_receiver_group_video_compatibility(self):
         self.set_css_element_state("#rg_video_compatibility_check_-1", True)
 
     def select_receiver_group_video_compatibility_no(self):
@@ -3950,7 +3999,7 @@ class BasePage():
     def select_receiver_group_video_compatibility_yes(self):
         self.set_css_element_state("#rg_video_compatibility_check_1", True)
 
-    def get_state_receiver_group_video_compatibility(self, option):
+    def get_state_rx_group_video_compatibility(self, option):
         inherit = "#rg_video_compatibility_check_-1"
         no = "#rg_video_compatibility_check_0"
         yes = "#rg_video_compatibility_check_1"
@@ -3993,7 +4042,7 @@ class BasePage():
     def remove_all_users_from_receiver_group(self):
         self.wait_for_and_click_by_css("#remove_all_users")
 
-    def get_all_not_permitted_user_groups_for_receiver_group(self):
+    def get_all_not_permitted_user_groups_for_rx_group(self):
         return self.get_dropdown_option_texts("#all_user_groups")
 
     def add_user_group_to_receiver_group(self, user):
@@ -4003,26 +4052,16 @@ class BasePage():
     def add_all_user_groups_to_receiver_group(self):
         self.wait_for_and_click_by_css("#add_all_user_groups")
 
-    def get_all_permitted_user_groups_of_receiver_group(self):
+    def get_selected_user_groups_of_rx_group(self):
         return self.get_dropdown_option_texts("#selected_user_groups")
 
     def remove_all_user_groups_from_receiver_group(self):
         self.wait_for_and_click_by_css("#remove_all_user_groups")
 
     """
-    Receiver Clone
-    """
-    def confirm_no_longer_on_clone_receiver_group_page(self):
-        found = False
-        while(found == False):
-            expected = "Receiver Groups > Configure Cloned Receiver Group"
-            if not self.get_text_of_page_header() == expected:
-                found = True
-
-    """
     Receiver Group Add
     """
-    def is_ajax_error_message_displayed_for_receiver_group(self):
+    def is_error_message_displayed_for_rx_group(self):
         id_ = "configure_receiver_group_ajax_message"
         return self.get_element_located_by_id(id_)
 
@@ -4066,7 +4105,7 @@ class BasePage():
         elif option == "yes":
             return self.get_state_of_css_element("#rg_osd_alerts_1")
 
-    def select_enable_video_compatibility_for_receiver_group_global(self):
+    def select_enable_video_compatibility_for_receiver_group(self):
         self.set_css_element_state("#rg_video_compatibility_check_-1", True)
 
     def select_enable_video_compatibility_for_receiver_group_no(self):
@@ -4075,7 +4114,7 @@ class BasePage():
     def select_enable_video_compatibility_for_receiver_group_yes(self):
         self.set_css_element_state("#rg_video_compatibility_check_1", True)
 
-    def get_enable_video_compatibility_for_receiver_group(self, option):
+    def get_enable_video_compatibility_for_rx_group(self, option):
         global_ = "#rg_video_compatibility_check_-1"
         no = "#rg_video_compatibility_check_0"
         yes = "#rg_video_compatibility_check_1"
@@ -4105,22 +4144,22 @@ class BasePage():
         return self.get_element_text_by_xpath(xpath)
 
     def open_view_presets_page(self):
-        steps = ["View Presets"]
+        steps = ["#presets_links > ul > li:nth-child(1) > a"]
         action = ActionChains(self.driver)
-        action.move_to_element(self.get_presets_link_element())
-        action.move_by_offset(0, 19)
-        action.move_to_element(self.driver.find_element_by_link_text(steps[0]))
-        action.click()
-        action.perform()
+        (action.move_to_element(self.get_presets_link_element())
+        .move_by_offset(0, 19)
+        .move_to_element(self.driver.find_element_by_css_selector(steps[0]))
+        .click()
+        .perform())
 
     def open_add_presets_page(self):
-        steps = ["Add Preset"]
+        steps = ["#presets_links > ul > li:nth-child(2) > a"]
         action = ActionChains(self.driver)
-        action.move_to_element(self.get_presets_link_element())
-        action.move_by_offset(0, 19)
-        action.move_to_element(self.driver.find_element_by_link_text(steps[0]))
-        action.click()
-        action.perform()
+        (action.move_to_element(self.get_presets_link_element())
+        .move_by_offset(0, 19)
+        .move_to_element(self.driver.find_element_by_css_selector(steps[0]))
+        .click()
+        .perform())
 
     def click_add_preset_button(self):
         xpath = ("//div[@class='button_wrapper']" +
@@ -4128,32 +4167,32 @@ class BasePage():
                  "/span[contains(text(), 'Add Preset')]")
         self.wait_for_and_click_by_xpath(xpath)
 
-    def check_preset_configure_device_image_src(self, element):
+    def get_preset_configure_img_src(self, element):
         return self.get_attribute_of_cell_by_xpath(element,
                                                    "./a[1]/img",
                                                    "src")
 
-    def check_preset_clone_image_src(self, element):
+    def get_preset_clone_image_src(self, element):
         return self.get_attribute_of_cell_by_xpath(element,
                                                    "./a[2]/img",
                                                    "src")
 
-    def check_preset_delete_image_src(self, element):
+    def get_preset_delete_image_src(self, element):
         return self.get_attribute_of_cell_by_xpath(element,
                                                    "./a[3]/img",
                                                    "src")
 
-    def check_preset_view_only_image_src(self, element):
+    def get_preset_view_only_img_src(self, element):
         return self.get_attribute_of_cell_by_xpath(element,
                                                    "./a[1]/img",
                                                    "src")
 
-    def check_preset_shared_image_src(self, element):
+    def get_preset_shared_img_src(self, element):
         return self.get_attribute_of_cell_by_xpath(element,
                                                    "./a[2]/img",
                                                    "src")
 
-    def check_preset_exclusive_image_src(self, element):
+    def get_preset_exclusive_img_src(self, element):
         return self.get_attribute_of_cell_by_xpath(element,
                                                    "./a[3]/img",
                                                    "src")
@@ -4171,7 +4210,7 @@ class BasePage():
         preset_img = element.find_element_by_xpath("./td[4]/img")
         return preset_img.get_attribute("src")
 
-    def check_for_batch_delete_checkbox_for_preset_element(self, element):
+    def verify_batch_delete_preset(self, element):
         return element.find_element_by_xpath("./td[6]/input").is_displayed()
 
     def click_preset_disconnect(self, element):
@@ -4203,20 +4242,21 @@ class BasePage():
         except Exception:
             return False
 
-    def check_colour_of_connect_view_only_button(self, element):
+    def check_connect_view_only_button(self, element):
         xpath = ("./td[5]" +
                  "/a" +
-                 "/img[@src='/admin/images/silk_icons/eye.png']/parent::a")
+                 "/img[@src='/admin/images/silk_icons/eye.png']" +
+                 "/parent::a")
         return element.find_element_by_xpath(xpath).get_attribute("class")
 
-    def check_colour_of_connect_shared_button(self, element):
+    def check_connect_shared_button(self, element):
         xpath = ("./td[5]" +
                  "/a" +
                  "/img[@src='/admin/images/silk_icons/multicast.png']" +
                  "/parent::a")
         return element.find_element_by_xpath(xpath).get_attribute("class")
 
-    def check_colour_of_connect_exclusive_button(self, element):
+    def check_connect_exclusive_button(self, element):
         xpath = ("./td[5]" +
                  "/a" +
                  "/img[@src='/admin/images/silk_icons/lock.png']" +
@@ -4253,26 +4293,12 @@ class BasePage():
         if self.get_element_located_by_id("cp_name"):
             self.enter_text_into_input_field("cp_name", text)
 
-    def get_preset_description_from_config_page(self):
+    def get_preset_desc_from_config_page(self):
         return self.get_attribute_via_id("cp_description", "value")
 
     def set_preset_description_via_config_page(self, text):
         if self.get_element_located_by_id("cp_description"):
             self.enter_text_into_input_field("cp_description", text)
-
-    def confirm_no_longer_on_preset_config_page(self):
-        found = False
-        while(found == False):
-            expected = "Presets > Configure Preset"
-            if not self.get_text_of_page_header() == expected:
-                found = True
-
-    def confirm_no_longer_on_preset_clone_page(self):
-        found = False
-        while(found == False):
-            expected = "Presets > Configure Cloned Preset"
-            if not self.get_text_of_page_header() == expected:
-                found = True
 
     def get_list_of_preset_pairs(self):
         xpath = "//div[starts-with(@id, 'cp_pair_')]"
@@ -4369,6 +4395,7 @@ class BasePage():
         self.select_dropdown_item_text("#channel_id_2", current_chnl)
         self.click_save_ignore_warnings()
         path = "#configure_connection_preset_ajax_message > a"
+        #configure_connection_preset_ajax_message > a
         self.wait_for_and_click_by_css(path)
 
     def add_same_receiver_pair(self):
@@ -4381,7 +4408,7 @@ class BasePage():
         if self.driver.name == "chrome":
             time.sleep(2)
 
-    def check_for_receiver_single_connnection_error_message(self):
+    def get_receiver_single_connnection_error_message(self):
         path = "#configure_connection_preset_ajax_message"
         return self.get_element_text_by_css(path)
 
@@ -4405,15 +4432,17 @@ class BasePage():
                 for img in element.find_elements_by_xpath("./td[3]/img")]
         return srcs
 
-    def get_preset_connection_view_only_button_visibility(self, element):
-        return self.get_visibility_of_element_by_css("img[src*='eye.png']")
+    def get_preset_conx_view_only_visibility(self, element):
+        path = "img[src*='eye.png']"
+        return element.find_element_by_css_selector(path).is_displayed()
 
-    def get_preset_connection_shared_button_visibility(self, element):
+    def get_preset_conx_shared_visibility(self, element):
         path = "img[src*='multicast.png']"
-        return self.get_visibility_of_element_by_css(path)
+        return element.find_element_by_css_selector(path).is_displayed()
 
-    def get_preset_connection_exclusive_button_visibility(self, element):
-        return self.get_visibility_of_element_by_css("img[src*='lock.png']")
+    def get_preset_conx_exclusive_visibility(self, element):
+        path = "img[src*='lock.png']"
+        return element.find_element_by_css_selector(path).is_displayed()
 
     """
     Users BasePage
@@ -4447,48 +4476,52 @@ class BasePage():
         return self.get_element_text_by_xpath(xpath)
 
     def open_view_users_page(self):
-        steps = ["Add User Group", "View Users"]
+        steps = ["#users_links > ul > li:nth-child(4) > a",
+                 "#users_links > ul > li:nth-child(1) > a"]
         action = ActionChains(self.driver)
-        action.move_to_element(self.get_users_link_element())
-        action.move_to_element(self.driver.find_element_by_link_text(steps[0]))
-        action.move_to_element(self.driver.find_element_by_link_text(steps[1]))
-        action.click()
-        action.perform()
+        (action.move_to_element(self.get_users_link_element())
+        .move_to_element(self.driver.find_element_by_css_selector(steps[0]))
+        .move_to_element(self.driver.find_element_by_css_selector(steps[1]))
+        .click()
+        .perform())
 
     def open_add_user_page(self):
-        steps = ["Add User Group", "Add User"]
+        steps = ["#users_links > ul > li:nth-child(4) > a",
+                 "#users_links > ul > li:nth-child(2) > a"]
         action = ActionChains(self.driver)
-        action.move_to_element(self.get_users_link_element())
-        action.move_to_element(self.driver.find_element_by_link_text(steps[0]))
-        action.move_to_element(self.driver.find_element_by_link_text(steps[1]))
-        action.click()
-        action.perform()
+        (action.move_to_element(self.get_users_link_element())
+        .move_to_element(self.driver.find_element_by_css_selector(steps[0]))
+        .move_to_element(self.driver.find_element_by_css_selector(steps[1]))
+        .click()
+        .perform())
 
     def open_view_user_groups_page(self):
-        steps = ["Add User Group", "View User Groups"]
+        steps = ["#users_links > ul > li:nth-child(4) > a",
+                 "#users_links > ul > li:nth-child(3) > a"]
         action = ActionChains(self.driver)
-        action.move_to_element(self.get_users_link_element())
-        action.move_to_element(self.driver.find_element_by_link_text(steps[0]))
-        action.move_to_element(self.driver.find_element_by_link_text(steps[1]))
-        action.click()
-        action.perform()
+        (action.move_to_element(self.get_users_link_element())
+        .move_to_element(self.driver.find_element_by_css_selector(steps[0]))
+        .move_to_element(self.driver.find_element_by_css_selector(steps[1]))
+        .click()
+        .perform())
 
     def open_add_user_group_page(self):
-        steps = ["Add User Group"]
+        steps = ["#users_links > ul > li:nth-child(4) > a"]
         action = ActionChains(self.driver)
-        action.move_to_element(self.get_users_link_element())
-        action.move_to_element(self.driver.find_element_by_link_text(steps[0]))
-        action.click()
-        action.perform()
+        (action.move_to_element(self.get_users_link_element())
+        .move_to_element(self.driver.find_element_by_css_selector(steps[0]))
+        .click()
+        .perform())
 
     def open_active_directory_page(self):
-        steps = ["Add User Group", "Active Directory"]
+        steps = ["#users_links > ul > li:nth-child(4) > a",
+                 "#users_links > ul > li:nth-child(5) > a"]
         action = ActionChains(self.driver)
-        action.move_to_element(self.get_users_link_element())
-        action.move_to_element(self.driver.find_element_by_link_text(steps[0]))
-        action.move_to_element(self.driver.find_element_by_link_text(steps[1]))
-        action.click()
-        action.perform()
+        (action.move_to_element(self.get_users_link_element())
+        .move_to_element(self.driver.find_element_by_css_selector(steps[0]))
+        .move_to_element(self.driver.find_element_by_css_selector(steps[1]))
+        .click()
+        .perform())
 
     def get_list_of_users(self):
         return self.get_list("users")
@@ -4517,24 +4550,24 @@ class BasePage():
     def click_batch_delete_selector_for_user_element(self, element):
         element.find_element_by_xpath("./td[12]/input").click()
 
-    def check_user_allowed_connections_image_src(self, element):
+    def get_user_allowed_connections_img_src(self, element):
         return self.get_attribute_of_cell_by_xpath(element, "./img", "src")
 
-    def check_user_remote_osd_image_src(self, element):
+    def get_user_remote_osd_image_src(self, element):
         return self.get_attribute_of_cell_by_xpath(element, "./img", "src")
 
-    def check_user_suspended_image_src(self, element):
+    def get_user_suspended_image_src(self, element):
         return self.get_attribute_of_cell_by_xpath(element, "./img", "src")
 
-    def check_user_aim_admin_image_src(self, element):
+    def get_user_aim_admin_image_src(self, element):
         return self.get_attribute_of_cell_by_xpath(element, "./img", "src")
 
-    def check_clone_user_image_src(self, element):
+    def get_clone_user_image_src(self, element):
         return self.get_attribute_of_cell_by_xpath(element,
                                                    "./a[2]/img",
                                                    "src")
 
-    def check_delete_user_image_src(self, element):
+    def get_delete_user_image_src(self, element):
         return self.get_attribute_of_cell_by_xpath(element,
                                                    "./a[3]/img",
                                                    "src")
@@ -4714,7 +4747,7 @@ class BasePage():
     def get_all_user_groups_for_user(self):
         return self.get_dropdown_option_texts("#selected_user_groups")
 
-    def add_channel_permission_to_user_via_user_config_page(self, text):
+    def add_channel_permission_to_user(self, text):
         self.select_dropdown_item_text("#all_channels", text)
         self.wait_for_and_click_by_css("#add_one_channel")
 
@@ -4727,11 +4760,11 @@ class BasePage():
     def remove_all_channels_from_user(self):
         self.wait_for_and_click_by_css("#remove_all_channels")
 
-    def add_channel_group_permission_to_user_via_user_config_page(self, text):
+    def add_channel_group_permission_to_user(self, text):
         self.select_dropdown_item_text("#all_channel_groups", text)
         self.wait_for_and_click_by_css("#add_one_channel_group")
 
-    def get_all_channel_groups_for_channel(self):
+    def get_selected_c_groups_for_user(self):
         return self.get_dropdown_option_texts("#selected_channel_groups")
 
     def remove_all_channel_group_permissions_via_user_config_page(self):
@@ -4750,7 +4783,7 @@ class BasePage():
     def remove_all_receiver_permissions_from_user(self):
         self.wait_for_and_click_by_css("#remove_all_rxs")
 
-    def add_receiver_group_permission_to_user_via_user_config_page(self, text):
+    def add_receiver_group_permission_to_user(self, text):
         self.select_dropdown_item_text("#all_receiver_groups", text)
         self.wait_for_and_click_by_css("#add_one_receiver_group")
 
@@ -4762,12 +4795,6 @@ class BasePage():
 
     def is_ajax_error_message_displayed_for_user(self):
         return self.get_element_located_by_id("configure_user_ajax_message")
-
-    def confirm_no_longer_on_user_config_page(self):
-        found = False
-        while(found == False):
-            if not self.get_text_of_page_header() == "Users > Configure User":
-                found = True
 
     """
     User Group BasePage
@@ -4825,30 +4852,30 @@ class BasePage():
     def click_user_group_delete(self, element):
         element.find_element_by_xpath("./td[8]/a[3]").click()
 
-    def click_batch_delete_selector_for_user_group_element(self, element):
+    def click_batch_delete_user_group(self, element):
         element.find_element_by_xpath("./td[8]/input").click()
 
     def click_batch_delete_user_groups(self):
         self.wait_for_and_click_by_link_text("Delete selected User Groups")
 
-    def check_user_group_users_class(self, element):
+    def get_user_group_users_class(self, element):
         return self.get_attribute_of_cell_by_xpath(element, "./a", "class")
 
-    def check_user_group_channels_class(self, element):
+    def get_u_group_channels_class(self, element):
         return self.get_attribute_of_cell_by_xpath(element, "./a", "class")
 
-    def check_user_group_receivers_class(self, element):
+    def get_u_group_receivers_class(self, element):
         return self.get_attribute_of_cell_by_xpath(element, "./a", "class")
 
-    def check_user_group_configure_device_image_src(self, element):
+    def get_u_group_config_img_src(self, element):
         return self.get_attribute_of_cell_by_xpath(element,
                                                    "./a[1]/img", "src")
 
-    def check_user_group_clone_image_src(self, element):
+    def get_user_group_clone_img_src(self, element):
         return self.get_attribute_of_cell_by_xpath(element,
                                                    "./a[2]/img", "src")
 
-    def check_user_group_delete_image_src(self, element):
+    def get_u_group_delete_img_src(self, element):
         return self.get_attribute_of_cell_by_xpath(element,
                                                    "./a[3]/img", "src")
 
@@ -4961,16 +4988,37 @@ class BasePage():
         return self.get_element_located_by_id(id_)
 
     """
+    User Active Directory
+    """
+    def click_rescan_active_directory(self):
+        self.wait_for_and_click_by_css("#rescan_ldap_button")
+
+    def get_active_directory_content(self):
+        msg = "#ldap_import_ajax_message.message_box.mb_green"
+        button = "#rescan_ldap_button"
+        locator = By.CSS_SELECTOR, msg
+        self.wait.until(EC.invisibility_of_element_located(locator))
+        locator = By.CSS_SELECTOR, button
+        self.wait.until(EC.visibility_of_element_located(locator))
+        return self.driver.find_elements_by_xpath("//tbody/tr")
+
+    def get_active_directory_table_cells(self, row):
+        return row.find_elements_by_tag_name("td")
+
+    def select_ad_import(self, cell):
+        cell.click()
+
+    """
     USB Port Reservation BasePage
     """
     def get_port_reservation_labels(self, suffix):
         return self.get_dropdown_option_texts("#port_reservation_" + suffix)
 
-    def select_port_reservation_label_by_element(self, element, label):
+    def select_port_reservation(self, element, label):
         select = Select(element)
         select.select_by_visible_text(label)
 
-    def get_selected_global_receiver_reserved_usb_port(self, element):
+    def get_selected_rx_reserved_usb_port(self, element):
         select = Select(element)
         return select.first_selected_option.text
 
@@ -4980,13 +5028,13 @@ class BasePage():
         self.wait.until(EC.presence_of_all_elements_located(locator))
         return self.driver.find_elements_by_css_selector(path)
 
-    def get_list_of_port_reservation_merge_checkboxes(self):
+    def get_port_reservation_merge_checkboxes(self):
         path = "input[id^='merge_']"
         locator = By.CSS_SELECTOR, path
         self.wait.until(EC.presence_of_all_elements_located(locator))
         return self.driver.find_elements_by_css_selector(path)
 
-    def get_list_of_port_reservation_device_dropdowns(self):
+    def get_port_reservation_device_dropdowns(self):
         path = "select[id^='port_quirk_']"
         locator = By.CSS_SELECTOR, path
         self.wait.until(EC.presence_of_all_elements_located(locator))
@@ -4995,11 +5043,11 @@ class BasePage():
     def get_list_of_reserved_devices(self, element):
         return self.get_dropdown_options_text_by_element(element)
 
-    def select_port_reservation_device_label_by_element(self, element, label):
+    def select_port_reservation_device(self, element, label):
         select = Select(element)
         select.select_by_visible_text(label)
 
-    def get_selected_global_rx_reserved_usb_port_device(self, element):
+    def get_selected_rx_reserved_usb_port_device(self, element):
         select = Select(element)
         return select.first_selected_option.text
 
@@ -5010,9 +5058,9 @@ class BasePage():
 
     def get_list_usb_devices(self):
         path = ("div#quirks_table_container " +
-                "form#usb_quirks " +
-                "table.zebra tbody " +
-                "tr")
+                "> form#usb_quirks " +
+                "> table.zebra tbody " +
+                "> tr")
         return self.driver.find_elements_by_css_selector(path)
 
     def get_name(self, element):
@@ -5033,10 +5081,10 @@ class BasePage():
                 raise RuntimeError("Couldn't find show_quirk checkbox" +
                                    "nor green tick icon.")
 
-    def set_status_hide_usb_device_global(self, state):
-        self.set_css_element_state("#toggle_show_checkbox", state)
+    def set_status_hide_usb_device_global(self):
+        self.wait_for_and_click_by_css("#toggle_show_checkbox")
 
-    def check_show_status_of_usb_device(self, element):
+    def get_show_status_of_usb_device(self, element):
         self.get_state_of_css_element("input[id^='show_quirk_']")
 
     def add_test_usb_device(self, name, desc, kernel, user):
@@ -5067,7 +5115,7 @@ class BasePage():
 
     def get_quirk_ajax_message_text(self):
         path = "span#usb_quirks_ajax_message.message_box.mb_red"
-        self.get_element_text_by_css(path)
+        return self.get_element_text_by_css(path)
 
     """
     Statistics Page BasePage
@@ -5121,7 +5169,8 @@ class BasePage():
             self.wait_for_and_click_by_link_text("Submit")
 
     def get_device_name_from_statistics_graph(self):
-        titles = self.driver.find_elements_by_css_selector("#container>div>h2")
+        path = "#container > div > h2"
+        titles = self.driver.find_elements_by_css_selector(path)
         names = [title.text
                  for title in titles]
         return names
@@ -5140,7 +5189,7 @@ class BasePage():
         path = ("#container " +
                 "> div" +
                 "> div" +
-                ">div[style*='rotate(-90deg)']:last-of-type")
+                "> div[style*='rotate(-90deg)']:last-of-type")
         graphs = self.driver.find_elements_by_css_selector(path)
         names = [each.text
                  for each in graphs]
@@ -5175,7 +5224,7 @@ class BasePage():
         return len(device.find_elements_by_css_selector(path))
 
     def get_graph_title(self):
-        return self.driver.find_element_by_css_selector("div#right>h1").text
+        return self.driver.find_element_by_css_selector("div#right > h1").text
 
     def click_disable_all_device_statistics(self):
         self.wait_for_and_click_by_link_text("Disable All")
@@ -5200,7 +5249,7 @@ class BasePage():
         self.set_text_of_element(loc, search_term)
 
     def click_filter_by_location(self):
-        self.wait_for_and_click_by_css("#filter_d_locatio_icon")
+        self.wait_for_and_click_by_css("#filter_d_location_icon")
 
     def click_remove_filters(self):
         self.wait_for_and_click_by_link_text("Remove Filters")
@@ -5242,14 +5291,14 @@ class BasePage():
         return self.get_element_comp_text_by_css(element, "td:nth-child(6)")
 
     def click_server_config(self, element):
-        element.find_element_by_css_selector("td:nth-child(7)>a").click()
+        element.find_element_by_css_selector("td:nth-child(7) > a").click()
 
     def click_non_primary_server_local_config(self, element):
-        path = "td:nth-child(7)>a:nth-child(2)"
+        path = "td:nth-child(7) > a:nth-child(2)"
         element.find_element_by_css_selector(path).click()
 
     def click_server_delete(self, element):
-        path = "td:nth-child(7)>a:nth-child(3)"
+        path = "td:nth-child(7) > a:nth-child(3)"
         element.find_element_by_css_selector(path).click()
 
     def set_server_name(self, name):
@@ -5282,6 +5331,7 @@ class BasePage():
                 pass
 
     def get_current_url(self):
+        time.sleep(2)
         return self.driver.current_url
 
     def get_server_name_from_backup_local_config(self):

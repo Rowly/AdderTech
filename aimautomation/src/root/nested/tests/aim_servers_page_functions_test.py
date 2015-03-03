@@ -5,6 +5,7 @@ Created on 20 Nov 2013
 '''
 from root.nested.tests.base_aim_regression_test import BaseAimRegressionTest
 
+
 class AimServersPageFunctionsTest(BaseAimRegressionTest):
 
     def test_can_change_primary_server_name(self):
@@ -29,9 +30,8 @@ class AimServersPageFunctionsTest(BaseAimRegressionTest):
             self._page.click_server_config(primary)
             self._page.set_server_name(original)
             self._page.click_save()
-        else: 
+        else:
             raise RuntimeError("No Primary server in cluster")
-
 
     def test_can_change_primary_server_description(self):
         primary = None
@@ -55,7 +55,7 @@ class AimServersPageFunctionsTest(BaseAimRegressionTest):
             self._page.click_server_config(primary)
             self._page.set_server_description(original)
             self._page.click_save()
-        else: 
+        else:
             raise RuntimeError("No Primary server in cluster")
 
     def test_can_change_primary_server_location(self):
@@ -80,7 +80,7 @@ class AimServersPageFunctionsTest(BaseAimRegressionTest):
             self._page.click_server_config(primary)
             self._page.set_server_location(original)
             self._page.click_save()
-        else: 
+        else:
             raise RuntimeError("No Primary server in cluster")
 
     def test_can_change_backup_server_name(self):
@@ -105,7 +105,7 @@ class AimServersPageFunctionsTest(BaseAimRegressionTest):
             self._page.click_server_config(backup)
             self._page.set_server_name(original)
             self._page.click_save()
-        else: 
+        else:
             raise RuntimeError("No Backup server in cluster")
 
     def test_can_change_backup_server_description(self):
@@ -130,7 +130,7 @@ class AimServersPageFunctionsTest(BaseAimRegressionTest):
             self._page.click_server_config(backup)
             self._page.set_server_description(original)
             self._page.click_save()
-        else: 
+        else:
             raise RuntimeError("No Backup server in cluster")
 
     def test_can_change_backup_server_location(self):
@@ -155,7 +155,7 @@ class AimServersPageFunctionsTest(BaseAimRegressionTest):
             self._page.click_server_config(backup)
             self._page.set_server_location(original)
             self._page.click_save()
-        else: 
+        else:
             raise RuntimeError("No Backup server in cluster")
 
     def test_can_open_backup_server_local_config(self):
@@ -174,6 +174,7 @@ class AimServersPageFunctionsTest(BaseAimRegressionTest):
             self._page.click_non_primary_server_local_config(backup)
             self._page.switch_to_other_window_from(first_window)
             self.assertTrue(self._backup_url in self._page.get_current_url())
-            self.assertEqual(name, self._page.get_server_name_from_backup_local_config())
-        else: 
+            backup_name = self._page.get_server_name_from_backup_local_config()
+            self.assertEqual(name, backup_name)
+        else:
             raise RuntimeError("No Backup server in cluster")

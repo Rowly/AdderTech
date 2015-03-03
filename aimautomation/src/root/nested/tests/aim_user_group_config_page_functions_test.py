@@ -5,8 +5,9 @@ Created on 4 Jul 2013
 '''
 from root.nested.tests.base_aim_regression_test import BaseAimRegressionTest
 
+
 class AimUserGroupConfigPageFunctionsTest(BaseAimRegressionTest):
-    
+
     def test_can_change_name(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -18,11 +19,12 @@ class AimUserGroupConfigPageFunctionsTest(BaseAimRegressionTest):
         self._page.set_user_group_name_via_config_page(name + " edit")
         self._page.click_save()
         users = self._page.get_list_of_user_groups()
-        self.assertEqual(self._page.get_user_group_name(users[-1]), name + " edit")
+        edited = self._page.get_user_group_name(users[-1])
+        self.assertEqual(edited, name + " edit")
         self._page.click_user_group_config(users[-1])
         self._page.set_user_group_name_via_config_page(name)
         self._page.click_save()
-      
+
     def test_can_change_allowed_exclusive_connection(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -30,20 +32,23 @@ class AimUserGroupConfigPageFunctionsTest(BaseAimRegressionTest):
         self._page.open_view_user_groups_page()
         users = self._page.get_list_of_user_groups()
         self._page.click_user_group_config(users[-1])
-        self.assertTrue(self._page.get_state_of_user_group_exclusive("inherit"))
+        state = self._page.get_state_of_user_group_exclusive("inherit")
+        self.assertTrue(state)
         self._page.select_user_group_exclusive_no()
         self._page.click_save()
         users = self._page.get_list_of_user_groups()
         self._page.click_user_group_config(users[-1])
-        self.assertTrue(self._page.get_state_of_user_group_exclusive("no"))
+        state = self._page.get_state_of_user_group_exclusive("no")
+        self.assertTrue(state)
         self._page.select_user_group_exclusive_yes()
         self._page.click_save()
         users = self._page.get_list_of_user_groups()
         self._page.click_user_group_config(users[-1])
-        self.assertTrue(self._page.get_state_of_user_group_exclusive("yes"))
+        state = self._page.get_state_of_user_group_exclusive("yes")
+        self.assertTrue(state)
         self._page.select_user_group_exclusive_global()
         self._page.click_save()
-      
+
     def test_can_change_remote_osd(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -51,17 +56,20 @@ class AimUserGroupConfigPageFunctionsTest(BaseAimRegressionTest):
         self._page.open_view_user_groups_page()
         users = self._page.get_list_of_user_groups()
         self._page.click_user_group_config(users[-1])
-        self.assertTrue(self._page.get_state_of_user_group_remote_osd("inherit"))
+        state = self._page.get_state_of_user_group_remote_osd("inherit")
+        self.assertTrue(state)
         self._page.select_user_group_remote_osd_no()
         self._page.click_save()
         users = self._page.get_list_of_user_groups()
         self._page.click_user_group_config(users[-1])
-        self.assertTrue(self._page.get_state_of_user_group_remote_osd("no"))
+        state = self._page.get_state_of_user_group_remote_osd("no")
+        self.assertTrue(state)
         self._page.select_user_group_remote_osd_yes()
         self._page.click_save()
         users = self._page.get_list_of_user_groups()
         self._page.click_user_group_config(users[-1])
-        self.assertTrue(self._page.get_state_of_user_group_remote_osd("yes"))
+        state = self._page.get_state_of_user_group_remote_osd("yes")
+        self.assertTrue(state)
         self._page.select_user_group_remote_osd_global()
         self._page.click_save()
 
@@ -80,7 +88,7 @@ class AimUserGroupConfigPageFunctionsTest(BaseAimRegressionTest):
         self.assertTrue("admin" in self._page.get_all_members_of_user_group())
         self._page.remove_all_members_from_user_group()
         self._page.click_save()
-      
+
     def test_can_change_channel_permissions_of_user_group(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -88,15 +96,17 @@ class AimUserGroupConfigPageFunctionsTest(BaseAimRegressionTest):
         self._page.open_view_user_groups_page()
         users = self._page.get_list_of_user_groups()
         self._page.click_user_group_config(users[-1])
-        self.assertTrue(len(self._page.get_all_channel_permissions_for_user_group()) == 0)
+        channels = self._page.get_all_channel_permissions_for_user_group()
+        self.assertTrue(len(channels) == 0)
         self._page.add_channel_permission_to_user_group(self._channel_names[0])
         self._page.click_save()
         users = self._page.get_list_of_user_groups()
         self._page.click_user_group_config(users[-1])
-        self.assertTrue(self._channel_names[0] in self._page.get_all_channel_permissions_for_user_group())
+        channels = self._page.get_all_channel_permissions_for_user_group()
+        self.assertTrue(self._channel_names[0] in channels)
         self._page.remove_all_channels_from_user_group()
         self._page.click_save()
-       
+
     def test_can_change_channel_group_permissions_of_user_group(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -104,15 +114,17 @@ class AimUserGroupConfigPageFunctionsTest(BaseAimRegressionTest):
         self._page.open_view_user_groups_page()
         users = self._page.get_list_of_user_groups()
         self._page.click_user_group_config(users[-1])
-        self.assertTrue(len(self._page.get_all_channel_groups_for_user_group()) == 0)
+        groups = self._page.get_all_channel_groups_for_user_group()
+        self.assertTrue(len(groups) == 0)
         self._page.add_channel_group_permission_to_user_group("group 0")
         self._page.click_save()
         users = self._page.get_list_of_user_groups()
         self._page.click_user_group_config(users[-1])
-        self.assertTrue("group 0" in self._page.get_all_channel_groups_for_user_group())
+        groups = self._page.get_all_channel_groups_for_user_group()
+        self.assertTrue("group 0" in groups)
         self._page.remove_all_channel_groups_from_user_group()
         self._page.click_save()
-       
+
     def test_can_change_receiver_permissions_of_user_group(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -121,16 +133,16 @@ class AimUserGroupConfigPageFunctionsTest(BaseAimRegressionTest):
         users = self._page.get_list_of_user_groups()
         self._page.click_user_group_config(users[-1])
         self._page.show_receiver_permissions()
-        self.assertTrue(len(self._page.get_all_rxs_for_user_group()) == 0)
-        self._page.add_receiver_permission_to_user_group("RX")
+        self.assertTrue("RX" in self._page.get_all_rxs_for_user_group())
+        self._page.remove_all_receivers_from_user_group()
         self._page.click_save()
         users = self._page.get_list_of_user_groups()
         self._page.click_user_group_config(users[-1])
         self._page.show_receiver_permissions()
-        self.assertTrue("RX" in self._page.get_all_rxs_for_user_group())
-        self._page.remove_all_receivers_from_user_group()
+        self.assertTrue(len(self._page.get_all_rxs_for_user_group()) == 0)
+        self._page.add_all_receiver_permissions_to_user_group()
         self._page.click_save()
-       
+
     def test_can_change_receiver_group_permissions_of_user_group(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -139,12 +151,14 @@ class AimUserGroupConfigPageFunctionsTest(BaseAimRegressionTest):
         groups = self._page.get_list_of_user_groups()
         self._page.click_user_group_config(groups[-1])
         self._page.show_receiver_permissions()
-        self.assertTrue(len(self._page.get_all_rx_groups_for_user_group()) == 0)
+        groups = self._page.get_all_rx_groups_for_user_group()
+        self.assertTrue(len(groups) == 0)
         self._page.add_receiver_group_permission_to_user_group("group 0")
         self._page.click_save()
         groups = self._page.get_list_of_user_groups()
         self._page.click_user_group_config(groups[-1])
         self._page.show_receiver_permissions()
-        self.assertTrue("group 0" in self._page.get_all_rx_groups_for_user_group())
+        groups = self._page.get_all_rx_groups_for_user_group()
+        self.assertTrue("group 0" in groups)
         self._page.remove_all_receiver_group_permissions()
         self._page.click_save()

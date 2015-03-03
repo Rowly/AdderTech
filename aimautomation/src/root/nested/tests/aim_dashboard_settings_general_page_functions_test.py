@@ -5,105 +5,123 @@ Created on 9 Jul 2013
 '''
 from root.nested.tests.base_aim_regression_test import BaseAimRegressionTest
 
+
 class AimDashboardSettingsGeneralPageFunctionsTest(BaseAimRegressionTest):
-    
+
     def test_can_change_osd_timeout(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.click_dashboard_settings_link()
         self._page.click_general_settings_button()
-        self.assertEqual(self._page.get_current_osd_timeout_selection_text(), "1 day")
+        selected = self._page.get_current_osd_timeout_selection_text()
+        self.assertEqual(selected, "1 day")
         for label in self._page.get_osd_timeout_options():
             self._page.select_osd_timeout_by_text(label)
             self._page.click_save()
-            self.assertEqual(self._page.get_current_osd_timeout_selection_text(), label)
+            selected = self._page.get_current_osd_timeout_selection_text()
+            self.assertEqual(selected, label)
         self._page.select_osd_timeout_by_text("1 day")
         self._page.click_save()
-  
+
     def test_can_change_admin_timeout(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.click_dashboard_settings_link()
         self._page.click_general_settings_button()
-        self.assertEqual(self._page.get_current_admin_timeout_selection_text(), "1 day")
+        selected = self._page.get_current_admin_timeout_selection_text()
+        self.assertEqual(selected, "1 day")
         for label in self._page.get_admin_timeout_options():
             self._page.select_admin_timeout_by_text(label)
             self._page.click_save()
-            self.assertEqual(self._page.get_current_admin_timeout_selection_text(), label)
+            selected = self._page.get_current_admin_timeout_selection_text()
+            self.assertEqual(selected, label)
         self._page.select_admin_timeout_by_text("1 day")
         self._page.click_save()
-  
+
     def test_can_change_anonymous_user(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.click_dashboard_settings_link()
         self._page.click_general_settings_button()
-        self.assertEqual(self._page.get_current_anonymous_user_selection_text(), "anon")
+        selected = self._page.get_current_anonymous_user_selection_text()
+        self.assertEqual(selected, "anon")
         for label in self._page.get_anonymous_user_options():
             self._page.select_anonymous_user_by_text(label)
             self._page.click_save()
-            self.assertEqual(self._page.get_current_anonymous_user_selection_text(), label)
+            selected = self._page.get_current_anonymous_user_selection_text()
+            self.assertEqual(selected, label)
         self._page.select_anonymous_user_by_text("anon")
         self._page.click_save()
-      
+
     def test_can_toggle_hide_dormant_devices(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.click_dashboard_settings_link()
         self._page.click_general_settings_button()
-        self.assertTrue(self._page.get_state_hide_dormant_devices_setting("no"))
+        state = self._page.get_state_hide_dormant_devices_setting("no")
+        self.assertTrue(state)
         self._page.set_state_hide_dormant_devices_yes()
         self._page.click_save()
-        self.assertTrue(self._page.get_state_hide_dormant_devices_setting("yes"))
+        state = self._page.get_state_hide_dormant_devices_setting("yes")
+        self.assertTrue(state)
         self._page.set_state_hide_dormant_devices_no()
         self._page.click_save()
-  
+
     def test_can_toggle_grant_all_users_exclusive_access(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.click_dashboard_settings_link()
         self._page.click_general_settings_button()
-        self.assertTrue(self._page.get_state_grant_all_users_exclusive_access_setting("yes"))
+        state = self._page.get_state_grant_all_users_exclusive_access("yes")
+        self.assertTrue(state)
         self._page.set_state_all_users_exclusive_access_no()
         self._page.click_save()
-        self.assertTrue(self._page.get_state_grant_all_users_exclusive_access_setting("no"))
+        state = self._page.get_state_grant_all_users_exclusive_access("no")
+        self.assertTrue(state)
         self._page.set_state_all_users_exclusive_access_yes()
         self._page.click_save()
-   
+
     def test_can_toggle_allowed_connections(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.click_dashboard_settings_link()
         self._page.click_general_settings_button()
-        self.assertTrue(self._page.get_state_allowed_connection_mode("all"))
+        state = self._page.get_state_allowed_connection_mode("all")
+        self.assertTrue(state)
         self._page.set_allowed_connection_mode_view()
         self._page.click_save()
-        self.assertTrue(self._page.get_state_allowed_connection_mode("view"))
+        state = self._page.get_state_allowed_connection_mode("view")
+        self.assertTrue(state)
         self._page.set_allowed_connection_mode_view_shared()
         self._page.click_save()
-        self.assertTrue(self._page.get_state_allowed_connection_mode("view_shared"))
+        state = self._page.get_state_allowed_connection_mode("view_shared")
+        self.assertTrue(state)
         self._page.set_allowed_connection_mode_shared()
         self._page.click_save()
-        self.assertTrue(self._page.get_state_allowed_connection_mode("shared"))
+        state = self._page.get_state_allowed_connection_mode("shared")
+        self.assertTrue(state)
         self._page.set_allowed_connection_mode_exclusive()
         self._page.click_save()
-        self.assertTrue(self._page.get_state_allowed_connection_mode("exclusive"))
+        state = self._page.get_state_allowed_connection_mode("exclusive")
+        self.assertTrue(state)
         self._page.set_allowed_connection_mode_all()
         self._page.click_save()
-   
+
     def test_can_change_rows_per_page(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.click_dashboard_settings_link()
         self._page.click_general_settings_button()
-        self.assertEqual(self._page.get_current_rows_per_page_selection_text(), "20")
+        selected = self._page.get_current_rows_per_page_selection_text()
+        self.assertEqual(selected, "20")
         for row in self._page.get_rows_per_page_options():
             self._page.select_rows_per_page_by_text(row)
             self._page.click_save()
-            self.assertEqual(self._page.get_current_rows_per_page_selection_text(), row)
+            selected = self._page.get_current_rows_per_page_selection_text()
+            self.assertEqual(selected, row)
         self._page.select_rows_per_page_by_text("20")
         self._page.click_save()
-     
+
     def test_can_change_locale(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -116,7 +134,7 @@ class AimDashboardSettingsGeneralPageFunctionsTest(BaseAimRegressionTest):
             self.assertEqual(self._page.get_current_locale(), locale)
         self._page.select_locale_by_text("English")
         self._page.click_save()
-       
+
     def test_can_toggle_api_login_required(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
@@ -128,16 +146,18 @@ class AimDashboardSettingsGeneralPageFunctionsTest(BaseAimRegressionTest):
         self.assertTrue(self._page.get_api_login_required_setting("yes"))
         self._page.set_api_login_required_no()
         self._page.click_save()
-       
+
     def test_can_change_api_anonymous_user(self):
         self._page.open_AIM_homepage_on_base_url()
         self._page.login_as("admin", "password", False)
         self._page.click_dashboard_settings_link()
         self._page.click_general_settings_button()
-        self.assertEqual(self._page.get_current_api_anonymous_user_selection_text(), "api_anon")
+        selected = self._page.get_current_api_anonymous_user_selection()
+        self.assertEqual(selected, "api_anon")
         for user in self._page.get_api_anonymous_user_options():
             self._page.select_api_anonymous_user_by_text(user)
             self._page.click_save()
-            self.assertEqual(self._page.get_current_api_anonymous_user_selection_text(), user)
+            selected = self._page.get_current_api_anonymous_user_selection()
+            self.assertEqual(selected, user)
         self._page.select_api_anonymous_user_by_text("api_anon")
         self._page.click_save()
