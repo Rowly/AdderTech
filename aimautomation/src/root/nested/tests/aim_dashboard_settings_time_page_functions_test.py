@@ -171,3 +171,13 @@ class AimDashboardSettingsTimePageFunctionsTest(BaseAimRegressionTest):
         self.assertFalse(self._page.get_appearance_of_ntp_3_full_settings())
 
         self._page.set_ntp_enabled("no")
+
+    def test_ntp_setting(self):
+        self._page.open_AIM_homepage_on_base_url()
+        self._page.login_as("admin", "password", False)
+        self._page.click_dashboard_settings_link()
+        self._page.click_time_settings_button()
+        self._page.change_hour_for_ntp_test()
+        self._page.click_save()
+        pre_time = self._page.get_displayed_time_and_date()
+        self._page.set_ntp_enabled(True)

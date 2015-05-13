@@ -3,8 +3,10 @@ Created on 19 Dec 2013
 
 @author: Mark
 '''
-from root.nested.tests.base_infinity_regression_test import BaseInfinityRegressionTest
 from root.nested.pages.home_page import HomePage
+from root.nested.tests.base_infinity_regression_test import \
+    BaseInfinityRegressionTest
+
 
 class StatisticsPageTest(BaseInfinityRegressionTest):
     

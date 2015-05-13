@@ -27,23 +27,23 @@ class ImportConfigurationTest(BaseAimRegressionTest):
         self.reset_unit_if_possible(transmitter)
         self.reset_number_of_channels()
 
-#     def test_can_import_recevier_configurations(self):
-#         self._page.open_AIM_homepage_on_base_url()
-#         self._page.login_as("admin", "password", False)
-#         self._page.open_receivers_tab()
-#         [self._page.click_receiver_delete(rx)
-#          for rx in self._page.get_list_of_receivers()
-#          if self._page.get_receiver_name(rx) == "RX"]
-#         self._page.click_lightbox_delete_button()
-#         self._page.open_dashboard_tab()
-#         self._page.click_dashboard_backups_link()
-#         self._page.click_import_configuration()
-#         self._page.enter_rx_import_details()
-#         self._page.click_submit()
-#         self._page.open_receivers_tab()
-#         receiver = self._page.get_list_of_receivers()[0]
-#         self.assertEqual(self._page.get_receiver_name(receiver), "RX")
-#         self.reset_unit_if_possible(receiver)
+    def test_can_import_recevier_configurations(self):
+        self._page.open_AIM_homepage_on_base_url()
+        self._page.login_as("admin", "password", False)
+        self._page.open_receivers_tab()
+        [self._page.click_receiver_delete(rx)
+         for rx in self._page.get_list_of_receivers()
+         if self._page.get_receiver_name(rx) == "RX"]
+        self._page.click_lightbox_delete_button()
+        self._page.open_dashboard_tab()
+        self._page.click_dashboard_backups_link()
+        self._page.click_import_configuration()
+        self._page.enter_rx_import_details()
+        self._page.click_submit()
+        self._page.open_receivers_tab()
+        receiver = self._page.get_list_of_receivers()[0]
+        self.assertEqual(self._page.get_receiver_name(receiver), "RX")
+        self.reset_unit_if_possible(receiver)
 
     def test_can_import_channel_configurations(self):
         self._page.open_AIM_homepage_on_base_url()

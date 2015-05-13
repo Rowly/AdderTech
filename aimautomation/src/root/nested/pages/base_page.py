@@ -18,6 +18,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from xml.etree import ElementTree
 from xlrd import open_workbook
+from random import randint
 
 
 class BasePage():
@@ -1690,6 +1691,20 @@ class BasePage():
             time.sleep(4)
         return self.get_dropdown_option_texts("#timezone_location_" + zone)
 
+    def change_hour_for_ntp_test(self):
+        time = self.get_displayed_time_and_date()
+        hour = time.split(" ")
+        hour = int(hour[0].split(":"))
+        if randint(1, 2) % 2:
+            hour = hour + randint(1, 9)
+        else:
+            hour = hour - randint(1, 9)
+        if hour < 10:
+            hour = str("0" + hour)
+        else:
+            hour = str(hour)
+        self.select_dropdown_item_text("#date_hour", hour)
+
     def get_time_date(self):
         return self.get_selected_text_select_element("#date_day")
 
@@ -1711,9 +1726,6 @@ class BasePage():
     def select_time_year(self, year):
         self.set_text_of_element(self.driver.find_element_by_id("date_year"),
                                  year)
-
-    def get_time_as_string(self):
-        return self.driver.find_element_by_id("logout").text
 
     def set_ntp_enabled(self, state):
         if state == "yes":
@@ -1789,36 +1801,27 @@ class BasePage():
         server = self.wait.until(EC.presence_of_element_located(locator))
         number = self.driver.find_element_by_css_selector("#ntp_ext_key_id_1")
         key = self.driver.find_element_by_css_selector("#ntp_ext_key_val_1")
-        if (server.is_displayed()
-            and number.is_displayed()
-            and key.is_displayed()):
-            return True
-        else:
-            return False
+        return (server.is_displayed()
+                and number.is_displayed()
+                and key.is_displayed())
 
     def get_appearance_of_ntp_2_full_settings(self):
         locator = (By.CSS_SELECTOR, "#ntp_server_2")
         server = self.wait.until(EC.presence_of_element_located(locator))
         number = self.driver.find_element_by_css_selector("#ntp_ext_key_id_2")
         key = self.driver.find_element_by_css_selector("#ntp_ext_key_val_2")
-        if (server.is_displayed()
-            and number.is_displayed()
-            and key.is_displayed()):
-            return True
-        else:
-            return False
+        return (server.is_displayed()
+                and number.is_displayed()
+                and key.is_displayed())
 
     def get_appearance_of_ntp_3_full_settings(self):
         locator = (By.CSS_SELECTOR, "#ntp_server_3")
         server = self.wait.until(EC.presence_of_element_located(locator))
         number = self.driver.find_element_by_css_selector("#ntp_ext_key_id_3")
         key = self.driver.find_element_by_css_selector("#ntp_ext_key_val_3")
-        if (server.is_displayed()
-            and number.is_displayed()
-            and key.is_displayed()):
-            return True
-        else:
-            return False
+        return (server.is_displayed()
+                and number.is_displayed()
+                and key.is_displayed())
 
     """
     Dashboard Settings Mail

@@ -3,10 +3,11 @@ Created on 6 Jan 2014
 
 @author: Mark
 '''
-from root.nested.tests.base_infinity_regression_test import unittest
-from root.nested.tests.base_infinity_regression_test import BaseInfinityRegressionTest
 from root.nested.pages.home_page import HomePage
 from root.nested.services.parameters import parameter_singleton
+from root.nested.tests.base_infinity_regression_test import \
+    BaseInfinityRegressionTest, unittest
+
 
 class VideoConfigurationPageTest(BaseInfinityRegressionTest):
     

@@ -4,10 +4,12 @@ Created on 12 Nov 2013
 @author: Mark
 '''
 import time
-from root.nested.tests.base_infinity_regression_test import unittest
-from root.nested.tests.base_infinity_regression_test import BaseInfinityRegressionTest
+
 from root.nested.pages.home_page import HomePage
 from root.nested.services.parameters import parameter_singleton
+from root.nested.tests.base_infinity_regression_test import \
+    BaseInfinityRegressionTest, unittest
+
 
 class SystemConfigurationTest(BaseInfinityRegressionTest):
     

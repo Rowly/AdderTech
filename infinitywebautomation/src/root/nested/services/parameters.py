@@ -5,4 +5,3 @@ Created on 19 May 2014
 '''
 
 parameter_singleton = {}
-

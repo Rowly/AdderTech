@@ -1,0 +1,238 @@
+2015-03-20 10:09:41,492:DEBUG:==== Started Logging ====
+2015-03-20 10:09:46,968:DEBUG:POST http://127.0.0.1:56920/hub/session {"desiredCapabilities": {"platform": "ANY", "browserName": "firefox", "version": "", "javascriptEnabled": true}}
+2015-03-20 10:09:47,038:DEBUG:Finished Request
+2015-03-20 10:09:47,040:INFO:Starting new HTTP connection (1): 192.168.100.200
+2015-03-20 10:09:51,904:DEBUG:"GET /hidden.htm?M0:O1=on&M0:O2=on&M0:O3=on&M0:O4=on HTTP/1.1" 401 None
+2015-03-20 10:09:52,261:DEBUG:"GET /hidden.htm?M0:O1=on&M0:O2=on&M0:O3=on&M0:O4=on HTTP/1.1" 200 None
+2015-03-20 10:09:58,263:INFO:Starting new HTTP connection (1): 192.168.100.200
+2015-03-20 10:09:58,310:DEBUG:"GET /hidden.htm?M0:o1=off&M0:o2=off&M0:o3=off&M0:o4=off HTTP/1.1" 401 None
+2015-03-20 10:09:58,564:DEBUG:"GET /hidden.htm?M0:o1=off&M0:o2=off&M0:o3=off&M0:o4=off HTTP/1.1" 200 None
+2015-03-20 10:10:04,566:INFO:Starting new HTTP connection (1): 192.168.100.200
+2015-03-20 10:10:04,589:DEBUG:"GET /hidden.htm?M0:O1=on&M0:O2=on&M0:O3=on&M0:O4=on HTTP/1.1" 401 None
+2015-03-20 10:10:04,837:DEBUG:"GET /hidden.htm?M0:O1=on&M0:O2=on&M0:O3=on&M0:O4=on HTTP/1.1" 200 None
+2015-03-20 10:11:04,839:DEBUG:POST http://127.0.0.1:56920/hub/session/0597d97c-bb1c-4165-baab-35b13ad3d005/url {"sessionId": "0597d97c-bb1c-4165-baab-35b13ad3d005", "url": "192.168.100.101"}
+2015-03-20 10:11:04,864:DEBUG:Finished Request
+2015-03-20 10:11:04,865:DEBUG:DELETE http://127.0.0.1:56920/hub/session/0597d97c-bb1c-4165-baab-35b13ad3d005 {"sessionId": "0597d97c-bb1c-4165-baab-35b13ad3d005"}
+2015-03-20 10:11:04,872:DEBUG:Finished Request
+2015-03-20 10:14:47,501:DEBUG:==== Started Logging ====
+2015-03-20 10:14:52,670:DEBUG:POST http://127.0.0.1:56942/hub/session {"desiredCapabilities": {"platform": "ANY", "javascriptEnabled": true, "version": "", "browserName": "firefox"}}
+2015-03-20 10:14:52,734:DEBUG:Finished Request
+2015-03-20 10:14:52,735:INFO:Starting new HTTP connection (1): 192.168.100.200
+2015-03-20 10:14:52,752:DEBUG:"GET /hidden.htm?M0:O1=on&M0:O2=on&M0:O3=on&M0:O4=on HTTP/1.1" 401 None
+2015-03-20 10:14:53,006:DEBUG:"GET /hidden.htm?M0:O1=on&M0:O2=on&M0:O3=on&M0:O4=on HTTP/1.1" 200 None
+2015-03-20 10:14:59,008:INFO:Starting new HTTP connection (1): 192.168.100.200
+2015-03-20 10:14:59,032:DEBUG:"GET /hidden.htm?M0:o1=off&M0:o2=off&M0:o3=off&M0:o4=off HTTP/1.1" 401 None
+2015-03-20 10:14:59,281:DEBUG:"GET /hidden.htm?M0:o1=off&M0:o2=off&M0:o3=off&M0:o4=off HTTP/1.1" 200 None
+2015-03-20 10:15:05,284:INFO:Starting new HTTP connection (1): 192.168.100.200
+2015-03-20 10:15:05,307:DEBUG:"GET /hidden.htm?M0:O1=on&M0:O2=on&M0:O3=on&M0:O4=on HTTP/1.1" 401 None
+2015-03-20 10:15:05,558:DEBUG:"GET /hidden.htm?M0:O1=on&M0:O2=on&M0:O3=on&M0:O4=on HTTP/1.1" 200 None
+2015-03-20 10:16:05,559:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/url {"url": "Http://192.168.100.101", "sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192"}
+2015-03-20 10:16:06,101:DEBUG:Finished Request
+2015-03-20 10:16:06,102:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "using": "css selector", "value": ".logotext2"}
+2015-03-20 10:16:07,369:DEBUG:Finished Request
+2015-03-20 10:16:07,869:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "using": "css selector", "value": ".logotext2"}
+2015-03-20 10:16:07,929:DEBUG:Finished Request
+2015-03-20 10:16:07,930:DEBUG:GET http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element/{d5f51aa2-32b0-4de9-9fcf-691acfa991df}/text {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "id": "{d5f51aa2-32b0-4de9-9fcf-691acfa991df}"}
+2015-03-20 10:16:07,939:DEBUG:Finished Request
+2015-03-20 10:16:07,940:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "using": "css selector", "value": "#right > h1"}
+2015-03-20 10:16:07,948:DEBUG:Finished Request
+2015-03-20 10:16:07,949:DEBUG:GET http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element/{b703b7d3-f8d5-4800-9b16-85ad892dd0ee}/text {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "id": "{b703b7d3-f8d5-4800-9b16-85ad892dd0ee}"}
+2015-03-20 10:16:07,958:DEBUG:Finished Request
+2015-03-20 10:16:07,958:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/url {"url": "Http://192.168.100.102", "sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192"}
+2015-03-20 10:16:08,023:DEBUG:Finished Request
+2015-03-20 10:16:08,024:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "using": "css selector", "value": ".logotext2"}
+2015-03-20 10:16:08,886:DEBUG:Finished Request
+2015-03-20 10:16:08,887:DEBUG:GET http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element/{ce78853b-5502-455d-9151-addabf685368}/text {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "id": "{ce78853b-5502-455d-9151-addabf685368}"}
+2015-03-20 10:16:08,896:DEBUG:Finished Request
+2015-03-20 10:16:08,897:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "using": "css selector", "value": "#right > h1"}
+2015-03-20 10:16:08,903:DEBUG:Finished Request
+2015-03-20 10:16:08,903:DEBUG:GET http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element/{27eed911-9989-4127-a76e-78e539c616fb}/text {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "id": "{27eed911-9989-4127-a76e-78e539c616fb}"}
+2015-03-20 10:16:08,911:DEBUG:Finished Request
+2015-03-20 10:16:14,914:INFO:Starting new HTTP connection (1): 192.168.100.200
+2015-03-20 10:16:14,935:DEBUG:"GET /hidden.htm?M0:o1=off&M0:o2=off&M0:o3=off&M0:o4=off HTTP/1.1" 401 None
+2015-03-20 10:16:15,197:DEBUG:"GET /hidden.htm?M0:o1=off&M0:o2=off&M0:o3=off&M0:o4=off HTTP/1.1" 200 None
+2015-03-20 10:16:21,200:INFO:Starting new HTTP connection (1): 192.168.100.200
+2015-03-20 10:16:21,220:DEBUG:"GET /hidden.htm?M0:O1=on&M0:O2=on&M0:O3=on&M0:O4=on HTTP/1.1" 401 None
+2015-03-20 10:16:21,476:DEBUG:"GET /hidden.htm?M0:O1=on&M0:O2=on&M0:O3=on&M0:O4=on HTTP/1.1" 200 None
+2015-03-20 10:17:21,477:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/url {"url": "Http://192.168.100.101", "sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192"}
+2015-03-20 10:17:21,532:DEBUG:Finished Request
+2015-03-20 10:17:21,533:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "using": "css selector", "value": ".logotext2"}
+2015-03-20 10:17:22,576:DEBUG:Finished Request
+2015-03-20 10:17:22,577:DEBUG:GET http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element/{7e0af11c-d758-4eec-936c-329e4f227ce3}/text {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "id": "{7e0af11c-d758-4eec-936c-329e4f227ce3}"}
+2015-03-20 10:17:22,588:DEBUG:Finished Request
+2015-03-20 10:17:22,589:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "using": "css selector", "value": "#right > h1"}
+2015-03-20 10:17:22,596:DEBUG:Finished Request
+2015-03-20 10:17:22,596:DEBUG:GET http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element/{ef40ce4f-d91d-4150-9bfd-e583459fe0cc}/text {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "id": "{ef40ce4f-d91d-4150-9bfd-e583459fe0cc}"}
+2015-03-20 10:17:22,605:DEBUG:Finished Request
+2015-03-20 10:17:22,605:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/url {"url": "Http://192.168.100.102", "sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192"}
+2015-03-20 10:17:22,648:DEBUG:Finished Request
+2015-03-20 10:17:22,649:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "using": "css selector", "value": ".logotext2"}
+2015-03-20 10:17:23,514:DEBUG:Finished Request
+2015-03-20 10:17:23,514:DEBUG:GET http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element/{bad2009f-f6c0-4cbb-84a6-9a88c23bce5e}/text {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "id": "{bad2009f-f6c0-4cbb-84a6-9a88c23bce5e}"}
+2015-03-20 10:17:23,531:DEBUG:Finished Request
+2015-03-20 10:17:23,531:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "using": "css selector", "value": "#right > h1"}
+2015-03-20 10:17:23,538:DEBUG:Finished Request
+2015-03-20 10:17:23,538:DEBUG:GET http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element/{af8e5985-25da-44ef-923f-01537838bd5e}/text {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "id": "{af8e5985-25da-44ef-923f-01537838bd5e}"}
+2015-03-20 10:17:23,547:DEBUG:Finished Request
+2015-03-20 10:17:29,548:INFO:Starting new HTTP connection (1): 192.168.100.200
+2015-03-20 10:17:29,570:DEBUG:"GET /hidden.htm?M0:o1=off&M0:o2=off&M0:o3=off&M0:o4=off HTTP/1.1" 401 None
+2015-03-20 10:17:29,841:DEBUG:"GET /hidden.htm?M0:o1=off&M0:o2=off&M0:o3=off&M0:o4=off HTTP/1.1" 200 None
+2015-03-20 10:17:35,843:INFO:Starting new HTTP connection (1): 192.168.100.200
+2015-03-20 10:17:35,864:DEBUG:"GET /hidden.htm?M0:O1=on&M0:O2=on&M0:O3=on&M0:O4=on HTTP/1.1" 401 None
+2015-03-20 10:17:36,116:DEBUG:"GET /hidden.htm?M0:O1=on&M0:O2=on&M0:O3=on&M0:O4=on HTTP/1.1" 200 None
+2015-03-20 10:18:36,118:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/url {"url": "Http://192.168.100.101", "sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192"}
+2015-03-20 10:18:36,177:DEBUG:Finished Request
+2015-03-20 10:18:36,178:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "using": "css selector", "value": ".logotext2"}
+2015-03-20 10:18:37,226:DEBUG:Finished Request
+2015-03-20 10:18:37,226:DEBUG:GET http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element/{cab2d637-86ae-40c0-87bd-32fdabd28501}/text {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "id": "{cab2d637-86ae-40c0-87bd-32fdabd28501}"}
+2015-03-20 10:18:37,263:DEBUG:Finished Request
+2015-03-20 10:18:37,263:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "using": "css selector", "value": "#right > h1"}
+2015-03-20 10:18:37,280:DEBUG:Finished Request
+2015-03-20 10:18:37,280:DEBUG:GET http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element/{260ad47f-f5f0-4a4b-85fe-d10f3f12ce55}/text {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "id": "{260ad47f-f5f0-4a4b-85fe-d10f3f12ce55}"}
+2015-03-20 10:18:37,289:DEBUG:Finished Request
+2015-03-20 10:18:37,290:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/url {"url": "Http://192.168.100.102", "sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192"}
+2015-03-20 10:18:37,340:DEBUG:Finished Request
+2015-03-20 10:18:37,340:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "using": "css selector", "value": ".logotext2"}
+2015-03-20 10:18:38,207:DEBUG:Finished Request
+2015-03-20 10:18:38,208:DEBUG:GET http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element/{ff0aca8a-4713-4505-9d33-ce2533862214}/text {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "id": "{ff0aca8a-4713-4505-9d33-ce2533862214}"}
+2015-03-20 10:18:38,223:DEBUG:Finished Request
+2015-03-20 10:18:38,223:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "using": "css selector", "value": "#right > h1"}
+2015-03-20 10:18:38,238:DEBUG:Finished Request
+2015-03-20 10:18:38,239:DEBUG:GET http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element/{e7a2ba30-d6a9-4c7b-be22-e7cbfc54ecb7}/text {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "id": "{e7a2ba30-d6a9-4c7b-be22-e7cbfc54ecb7}"}
+2015-03-20 10:18:38,248:DEBUG:Finished Request
+2015-03-20 10:18:44,249:INFO:Starting new HTTP connection (1): 192.168.100.200
+2015-03-20 10:18:44,270:DEBUG:"GET /hidden.htm?M0:o1=off&M0:o2=off&M0:o3=off&M0:o4=off HTTP/1.1" 401 None
+2015-03-20 10:18:44,522:DEBUG:"GET /hidden.htm?M0:o1=off&M0:o2=off&M0:o3=off&M0:o4=off HTTP/1.1" 200 None
+2015-03-20 10:18:50,524:INFO:Starting new HTTP connection (1): 192.168.100.200
+2015-03-20 10:18:50,548:DEBUG:"GET /hidden.htm?M0:O1=on&M0:O2=on&M0:O3=on&M0:O4=on HTTP/1.1" 401 None
+2015-03-20 10:18:50,798:DEBUG:"GET /hidden.htm?M0:O1=on&M0:O2=on&M0:O3=on&M0:O4=on HTTP/1.1" 200 None
+2015-03-20 10:19:50,799:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/url {"url": "Http://192.168.100.101", "sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192"}
+2015-03-20 10:19:50,868:DEBUG:Finished Request
+2015-03-20 10:19:50,869:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "using": "css selector", "value": ".logotext2"}
+2015-03-20 10:19:51,935:DEBUG:Finished Request
+2015-03-20 10:19:51,935:DEBUG:GET http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element/{60eb341c-6ab6-4931-ab9a-3171a7436c35}/text {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "id": "{60eb341c-6ab6-4931-ab9a-3171a7436c35}"}
+2015-03-20 10:19:51,945:DEBUG:Finished Request
+2015-03-20 10:19:51,946:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "using": "css selector", "value": "#right > h1"}
+2015-03-20 10:19:51,952:DEBUG:Finished Request
+2015-03-20 10:19:51,952:DEBUG:GET http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element/{bb2afe99-99ff-4ced-8aa8-c0168e80c21d}/text {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "id": "{bb2afe99-99ff-4ced-8aa8-c0168e80c21d}"}
+2015-03-20 10:19:51,960:DEBUG:Finished Request
+2015-03-20 10:19:51,960:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/url {"url": "Http://192.168.100.102", "sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192"}
+2015-03-20 10:19:52,007:DEBUG:Finished Request
+2015-03-20 10:19:52,007:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "using": "css selector", "value": ".logotext2"}
+2015-03-20 10:19:52,847:DEBUG:Finished Request
+2015-03-20 10:19:52,848:DEBUG:GET http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element/{d859ebc4-5af0-4015-9cdf-3a28f96606a2}/text {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "id": "{d859ebc4-5af0-4015-9cdf-3a28f96606a2}"}
+2015-03-20 10:19:52,863:DEBUG:Finished Request
+2015-03-20 10:19:52,864:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "using": "css selector", "value": "#right > h1"}
+2015-03-20 10:19:52,870:DEBUG:Finished Request
+2015-03-20 10:19:52,871:DEBUG:GET http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element/{5102e046-c403-4ded-8fc6-b45eeee6273d}/text {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "id": "{5102e046-c403-4ded-8fc6-b45eeee6273d}"}
+2015-03-20 10:19:52,881:DEBUG:Finished Request
+2015-03-20 10:19:58,882:INFO:Starting new HTTP connection (1): 192.168.100.200
+2015-03-20 10:19:58,902:DEBUG:"GET /hidden.htm?M0:o1=off&M0:o2=off&M0:o3=off&M0:o4=off HTTP/1.1" 401 None
+2015-03-20 10:19:59,149:DEBUG:"GET /hidden.htm?M0:o1=off&M0:o2=off&M0:o3=off&M0:o4=off HTTP/1.1" 200 None
+2015-03-20 10:20:05,152:INFO:Starting new HTTP connection (1): 192.168.100.200
+2015-03-20 10:20:05,175:DEBUG:"GET /hidden.htm?M0:O1=on&M0:O2=on&M0:O3=on&M0:O4=on HTTP/1.1" 401 None
+2015-03-20 10:20:05,423:DEBUG:"GET /hidden.htm?M0:O1=on&M0:O2=on&M0:O3=on&M0:O4=on HTTP/1.1" 200 None
+2015-03-20 10:21:05,424:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/url {"url": "Http://192.168.100.101", "sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192"}
+2015-03-20 10:21:05,486:DEBUG:Finished Request
+2015-03-20 10:21:05,487:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "using": "css selector", "value": ".logotext2"}
+2015-03-20 10:21:06,525:DEBUG:Finished Request
+2015-03-20 10:21:06,525:DEBUG:GET http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element/{9dcbd90f-c251-44bd-ad6d-eab2b865e127}/text {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "id": "{9dcbd90f-c251-44bd-ad6d-eab2b865e127}"}
+2015-03-20 10:21:06,538:DEBUG:Finished Request
+2015-03-20 10:21:06,539:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "using": "css selector", "value": "#right > h1"}
+2015-03-20 10:21:06,545:DEBUG:Finished Request
+2015-03-20 10:21:06,545:DEBUG:GET http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element/{f86f5d7b-574a-4cf5-bbf3-be2c8cee9360}/text {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "id": "{f86f5d7b-574a-4cf5-bbf3-be2c8cee9360}"}
+2015-03-20 10:21:06,555:DEBUG:Finished Request
+2015-03-20 10:21:06,555:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/url {"url": "Http://192.168.100.102", "sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192"}
+2015-03-20 10:21:06,604:DEBUG:Finished Request
+2015-03-20 10:21:06,605:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "using": "css selector", "value": ".logotext2"}
+2015-03-20 10:21:07,487:DEBUG:Finished Request
+2015-03-20 10:21:07,487:DEBUG:GET http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element/{0605ac97-6935-4106-9803-132b151b53fa}/text {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "id": "{0605ac97-6935-4106-9803-132b151b53fa}"}
+2015-03-20 10:21:07,505:DEBUG:Finished Request
+2015-03-20 10:21:07,506:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "using": "css selector", "value": "#right > h1"}
+2015-03-20 10:21:07,517:DEBUG:Finished Request
+2015-03-20 10:21:07,518:DEBUG:GET http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element/{34fd8a7b-30f8-4a92-8baf-bbc9e83d1d4b}/text {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "id": "{34fd8a7b-30f8-4a92-8baf-bbc9e83d1d4b}"}
+2015-03-20 10:21:07,529:DEBUG:Finished Request
+2015-03-20 10:21:13,531:INFO:Starting new HTTP connection (1): 192.168.100.200
+2015-03-20 10:21:13,562:DEBUG:"GET /hidden.htm?M0:o1=off&M0:o2=off&M0:o3=off&M0:o4=off HTTP/1.1" 401 None
+2015-03-20 10:21:13,814:DEBUG:"GET /hidden.htm?M0:o1=off&M0:o2=off&M0:o3=off&M0:o4=off HTTP/1.1" 200 None
+2015-03-20 10:21:19,816:INFO:Starting new HTTP connection (1): 192.168.100.200
+2015-03-20 10:21:19,839:DEBUG:"GET /hidden.htm?M0:O1=on&M0:O2=on&M0:O3=on&M0:O4=on HTTP/1.1" 401 None
+2015-03-20 10:21:20,091:DEBUG:"GET /hidden.htm?M0:O1=on&M0:O2=on&M0:O3=on&M0:O4=on HTTP/1.1" 200 None
+2015-03-20 10:22:20,092:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/url {"url": "Http://192.168.100.101", "sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192"}
+2015-03-20 10:22:20,154:DEBUG:Finished Request
+2015-03-20 10:22:20,155:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "using": "css selector", "value": ".logotext2"}
+2015-03-20 10:22:21,241:DEBUG:Finished Request
+2015-03-20 10:22:21,241:DEBUG:GET http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element/{a5d477a1-eb05-4a2b-ae4e-e2ca2c18b565}/text {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "id": "{a5d477a1-eb05-4a2b-ae4e-e2ca2c18b565}"}
+2015-03-20 10:22:21,262:DEBUG:Finished Request
+2015-03-20 10:22:21,263:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "using": "css selector", "value": "#right > h1"}
+2015-03-20 10:22:21,270:DEBUG:Finished Request
+2015-03-20 10:22:21,270:DEBUG:GET http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element/{7f3b69ed-5761-442d-be9a-8e7d1aed0b5b}/text {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "id": "{7f3b69ed-5761-442d-be9a-8e7d1aed0b5b}"}
+2015-03-20 10:22:21,278:DEBUG:Finished Request
+2015-03-20 10:22:21,279:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/url {"url": "Http://192.168.100.102", "sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192"}
+2015-03-20 10:22:21,321:DEBUG:Finished Request
+2015-03-20 10:22:21,322:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "using": "css selector", "value": ".logotext2"}
+2015-03-20 10:22:22,162:DEBUG:Finished Request
+2015-03-20 10:22:22,163:DEBUG:GET http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element/{3637d2e5-4c35-4c75-8a5a-37090adf6333}/text {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "id": "{3637d2e5-4c35-4c75-8a5a-37090adf6333}"}
+2015-03-20 10:22:22,174:DEBUG:Finished Request
+2015-03-20 10:22:22,174:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "using": "css selector", "value": "#right > h1"}
+2015-03-20 10:22:22,181:DEBUG:Finished Request
+2015-03-20 10:22:22,181:DEBUG:GET http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element/{11a3af1d-7328-4885-ab4f-5d195ecfb01a}/text {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "id": "{11a3af1d-7328-4885-ab4f-5d195ecfb01a}"}
+2015-03-20 10:22:22,191:DEBUG:Finished Request
+2015-03-20 10:22:28,193:INFO:Starting new HTTP connection (1): 192.168.100.200
+2015-03-20 10:22:28,213:DEBUG:"GET /hidden.htm?M0:o1=off&M0:o2=off&M0:o3=off&M0:o4=off HTTP/1.1" 401 None
+2015-03-20 10:22:28,467:DEBUG:"GET /hidden.htm?M0:o1=off&M0:o2=off&M0:o3=off&M0:o4=off HTTP/1.1" 200 None
+2015-03-20 10:22:34,469:INFO:Starting new HTTP connection (1): 192.168.100.200
+2015-03-20 10:22:34,492:DEBUG:"GET /hidden.htm?M0:O1=on&M0:O2=on&M0:O3=on&M0:O4=on HTTP/1.1" 401 None
+2015-03-20 10:22:34,735:DEBUG:"GET /hidden.htm?M0:O1=on&M0:O2=on&M0:O3=on&M0:O4=on HTTP/1.1" 200 None
+2015-03-20 10:23:34,737:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/url {"url": "Http://192.168.100.101", "sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192"}
+2015-03-20 10:23:34,799:DEBUG:Finished Request
+2015-03-20 10:23:34,799:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "using": "css selector", "value": ".logotext2"}
+2015-03-20 10:23:35,794:DEBUG:Finished Request
+2015-03-20 10:23:35,794:DEBUG:GET http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element/{d79890a3-4d1a-4e8b-bc74-f3da0088689c}/text {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "id": "{d79890a3-4d1a-4e8b-bc74-f3da0088689c}"}
+2015-03-20 10:23:35,912:DEBUG:Finished Request
+2015-03-20 10:23:35,912:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "using": "css selector", "value": "#right > h1"}
+2015-03-20 10:23:35,923:DEBUG:Finished Request
+2015-03-20 10:23:35,923:DEBUG:GET http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element/{9249dcd2-7cd8-4ec1-91c2-ecc15f8518cb}/text {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "id": "{9249dcd2-7cd8-4ec1-91c2-ecc15f8518cb}"}
+2015-03-20 10:23:35,937:DEBUG:Finished Request
+2015-03-20 10:23:35,937:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/url {"url": "Http://192.168.100.102", "sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192"}
+2015-03-20 10:23:35,987:DEBUG:Finished Request
+2015-03-20 10:23:35,987:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "using": "css selector", "value": ".logotext2"}
+2015-03-20 10:23:36,880:DEBUG:Finished Request
+2015-03-20 10:23:36,881:DEBUG:GET http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element/{c628a45c-65e2-43df-83ce-8fe5918df315}/text {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "id": "{c628a45c-65e2-43df-83ce-8fe5918df315}"}
+2015-03-20 10:23:36,899:DEBUG:Finished Request
+2015-03-20 10:23:36,899:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "using": "css selector", "value": "#right > h1"}
+2015-03-20 10:23:36,910:DEBUG:Finished Request
+2015-03-20 10:23:36,911:DEBUG:GET http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element/{7a7d785a-8ec7-48fc-86dd-27c08cb73a6e}/text {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "id": "{7a7d785a-8ec7-48fc-86dd-27c08cb73a6e}"}
+2015-03-20 10:23:36,925:DEBUG:Finished Request
+2015-03-20 10:23:42,926:INFO:Starting new HTTP connection (1): 192.168.100.200
+2015-03-20 10:23:42,947:DEBUG:"GET /hidden.htm?M0:o1=off&M0:o2=off&M0:o3=off&M0:o4=off HTTP/1.1" 401 None
+2015-03-20 10:23:43,200:DEBUG:"GET /hidden.htm?M0:o1=off&M0:o2=off&M0:o3=off&M0:o4=off HTTP/1.1" 200 None
+2015-03-20 10:23:49,203:INFO:Starting new HTTP connection (1): 192.168.100.200
+2015-03-20 10:23:49,226:DEBUG:"GET /hidden.htm?M0:O1=on&M0:O2=on&M0:O3=on&M0:O4=on HTTP/1.1" 401 None
+2015-03-20 10:23:49,475:DEBUG:"GET /hidden.htm?M0:O1=on&M0:O2=on&M0:O3=on&M0:O4=on HTTP/1.1" 200 None
+2015-03-20 10:24:49,476:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/url {"url": "Http://192.168.100.101", "sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192"}
+2015-03-20 10:24:49,548:DEBUG:Finished Request
+2015-03-20 10:24:49,548:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "using": "css selector", "value": ".logotext2"}
+2015-03-20 10:24:50,702:DEBUG:Finished Request
+2015-03-20 10:24:50,703:DEBUG:GET http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element/{98f2c1bf-23fc-4101-b1d2-571e194e96e5}/text {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "id": "{98f2c1bf-23fc-4101-b1d2-571e194e96e5}"}
+2015-03-20 10:24:50,724:DEBUG:Finished Request
+2015-03-20 10:24:50,725:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "using": "css selector", "value": "#right > h1"}
+2015-03-20 10:24:50,731:DEBUG:Finished Request
+2015-03-20 10:24:50,731:DEBUG:GET http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element/{b7a22ee1-ff54-4704-b74b-2b9be3909fa3}/text {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "id": "{b7a22ee1-ff54-4704-b74b-2b9be3909fa3}"}
+2015-03-20 10:24:50,739:DEBUG:Finished Request
+2015-03-20 10:24:50,739:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/url {"url": "Http://192.168.100.102", "sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192"}
+2015-03-20 10:24:50,783:DEBUG:Finished Request
+2015-03-20 10:24:50,784:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "using": "css selector", "value": ".logotext2"}
+2015-03-20 10:24:51,668:DEBUG:Finished Request
+2015-03-20 10:24:51,669:DEBUG:GET http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element/{7db93436-d6e6-4b8b-a531-1d99c99ce12f}/text {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "id": "{7db93436-d6e6-4b8b-a531-1d99c99ce12f}"}
+2015-03-20 10:24:51,687:DEBUG:Finished Request
+2015-03-20 10:24:51,687:DEBUG:POST http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "using": "css selector", "value": "#right > h1"}
+2015-03-20 10:24:51,696:DEBUG:Finished Request
+2015-03-20 10:24:51,696:DEBUG:GET http://127.0.0.1:56942/hub/session/29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192/element/{80530c79-a4ec-4dd1-90d9-7794e3136e03}/text {"sessionId": "29c36cbc-3e9b-48c8-8cf8-e1b8c28b9192", "id": "{80530c79-a4ec-4dd1-90d9-7794e3136e03}"}
+2015-03-20 10:24:51,708:DEBUG:Finished Request
+2015-03-20 10:24:57,709:INFO:Starting new HTTP connection (1): 192.168.100.200
+2015-03-20 10:24:57,734:DEBUG:"GET /hidden.htm?M0:o1=off&M0:o2=off&M0:o3=off&M0:o4=off HTTP/1.1" 401 None
+2015-03-20 10:24:57,995:DEBUG:"GET /hidden.htm?M0:o1=off&M0:o2=off&M0:o3=off&M0:o4=off HTTP/1.1" 200 None
+2015-03-20 10:25:03,997:INFO:Starting new HTTP connection (1): 192.168.100.200
+2015-03-20 10:25:04,017:DEBUG:"GET /hidden.htm?M0:O1=on&M0:O2=on&M0:O3=on&M0:O4=on HTTP/1.1" 401 None
+2015-03-20 10:25:04,270:DEBUG:"GET /hidden.htm?M0:O1=on&M0:O2=on&M0:O3=on&M0:O4=on HTTP/1.1" 200 None

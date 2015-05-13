@@ -12,7 +12,7 @@ import time
 class ApiTest(unittest.TestCase):
 
     base_ip = "10.10.10.10"
-    version = "2"
+    version = "4"
     token = ""
     d_dict = {}
     channels_list = []
@@ -56,8 +56,8 @@ class ApiTest(unittest.TestCase):
         self.confirm_success(response.content)
         tree = self.get_element_tree(response.content)
         channels = tree.findall(".//channel")
-        for channel in channels:
-            self.channels_list.append(channel.find("c_id").text)
+        self.channels_list = [channel.find("c_id").text
+                              for channel in channels]
         self.assertTrue(len(self.channels_list) > 0)
 
     def test_can_get_presets(self):
@@ -76,9 +76,9 @@ class ApiTest(unittest.TestCase):
 
     def test_connect_and_disconnect_channel(self):
         if not self.channels_list:
-            self.test_get_channels()
+            self.test_can_get_channels()
         if not self.d_dict:
-            self.test_get_devices()
+            self.test_can_get_devices()
         receivers = [device
                      for device in self.d_dict
                      if self.d_dict[device] == "rx"]
@@ -105,7 +105,7 @@ class ApiTest(unittest.TestCase):
         if not self.presets_list:
             self.test_can_get_presets()
         if not self.d_dict:
-            self.test_get_devices()
+            self.test_can_get_devices()
         for preset in self.presets_list:
             payload = {"v": self.version,
                        "method": "connect_preset",
@@ -125,16 +125,16 @@ class ApiTest(unittest.TestCase):
 
     def test_create_and_delete_preset(self):
         if not self.channels_list:
-            self.test_get_channels()
+            self.test_can_get_channels()
         if not self.d_dict:
-            self.test_get_devices()
+            self.test_can_get_devices()
         if not self.presets_list:
             self.test_can_get_presets()
         presets_before = self.presets_list.copy()
-        receivers = [device for device
-                     in self.d_dict
+        receivers = [device
+                     for device in self.d_dict
                      if self.d_dict[device] == "rx"]
-        payload = {"v": str(int(self.version) + 1),
+        payload = {"v": self.version,
                    "method": "create_preset",
                    "token": self.token,
                    "name": "test_preset",
@@ -145,9 +145,10 @@ class ApiTest(unittest.TestCase):
         self.test_can_get_presets()
         presets_after = self.presets_list
         self.assertTrue(len(presets_after) > len(presets_before))
+
         pid = list(set(presets_after) - set(presets_before))
         pid = pid[0]
-        payload = {"v": str(int(self.version) + 1),
+        payload = {"v": self.version,
                    "method": "delete_preset",
                    "token": self.token,
                    "id": pid}
@@ -156,6 +157,41 @@ class ApiTest(unittest.TestCase):
         self.test_can_get_presets()
         final_presets = self.presets_list
         self.assertEqual(final_presets, presets_before)
+
+    def test_create_and_delete_channel(self):
+        if not self.channels_list:
+            self.test_can_get_channels()
+        if not self.d_dict:
+            self.test_can_get_devices()
+        channels_before = self.channels_list.copy()
+        transmitters = [device
+                        for device in self.d_dict
+                        if self.d_dict[device] == "tx"]
+        payload = {"v": self.version,
+                   "method": "create_channel",
+                   "token": self.token,
+                   "name": "test_channel",
+                   "desc": "test_desc",
+                   "loc": "test_loc",
+                   "video1": transmitters[0],
+                   "allowed": "vse"}
+        response = self.send_get_request(payload)
+        self.confirm_success(response.content)
+        self.test_can_get_channels()
+        channels_after = self.channels_list
+        self.assertTrue(len(channels_after) > len(channels_before))
+
+        cid = list(set(channels_after) - set(channels_before))
+        cid = cid[0]
+        payload = {"v": self.version,
+                   "method": "delete_channel",
+                   "token": self.token,
+                   "id": cid}
+        response = self.send_get_request(payload)
+        self.confirm_success(response.content)
+        self.test_can_get_channels()
+        final_channels = self.channels_list
+        self.assertEqual(final_channels, channels_before)
 
     def send_get_request(self, payload):
         r = requests.get("http://%s/api" % self.base_ip, params=payload)

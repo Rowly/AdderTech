@@ -5,6 +5,7 @@ Created on 30 Apr 2013
 '''
 import telnetlib
 
+
 class TelnetService():
 
     def __init__(self, server, port):
